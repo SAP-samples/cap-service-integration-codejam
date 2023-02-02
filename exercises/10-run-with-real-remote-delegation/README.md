@@ -129,6 +129,8 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
 1. When we [started the CAP server](#start-the-cap-server), why did we observe a difference between the remote system types "odata" and "odata-v2"?
 
+1. If you were to have omitted the `--profile sandbox` option when running `cds watch`, what would have happened?
+
 ---
 
-[Next exercise](../DIRNAME/)
+[Next exercise](../11-associate-local-remote-entities/)

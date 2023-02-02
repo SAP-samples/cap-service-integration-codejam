@@ -38,6 +38,7 @@ The instructor will set you off on the first exercise, and that's the only one y
 1. [Introduce SAP Cloud SDK](exercises/08-introduce-sap-cloud-sdk/)
 1. [Set up the real remote system configuration](exercises/09-set-up-remote-system-configuration/)
 1. [Run the service with real remote delegation](exercises/10-run-with-real-remote-delegation/)
+1. [Associate local and remote entities](exercises/11-associate-local-remote-entities/)
 
 ## Feedback
 
