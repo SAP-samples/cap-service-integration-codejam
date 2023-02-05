@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+declare DEST="${1:-incidents}"
+
+step_0() { # Getting Started
+
+  cd ~/work/scratch/codejam
+  cp -a ~/work/gh/github.com/SAP-samples/teched2022-AD265/incidents "$DEST"
+  cd "$DEST" 
+  npm install
+  npm add @sap-cloud-sdk/http-client
+}
+
+step_1() { # 1 - Importing APIs
+
+  cp ../API_BUSINESS_PARTNER.edmx .
+  cds import ./API_BUSINESS_PARTNER.edmx
+  cat > srv/external/index.cds <<EO-SRV-EXTERNAL-INDEX-CDS
+using { API_BUSINESS_PARTNER as S4 } from './API_BUSINESS_PARTNER';
+
+namespace s4.simple;
+
+entity Customers as projection on S4.A_BusinessPartner {
+  key BusinessPartner as ID,
+  BusinessPartnerFullName as name
+}
+EO-SRV-EXTERNAL-INDEX-CDS
+}
+
+step_2() { # Local Tests
+
+  mkdir -p srv/external/data
+  cat > srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv <<EO-BUSINESS-PARTNER-CSV
+  BusinessPartner;BusinessPartnerFullName
+Z100001;Harry Potter
+Z100002;Sherlock Holmes
+Z100003;Sunny Sunshine
+EO-BUSINESS-PARTNER-CSV
+}
+
+step_3a() { # Delegating Requests - Expose & Delegate
+
+  cat > srv/mashup.cds <<EO-SRV-MASHUP-CDS
+using { acme.incmgt, IncidentsService } from './incidents-service';
+using { s4 } from './external';
+
+extend service IncidentsService with {
+  entity Customers as projection on s4.simple.Customers;
+}
+
+extend incmgt.Incidents with {
+  customer : Association to s4.simple.Customers;
+}
+EO-SRV-MASHUP-CDS
+
+  cat > srv/incidents-service.js <<EO-SRV-INCIDENTS-SERVICE-JS
+module.exports = (async function() {
+
+  const cds = require('@sap/cds');
+  const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
+
+  // Delegate Value Help reads for Customers to S4 backend
+  this.on('READ', 'Customers', (req) => {
+    console.log('>> delegating to S4 service...')
+    return S4bupa.run(req.query)
+  })
+
+})
+EO-SRV-INCIDENTS-SERVICE-JS
+}
+
+step_3b() { # Delegating Requests - Test with Remote System
+
+  cat > .env <<EO-ENV
+DEBUG=remote
+cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.url=https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/
+EO-ENV
+  echo "cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.headers.APIKey=$(pass apihub/main/apikey)" >> .env
+}
+
+step_3c() { # Delegating Requests - Finish UI
+
+  cat >> srv/external/index.cds <<EO-SRV-EXTERNAL-INDEX-ANNOTATIONS-CDS
+annotate Customers with @UI.Identification : [{ Value:name }];
+annotate Customers with @cds.odata.valuelist;
+annotate Customers with {
+  ID   @title : 'Customer ID';
+  name @title : 'Customer Name';
+}
+EO-SRV-EXTERNAL-INDEX-ANNOTATIONS-CDS
+
+  cat >> srv/mashup.cds <<EO-SRV-MASHUP-ANNOTATIONS-CDS
+// import annotations from rest of the application
+using from '../app/fiori';
+
+annotate IncidentsService.Incidents with @(
+  UI: {
+    // insert table column
+    LineItem : [
+      ...up to { Value: title },
+      { Value: customer.name, Label: 'Customer' },
+      ...
+    ],
+
+    // insert customer to field group
+    FieldGroup #GeneralInformation : {
+      Data: [
+        { Value: customer_ID, Label: 'Customer'},
+        ...
+      ]
+    },
+  }
+);
+
+// for an incident's customer, show both name and ID
+annotate IncidentsService.Incidents:customer with @Common: {
+  Text: customer.name,
+  TextArrangement: #TextFirst
+};
+EO-SRV-MASHUP-ANNOTATIONS-CDS
+}
+
