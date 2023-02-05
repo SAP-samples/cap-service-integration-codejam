@@ -178,7 +178,7 @@ Let's do that now, by using the [REST Client](https://marketplace.visualstudio.c
 ###
 # @name CustomersQuery
 
-GET http://localhost:4004/incidents/Customers
+GET http://localhost:4004/incidents/Customers?$top=5
 
 ###
 # @name IncidentsCreate
@@ -190,6 +190,7 @@ Content-Type: application/json
 
 {
   "title": "New Incident {{$timestamp}}",
+  "urgency": "low",
   "customer_ID": "{{customer_ID}}"
 }
 
@@ -205,13 +206,29 @@ This file contains three HTTP requests, that are designed to be executed one at 
 👉 Consider what the requests in this file are doing:
 
 1. First there is an OData query operation ("CustomersQuery") to get a list of the customers via the `Customers` entity set which is our projection onto the external service. This is so we have a customer ID to use in the next request.
-1. Next comes an OData create operation ("IncidentsCreate") which sends a payload in a POST request to the `Incidents` entity set. The payload is a JSON representation of a couple of the properties of the entity type: the incident's title, and the ID of the customer with which the new incident should be associated. There are a couple of variables used here; the `$timestamp` is used to distinguish multiple new incidents, in case you want create more than one, and the `customer_ID` which is a reference to the determination of the ID of the first entity in the entity set returned from the first (query) operation, via `CustomersQuery.response.body.value[0].ID`.
+1. Next comes an OData create operation ("IncidentsCreate") which sends a payload in a POST request to the `Incidents` entity set. The payload is a JSON representation of some of the properties of the entity type: the incident's title and urgency, and the ID of the customer with which the new incident should be associated. There are a couple of variables used here; the `$timestamp` is used to distinguish multiple new incidents, in case you want create more than one, and the `customer_ID` which is a reference to the determination of the ID of the first entity in the entity set returned from the first (query) operation, via `CustomersQuery.response.body.value[0].ID`.
 1. Finally there's a third request that turns a draft into an active entry which is required for all changes to entities managed by SAP Fiori's draft mechanism - see the link in the [Further reading](#further-reading) section below for more information.
 
+## Confirm the customer ID entry
+
+At this point, you have a new incident relating to a customer. To finish off this exercise, let's just make sure we know what's happened.
+
+👉 Perform an OData query operation to find the incident you just created, by visiting this URL: <http://localhost:4004/incidents/Incidents?$filter=startswith(title,%27New%20Incident%27)%20and%20urgency%20eq%20%27low%27>, which, when URL-decoded and made more readable with whitespace, looks like this:
+
+```text
+http://localhost:4004/incidents/Incidents
+  ?$filter=startswith(title,'New Incident') and urgency eq 'low'
+```
+
+It would be nice to see this customer displayed in the Fiori UI too. Right now, while the new incident appears in the list report, as shown below, when you select it, there's no sign of the customer information in the object page.
+
+![The new incident appearing in the list report](assets/list-report.png)
+
+We'll address that in the next exercise.
 
 ## Summary
 
-At this point ...
+At this point you have more deeply integrated the external service with your own, by creating a managed association between the `Incidents` entity in your local service and the `A_BusinessPartner` entity, customized and abstracted as `Customers`, from the remote service.
 
 ## Further reading
 
@@ -227,4 +244,4 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
 ---
 
-[Next exercise](../DIRNAME/)
+[Next exercise](../12-extend-fiori-ui-with-annotations/)
