@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Setup of basic 'incidents' project.
+# Requires copy of API_BUSINESS_PARTNER.edmx in same directory.
+
 set -eo pipefail
 
 declare DEST="${1:-incidents}"
@@ -122,3 +125,20 @@ annotate IncidentsService.Incidents:customer with @Common: {
 EO-SRV-MASHUP-ANNOTATIONS-CDS
 }
 
+main() {
+
+  [[ -f API_BUSINESS_PARTNER.edmx ]] || {
+    echo "API_BUSINESS_PARTNER.edmx required (obtain from api.sap.com)"
+    exit 1
+  }
+
+  step_0
+  step_1
+  step_2
+  step_3a
+  step_3b
+  step_3c
+
+}
+
+main
