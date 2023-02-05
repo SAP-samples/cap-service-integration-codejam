@@ -137,7 +137,7 @@ main() {
   step_2
   step_3a
   step_3b
-  step_3c
+  #step_3c
 
 }
 
