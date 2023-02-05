@@ -1,78 +1,80 @@
 # Exercise 11 - Associate local and remote entities
 
-At the end of this exercise, your main "incidents" service will be related to the external service through an association, and you'll also have added some annotations for the Fiori elements preview apps that CAP automatically make available.
+At the end of this exercise, your main "incidents" service will be related to the external service through an association, and you'll have put that to the test by creating a new incident for a customer.
 
 ## Examine what we have so far
 
-All we have so far in terms of any relationship between the main service and the external service is the simple projection onto the `Customers` entity defined in the `index.cds` file (the "front door") in the section of the service layer that represents the external service, i.e. in `srv/external/`. 
+All we have so far in terms of any relationship between the main service and the external service is the simple projection onto the `Customers` entity defined in the `index.cds` file (the "front door") in the section of the service layer that represents the external service, i.e. in `srv/external/`. This projection is defined in the `mashup.cds` file which sits delicately between remote entities in the external service, and the entities in the local service.
 
-That might be a little tough to visualize, so let's spend some time looking at how all the parts come together, and how the flexibility and beauty of certain CDS language elements allow us to maintain clean, abstract and layered solutions, with components that we author, but also with components that we can import and extend.
+That might be a little tough to visualize, so let's spend some time looking at how all the parts come together, and how the flexibility and beauty of certain CDS language elements allow us to maintain clean, abstract and layered solutions, with components that we define directly, but also with components that we can import and make use of.
 
 👉 Take a couple of moments to stare at this extended version of the diagram that we looked at in exercise 07 where we [considered the units of definition and their relationships](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships). The projection mentioned above is marked with the arrow with the legend "PROJECTION":
 
 ```text
-         +--    +-[ API_BUSINESS_PARTNER.csn : API_BUSINESS_PARTNER ]-------------------------+
-         |      |                                                                             |
-         |      |  Definitions from remote service:                                           |
-         |      |      A_BusinessPartner,                        <--+                         |
-         |      |      ...                                          |                         |
-         |      |                                                   |                         |
-         |      +---------------------------------------------------|-------------------------+
-         |                                         |                |
-external |                                         |                |
-service  |                                         v                |
-         |      +-[ index.cds : s4.simple.Customers ]---------------|-------------------------+
-         |      |                                                   |                         |
-         |      |  entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner { |
-         |      |    key BusinessPartner as ID,                                               |
-         |      |    BusinessPartnerFullName as name             <--+                         |
-         |      |  }                                                |                         |
-         |      |                                                   |                         |
-         +--    +---------------------------------------------------|-------------------------+
-                                                   |                |
-                                                   |            PROJECTION
-                                                   v                |
-         +--    +-[ mashup.cds : integrate ]------------------------|-------------------------+
-         |      |                                                   |                         |
-         |   +---- extend service IncidentsService with {           |                         |
-         |   |  |    entity Customers as projection on s4.simple.Customers;                   |
-         |   |  |  }                                                                          |
-         |   |  |                                                                             |
-         |   |  +-----------------------------------------------------------------------------+
-         |   |                                     |
-service  |   |                                     |
- layer   |   |                                     v
-         |   |  +-[ incidents-service.cds : IncidentsService ]--------------------------------+
-         |   |  |                                                                             |
-         |   +---> service IncidentsService {                                                 |
-         |      |    entity Incidents as projection on incmgt.Incidents; --------------+      |
-         |      |    entity Appointments as projection on incmgt.Appointments;         |      |
-         |      |    entity ServiceWorkers as projection on incmgt.ServiceWorkers;     |      |
-         |      |  }                                                                   |      |
-         |      |                                                                      |      |
-         +--    +----------------------------------------------------------------------|------+
-                                                   ^                                   |
-                                                   |                                   |
-                                                   |                                   |
-         +--    +-[ schema.cds : Incidents, Appointments, etc ]------------------------|------+
-         |      |                                                                      |      |
-         |      |  entity Incidents : cuid, managed {                               <--+      |
-         |      |    title: String @title : 'Title';                                          |
-  db     |      |    ...                                                                      |
- layer   |      |    service: Association to Appointments;                                    |
-         |      |  }                                                                          |
-         |      |                                                                             |
-         |      |  entity Appointments {                                                      |
-         |      |    ...                                                                      |
-         |      |  }                                                                          |
-         +--    +-----------------------------------------------------------------------------+
+         +--      +-[ API_BUSINESS_PARTNER.csn : API_BUSINESS_PARTNER ]-------------------------+
+         |        |                                                                             |
+         |        |  Definitions from remote service:                                           |
+         |        |      A_BusinessPartner,                        <--+                         |
+         |        |      ...                                          |                         |
+         |        |                                                   |                         |
+         |        +---------------------------------------------------|-------------------------+
+         |                                           |                |
+external |                                           |                |
+service  |                                           v                |
+         |        +-[ index.cds : s4.simple.Customers ]---------------|-------------------------+
+         |        |                                                   |                         |
+         |        |  entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner { |
+         |        |    key BusinessPartner as ID,                                               |
+         |        |    BusinessPartnerFullName as name             <--+                         |
+         |        |  }                                                |                         |
+         |        |                                                   |                         |
+         +--      +---------------------------------------------------|-------------------------+
+                                                     |                |
+                                                     |            PROJECTION
+                                                     v                |
+         +--      +-[ mashup.cds : integrate ]------------------------|-------------------------+
+         |        |                                                   |                         |
+         |     +---- extend service IncidentsService with {           |                         |
+         |     |  |    entity Customers as projection on s4.simple.Customers;                   |
+         |     |  |  }                                                                          |
+         |     |  |                                                                             |
+         |     |  +-----------------------------------------------------------------------------+
+         |     |                                     |
+service  |     |                                     |
+ layer   |     |                                     v
+         |     |  +-[ incidents-service.cds : IncidentsService ]--------------------------------+
+         |     |  |                                                                             |
+         |     +---> service IncidentsService {                                                 |
+         |        |    entity Incidents as projection on incmgt.Incidents; --------------+      |
+         |        |    entity Appointments as projection on incmgt.Appointments;         |      |
+         |        |    entity ServiceWorkers as projection on incmgt.ServiceWorkers;     |      |
+         |        |  }                                                                   |      |
+         |        |                                                                      |      |
+         +--      +----------------------------------------------------------------------|------+
+                                                     ^                                   |
+                                                     |                                   |
+                                                     |                                   |
+         +--      +-[ schema.cds : Incidents, Appointments, etc ]------------------------|------+
+         |        |                                                                      |      |
+         |        |  namespace acme.incmgt;                                              |      |
+         |        |                                                                      |      |
+         |        |  entity Incidents : cuid, managed {                               <--+      |
+         |        |    title: String @title : 'Title';                                          |
+  db     |        |    ...                                                                      |
+ layer   |        |    service: Association to Appointments;                                    |
+         |        |  }                                                                          |
+         |        |                                                                             |
+         |        |  entity Appointments {                                                      |
+         |        |    ...                                                                      |
+         |        |  }                                                                          |
+         +--      +-----------------------------------------------------------------------------+
 ```
 
 ## Create an association between Customers and Incidents entities
 
 Incidents on their own don't make much sense. What we need to make this service more useful is to be able to associate incidents with customers. Let's do that now.
 
-👉 Open the `srv/mashup.cds` file and add another `extends` section (below the one that's already there) as follows:
+👉 Open the `srv/mashup.cds` file, our bridge between local and remote, and add another `extends` section (below the one that's already there) as follows:
 
 ```cds
 extend incmgt.Incidents with {
@@ -106,9 +108,9 @@ What effect has this new association had? Let's check.
 }
 ```
 
-There's a new property in this (and all other) entities: `customer_ID`. 
+There's a new property in this (and all other) entity objects returned in the entity set: `customer_ID`.
 
-> Of course, this is a new property, for the association, and the data in the CSV files that are used to seed the service don't contain any such associations, so the value for this property in each entity is `null`. 
+> Of course, this is a new property, for the association, and the data in the CSV files that are used to seed the service don't contain any such associations, so the value for this property in each existing entity is `null`.
 
 
 👉 Now head on over to the service metadata at <http://localhost:4004/incidents/$metadata> and find the definition of the `Incidents` entity type as it appears in this EDMX format. It should look something like this:
@@ -164,13 +166,56 @@ The relevant part of this entity type definition that has now appeared for this 
 Adding this new association seems to have achieved what we need. Let's continue.
 
 
+## Add a new incident for a customer
+
+At this point we now have the `customer` property in the `Incidents` entity as defined at the CDS level. Being a managed association, this has a generated field of `customer_ID` at the OData metadata level, the level at which we interact with the actual service.
+
+Let's do that now, by using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension that should be available in your workspace.
+
+👉 Create a file called `newincident.http` in the `incidents/` project directory with the following contents:
+
+```text
+###
+# @name CustomersQuery
+
+GET http://localhost:4004/incidents/Customers
+
+###
+# @name IncidentsCreate
+
+@customer_ID = {{ CustomersQuery.response.body.value[0].ID }}
+
+POST http://localhost:4004/incidents/Incidents
+Content-Type: application/json
+
+{
+  "title": "New Incident {{$timestamp}}",
+  "customer_ID": "{{customer_ID}}"
+}
+
+###
+@id = {{IncidentsCreate.response.body.$.ID}}
+
+POST http://localhost:4004/incidents/Incidents(ID={{id}},IsActiveEntity=false)/draftActivate
+Content-Type: application/json
+```
+
+This file contains three HTTP requests, that are designed to be executed one at a time, in the order they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available. 
+
+👉 Consider what the requests in this file are doing:
+
+1. First there is an OData query operation ("CustomersQuery") to get a list of the customers via the `Customers` entity set which is our projection onto the external service. This is so we have a customer ID to use in the next request.
+1. Next comes an OData create operation ("IncidentsCreate") which sends a payload in a POST request to the `Incidents` entity set. The payload is a JSON representation of a couple of the properties of the entity type: the incident's title, and the ID of the customer with which the new incident should be associated. There are a couple of variables used here; the `$timestamp` is used to distinguish multiple new incidents, in case you want create more than one, and the `customer_ID` which is a reference to the determination of the ID of the first entity in the entity set returned from the first (query) operation, via `CustomersQuery.response.body.value[0].ID`.
+1. Finally there's a third request that turns a draft into an active entry which is required for all changes to entities managed by SAP Fiori's draft mechanism - see the link in the [Further reading](#further-reading) section below for more information.
+
+
 ## Summary
 
 At this point ...
 
 ## Further reading
 
-* ...
+* [CAP's support for Fiori's Draft-Based Editing](https://cap.cloud.sap/docs/advanced/fiori#draft-support)
 
 ---
 
