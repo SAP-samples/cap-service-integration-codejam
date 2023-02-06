@@ -1,6 +1,6 @@
 # Exercise 01 - Set up your workspace
 
-At the end of this exercise, you'll have an environment in which to work for the duration of this CodeJam, and the contents of this repository ready to use.
+At the end of this exercise, you'll have an environment in which to work for the duration of this CodeJam, and the contents of this repository loaded and ready to use
 
 ## Set up the environment and clone this repository
 
@@ -59,37 +59,25 @@ git clone https://github.com/SAP-samples/cap-service-integration-codejam
 code cap-service-integration-codejam
 ```
 
-Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to "reopen the folder in a container", as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container". 
+Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to reopen everything in a container, as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container". 
 
 ![The dialog prompting you to "Reopen in Container"](assets/reopen-in-container.png)
-
-> If you're subsequently prompted to "manage unsafe repositories", please do so and follow the instructions.
 
 At this stage, once VS Code has reopened, you should be all set. You are ready to explore service integration with CAP in your dev container.
 
 > In case you noticed the manual installation step for the OData CSDL Modeler extension in the context of using a Dev Space (the primary environment instructions), and were wondering why there's no equivalent step here, it's because the extension identifier (`sapse.vsc-extension-odata-csdl-modeler`) is included in the [devcontainer.json](../../.devcontainer/devcontainer.json) file in the list of extensions to install into the dev container. Nice!
 
-## Install the CDS development kit
+## Check the installation of the CDS development kit
 
 _This and subsequent steps apply to both the primary and alternative environments._
 
-👉 Open a terminal, using "Terminal: Create New Terminal" in the Command Palette. At the prompt, install the CDS development kit globally, like this:
-
-```bash
-npm install --global @sap/cds-dk
-```
-
-> Having specified a "Full Stack Cloud Application" Dev Space type, this step isn't actually entirely necessary in the SAP Business Application Studio, because you get this tooling as standard (it's part of the "CAP Tools" extension that comes with the type selected), but you can run it anyway.
-
-You should see that the CDS development kit is installed.
-
-👉 Check the version:
+👉 Open a terminal, using "Terminal: Create New Terminal" in the Command Palette, and at the prompt, check the version:
 
 ```bash
 cds v
 ```
 
-Depending on your workspace, you'll see slightly different output, but it should generally look something like this:
+You should see that the CDS development kit is installed. Depending on your workspace, you'll see slightly different output, but it should generally look something like this:
 
 ```text
 @sap/cds: 6.4.1
@@ -103,6 +91,8 @@ Depending on your workspace, you'll see slightly different output, but it should
 Node.js: v18.13.0
 home: /usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds-dk
 ```
+
+> The CDS development kit is installed as part of any "Full Stack Cloud Application" type of Dev Space in the SAP Business Application Studio, and for the alternative environment there's a RUN command in the [Dockerfile](../../.devcontainer/Dockerfile) that installs it into the dev container.
 
 ## Summary
 

@@ -25,7 +25,7 @@ Test data in the form of CSV records can be supplied for mocked external service
 
 ```bash
 mkdir srv/external/data/
-touch srv/external/data/A_BUSINESS_PARTNER-A_BusinessPartner.csv
+touch srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
 ```
 
 At this point you should have a new file ready to add CSV records too. 
@@ -55,7 +55,7 @@ You should now see an additional "init from" line in the log output showing that
 
 👉 Head back to the browser, open <http://localhost:4004> and select the `A_BusinessPartner` endpoint at <http://localhost:4004/api-business-partner/A_BusinessPartner>. This represents the entity set from the original imported OData service, and is now returned not empty, as before, but with data.
 
-👉 To confirm that there are indeed just three records (from the CSV file), add the OData system query option `$count=true`, and you should see output like this:
+👉 To confirm that there are indeed just three records (from the CSV file), add the OData system query option `$count=true` as a query string parameter to the URL you just used, and you should see output like this:
 
 ```json
 {

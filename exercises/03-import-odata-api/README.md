@@ -1,6 +1,6 @@
 # Exercise 03 - Import an OData service definition
 
-At the end of this exercise, you'll be familiar with discovering SAP APIs, also known as service definitions. These service definitions are required to use remote services in CAP (e.g. to call a remote service, build projections upon them, and so on). You'll have imported the service definition into your CAP project and have seen what that brings.
+At the end of this exercise, you'll be familiar with discovering & exploring SAP APIs, also known as service definitions. These service definitions are required to use remote services in CAP (e.g. to call a remote service, build projections upon them, and so on). Also by the end of this exercise you'll have imported the service definition into your CAP project and have seen what that brings.
 
 ## Stop the execution of the basic service
 
@@ -14,14 +14,14 @@ The [SAP API Business Hub](https://api.sap.com) is where service definitions for
 
 ### Find it in the SAP API Business Hub
 
-👉 Go to the [SAP API Business Hub](https://api.sap.com) and find the SAP S/4HANA Cloud Business Partner API (A2X); you can take whichever route you like, here's just a suggestion:
+👉 Go to the [SAP API Business Hub](https://api.sap.com) and find the SAP S/4HANA Cloud "Business Partner (A2X)" API; you can take whichever route you like, here's just a suggestion:
 
 1. Use the "Explore" menu at the top of the page and select "SAP S/4HANA Cloud" under the "Products" category
 1. Select the "APIs" category and narrow the content down by selecting the "ODATA V2" subcategory
     ![the OData V2 APIs for SAP S/4HANA Cloud](assets/odata-v2-apis.png)
 1. Either select the "View All Results" link and scroll down, or, using the "Find" field, search for "business partner", to find the Business Partner (A2X) API
 
-👉 Once you've found it, select it and take a moment to look at the initial details; feel free to explore anything you wish, even [trying it out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) in the browser. 
+👉 Once you've found it, select it and take a moment to look at the initial details; feel free to explore anything you wish.
 
 ![the initial details of the Business Partner (A2X) API](assets/business-partner-api-details.png)
 
@@ -29,7 +29,7 @@ The [SAP API Business Hub](https://api.sap.com) is where service definitions for
 
 👉 While exploring, make sure you notice that there are many endpoints to this API, collected together into groups. Go to the [API Reference](https://api.sap.com/api/API_BUSINESS_PARTNER/resource) section and you'll see endpoints organized into groups which are listed down the left side. Find and select the "Business Partner" group and look at the endpoints in that group, and what HTTP methods are available on each endpoint.
 
-> It's specifically the "Business Partner" area within the wider Business Partner (A2X) API that we'll be digging deeper into shortly.
+> It's specifically the "Business Partner" area within the wider Business Partner (A2X) API that we'll be digging deeper into in this CodeJam.
 
 👉 Within the "Business Partner" group, identify and expand the first endpoint in the list, which is the `GET /A_BusinessPartner` endpoint. Scroll down to the "Responses" section for this entry, which should look like this, showing a typical OData V2 JSON response (with the tell-tale `d` property) as the "Example Value":
 
@@ -73,11 +73,11 @@ We'll be using the generic "Business Partner" concept to be a further entity in 
 
 Each API has a machine-readable specification. More than one, in fact. To incorporate such an API into a CAP project, such a specification is needed.
 
-👉 In the API overview, select the "API Specification" from the "API Resources" section, and download the EDMX specification to a download directory on your local machine. The file should be called `API_BUSINESS_PARTNER.edmx`. 
+👉 In the [API overview](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), select the "API Specification" from the "API Resources" section, and download the EDMX specification to a download directory on your local machine. The file should be called `API_BUSINESS_PARTNER.edmx`. 
 
 > You need to be logged on to the SAP API Business Hub to download specifications.
 
-👉 Now copy the `API_BUSINESS_PARTNER.edmx` file to your workspace, specifically into the `incidents/` directory. You can drag files and drop them into the Explorer perspective in either type of workspace - an SAP Business Application Studio Dev Space or VS Code with container image - or in the latter case you can also copy the file into the cloned repository directory on your locally machine (and it will become automatically available in the context of the running container image).
+👉 Now copy the `API_BUSINESS_PARTNER.edmx` file to your workspace, specifically into the `incidents/` directory. You can drag files and drop them into the Explorer perspective in either type of workspace - an SAP Business Application Studio Dev Space or VS Code with container image. In the case of VS Code with a container image, you can also simply copy the file into the cloned repository directory on your locally machine ... and it will become automatically available in the context of the running container image.
 
 👉 Once you have the file in your workspace, take a quick look at it. 
 
@@ -91,7 +91,7 @@ You should be presented with a graphical display of the contents of the EDMX fil
 
 While the graphical depiction of each of the CAP project components was quite simple, reflecting the simplicity of the basic CAP project, this graphical depiction is considerably more complex. 
 
-👉 Within the OData CSDL Modeler, use the search facility or the list of entity types in the side bar on the right to find the `A_BusinessPartnerType` entity definition.
+👉 Within the OData CSDL Modeler, use the search facility or the list of entity types in the side bar on the right to find the `A_BusinessPartnerType` entity definition. This is the type that we saw earlier when looking at the schema view for the response to the `GET /A_BusinessPartner` HTTP method + endpoint combination.
 
 A large entity should present itself, with many relationships to other entities. It's this entity from which we'll be adopting properties into our service, specifically `BusinessPartner` (the key property) and `BusinessPartnerFullName`. 
 
@@ -118,10 +118,12 @@ In addition, a few things should happen:
 
 * the `API_BUSINESS_PARTNER.edmx` file will disappear from the `incidents/` directory
 * a new directory `external/` is created within the `srv/` directory
-* in this directory there's a `API_BUSINESS_PARTNER.csn` file, which is the CAP-internal schema notation format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
+* in this directory a file called `API_BUSINESS_PARTNER.csn` appears, which is the CAP-internal schema notation format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
 * this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been moved to (although it's only kept for reference, it's actually no longer needed)
 
-Finally, a new stanza in the "CDS requires" section of the `package.json` file has been added, and looks like this (shown here alongside the existing `db` stanza, for context):
+Finally, a new stanza in the "CDS requires" section of the `package.json` file has been added. 
+
+👉 Open the `package.json` file and take a look, it should look like this (shown here alongside the existing `db` stanza, for context):
 
 ```json
 "cds": {
@@ -139,6 +141,7 @@ Finally, a new stanza in the "CDS requires" section of the `package.json` file h
 
 This `API_BUSINESS_PARTNER` stanza is a simple definition of an external resource upon which our basic service now relies. The properties in this new stanza are fairly self-explanatory: the resource is an OData V2 service, and the model that describes it is in a file called `API_BUSINESS_PARTNER.csn` (the `csn` extension is default and implied here) in the `srv/external/` directory.
 
+This is not all that can appear in such a stanza, as you'll find out in later exercises.
 
 ## Summary
 

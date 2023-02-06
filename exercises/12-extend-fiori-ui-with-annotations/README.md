@@ -1,6 +1,6 @@
 # Exercise 12 - Extend SAP Fiori elements UI with annotations
 
-At the end of this exercise, you'll have taken the first tentative steps into OData annotations for the SAP Fiori elements based previews provided out of the box by CAP. 
+At the end of this exercise, you'll have taken the first tentative steps into adding some OData annotations for the SAP Fiori elements based previews provided out of the box by CAP. 
 
 ## Add a customer relation to one of the existing incidents
 
@@ -75,7 +75,7 @@ You should now see the new field in the "General Information" field group:
 
 ![list report "Create" action](assets/list-report-create-action.png)
 
-Note that the Customer field is open for input, but that's about it; there isn't a way to find a customer:
+Note that the Customer field is open for input, but that's about it; there isn't an easy way to find a customer:
 
 ![customer input field with no value help](assets/customer-no-value-help.png)
 
@@ -94,7 +94,7 @@ annotate Customers with {
 }
 ```
 
-The second `annotate` is fairly easy to think about: it adds `@title` annotations to each of the properties in the entity defined just above it in the file; the effect of this is that `Customer ID` and `Customer Name` will appear as column headers instead of the raw property names `ID` and `name` (you'll see this shortly in the popup that will appear when we invoke Value Help).
+The second `annotate` here is fairly easy to think about: it adds `@title` annotations to each of the properties in the entity defined just above it in the file; the effect of this is that `Customer ID` and `Customer Name` will appear as column headers instead of the raw property names `ID` and `name` (you'll see this shortly in the popup that will appear when we invoke Value Help).
 
 The first is a little bit more special. The `@cds.odata.valuelist` annotation provides advanced, convenient support for Value Help as understood and supported by SAP Fiori. When added to an entity, like here, all managed associations targeting this entity will automatically receive Value Help lists. This single annotation causes the generation of various `@Common.ValueList` annotations.
 
@@ -141,7 +141,7 @@ This time, you'll see that as well as the Customer field being open for input, t
 
 ```text
 [cds] - > READ Customers { '$select': 'ID,name', '$count': 'true', '$orderby': 'ID', '$skip': '0', '$top': '73' }
->> delegating to S4 service...
+>> delegating to remote service...
 [remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER//A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$inlinecount=allpages&$top=73 {
   headers: {
     accept: 'application/json,text/plain',

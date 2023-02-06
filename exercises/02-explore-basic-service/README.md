@@ -1,24 +1,26 @@
 # Exercise 02 - Explore the basic service
 
-In this CodeJam repository there's a basic "Incidents Management" service that's supplied, that will be the starter for your explorations. It's in the [incidents/](../../incidents/) directory. At the end of this exercise, you'll feel comfortable with what that service offers, and have explored its components.
+In this CodeJam repository there's a basic "Incidents Management" service that's supplied, that will be the starter for your explorations. Think of it as your "local" service. It's in the [incidents/](../../incidents/) directory. At the end of this exercise, you'll feel comfortable with what that service offers, and have explored its components.
 
 > All activities in this and subsequent exercises, unless otherwise stated, will be in the context of this `incidents/` directory.
 
 ## Take a quick tour of the service
 
-The service deals with incidents, that are raised and discussed, and that are ultimately resolved by service worker personnel attending appointments to address and repair whatever is needed.
+The service deals with incidents that are raised and discussed, and that are ultimately resolved by service worker personnel attending appointments to address and repair whatever is needed.
 
 As a classic CAP based service, the core components are to be found within the lower two of the three normal organizational layers, which are presented here in an order that represents how one would normally view the layers of an application in general:
 
 |Organizational Layer|Directory|Content|
 |-|-|-|
-|Application|`app/`|Very little, as this is a "headless" service, although some annotations are provided at this layer (in [fiori.cds](../../incidents/app/fiori.cds)) to augment the SAP Fiori elements frontend pages which CAP provides out of the box).|
+|Application|`app/`|Very little, as this is a "headless" service, although some annotations are provided at this layer (in [fiori.cds](../../incidents/app/fiori.cds)) to augment the SAP Fiori elements frontend pages which CAP provides out of the box.|
 |Service|`srv/`|The single service, defined in [incidents-service.cds](../../incidents/srv/incidents-service.cds), exposing entities from the persistence layer below, in a lightweight and fairly "transparent" way.|
 |Persistence|`db/`|The actual entity definitions complete with property details, relationships, supporting artifacts such as enumerations, and even some basic annotations, defined in [schema.cds](../../incidents/db/schema.cds) (there are CSV files providing some sample data for each entity at this layer too).|
 
 👉 Take a few moments to look through these directories and become familiar with their contents.
 
-While it's important to feel comfortable reading and writing declaratively in [CDS's definition language](https://cap.cloud.sap/docs/cds/cdl) (CDL), we can use an editor extension to view the same information graphically. 
+While it's important to feel comfortable reading and writing declaratively in CDS's definition language CDL, it also doesn't hurt to use an editor extension to view the same information graphically sometimes too.
+
+> See the link in [Further reading](#further-reading) below for more information on CDL).
 
 ### Examine the schema at the persistence layer
 
@@ -100,13 +102,18 @@ live reload enabled for browsers
 [cds] - [ terminate with ^C ]
 ```
 
-You should see a message appear in your workspace to the effect that port 4004 is open and available; here's an example from VS Code:
+Unless you've turned this type of notification off in your workspace settings, you should see a message appear in your workspace to the effect that port 4004 is open and available; here's an example from VS Code:
 
 ![port 4004 available in VS Code](assets/port-available-vscode.png)
 
 👉 Open <http://localhost:4004> in your browser, and examine the resources available. You should see something similar to this:
 
 ![Basic service](assets/basic-service.png)
+
+While this is not unexpected, take a moment to consider what else is evident from the content of this generated web page, beyond the list of entities with links to the corresponding entity set resources and Fiori preview apps:
+
+* There are no "Web Applications" as this is a headless service (and we have very little in the Application layer, certainly not any HTML)
+* There are endpoints for just a single service, and that service is represented by the service prefix `/incidents`, which just happens also to be the path to the corresponding OData service document (as `/incidents/$metadata` just happens to be the path to the metadata document of the service)
 
 ## Summary
 
@@ -138,6 +145,7 @@ At this point you've examined and started up the base CAP service that you'll be
 
 ## Further reading
 
+* CDS [Definition Language (CDL)](https://cap.cloud.sap/docs/cds/cdl)
 * [Domain Modeling with CDS](https://cap.cloud.sap/docs/guides/domain-models)
 * [An introduction to CDS Graphical Modeler for SAP Business Application Studio](https://blogs.sap.com/2021/04/23/an-introduction-to-cds-graphical-modeler-for-sap-business-application-studio/)
 
@@ -156,8 +164,6 @@ If you finish earlier than your fellow participants, you might like to ponder th
 1. `cds watch` is actually just a shortcut for another `cds` command. What is it?
 
 1. Are the names of the enumerations that you saw in the graphical display of `db/schema.cds` actually specified anywhere explicitly? 
-
-1. There are four types of resources available at <http://localhost:4004>. What are they?
 
 ---
 

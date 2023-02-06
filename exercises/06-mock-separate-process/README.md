@@ -1,6 +1,6 @@
 # Exercise 06 - Mock external service in a separate process
 
-At the end of this exercise, you'll have tried out the alternative to in-process mocking, having the mocked service in a separate process.
+At the end of this exercise, you'll have tried out the alternative to in-process mocking, by mocking the service in a separate process.
 
 ## Consider the current mocking setup
 
@@ -27,7 +27,7 @@ It's possible to mock external services in a separate process, and in this secti
 👉 After you're sure there's nothing running, start a monitor to display whatever is in the `~/.cds-services.json` file we learned about in [exercise 04](../04-understand-service-mocking/):
 
 ```bash
-watch -c jq -C ~/.cds-services.json
+watch -c jq -C . ~/.cds-services.json
 ```
 
 > The `-c` option to `watch` tells it to interpret ANSI color and style sequences, which we explicitly tell `jq` to emit with the `-C` option. Normally, `jq` won't bother to emit them if it thinks, correctly here, that its output is not directly in the context of a terminal (it's in the context of the `watch` process, here), but we can force its hand.
@@ -48,7 +48,7 @@ It should show that there are currently no services provided, something like thi
 cds mock API_BUSINESS_PARTNER
 ```
 
-> What's happening here? Well, as we're beginning to learn, commands that look simple are just syntactic sugar for more explicit and specific invocations. This is shorthand for --`cds serve --mocked API_BUSINESS_PARTNER`.
+> What's happening here? Well, as we're beginning to learn, commands that look simple are just syntactic sugar for more explicit and specific invocations. This is shorthand for `cds serve --mocked API_BUSINESS_PARTNER`.
 
 Two things happen that are of interest to us here. 
 
@@ -61,7 +61,7 @@ First, we see some log output that looks vaguely familiar:
 [cds] - server listening on { url: 'http://localhost:45149' }
 ```
 
-Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this distinction as the distinction between the "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway. 
+Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway. 
 
 You can use the `--port` option to specify a port explicitly, if you want, e.g. `cds mock API_BUSINESS_PARTNER --port 3003`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone. 
 

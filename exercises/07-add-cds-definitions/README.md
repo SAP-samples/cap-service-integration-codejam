@@ -8,7 +8,7 @@ At the end of this exercise, you'll have added CDS definitions to both the impor
 
 The external service lives, for want of a better word, in the `srv/external/` directory. That's where it belongs, and where it can remain largely independent of your main service. It's here that for our first step towards cleaner integration, we can add some CDS definitions to "adapt" the service for our own needs. Doing it here also promotes the idea that such a model could come from a third party.
 
-You're going to create a projection on the external service.
+Within this `external/srv/` location, you're going to create a projection on the external service.
 
 👉 Create a new file `index.cds` in the `srv/external/` directory, and add the following content:
 
@@ -31,7 +31,7 @@ When you've saved this new `srv/external/index.cds` file, notice that when the C
 
 ## Expose the new Customers entity in your main service
 
-Now that you have a clean and more meaningful (focused) interface to the `API_BUSINESS_PARTNER` external service, in the form of `s4.simple.Customers` with its two properties, it's time to bring that entity into your own main service.
+Now that you have a clean and more meaningful (focused) interface to the `API_BUSINESS_PARTNER` external service, in the form of `s4.simple.Customers` with its two properties `ID` and `name` (pointing to `BusinessPartner` and `BusinessPartnerFullName` respectively), it's time to integrate that entity into your own main service.
 
 👉 In the `srv/` directory (not in `srv/external/`) create a new file `mashup.cds` with the following contents:
 
@@ -86,7 +86,7 @@ external service  |                     |
                                         v
                   +--    +------------------------------+
                   |      |                              |
-                  |      |          integrate           |  mashup.cds
+                  |      |        <integration>         |  mashup.cds
                   |      |                              |
                   |      +------------------------------+
                   |                     |
@@ -115,7 +115,7 @@ What has this `extend service` definition done? Let's have a look.
 
 👉 Note that the data is still being served for the `A_BusinessPartner` entity at <http://localhost:4004/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`). 
 
-👉 In addition, note that the data is also being served for an entity in the `/incidents` service endpoint that has now started appearing since you added this:
+👉 In addition, note that the data is also being served for an entity in the `/incidents` service endpoint that has now started appearing since you added this bit:
 
 ```cds
 extend service IncidentsService with {
@@ -145,7 +145,7 @@ extend service IncidentsService with {
 }
 ```
 
-This is the same source of data at the (mocked) persistence level, but because it's via the [projection you created earlier in this exercise](#create-a-projection-on-the-external-service), only the two properties that are defined in that projection are exposed. Clean!
+This is the same source of data at the (mocked) persistence level, but because it's via the [projection you created earlier in this exercise](#create-a-projection-on-the-external-service), only the two properties that are defined in that projection are exposed. Neat!
 
 ## Summary
 
@@ -157,6 +157,8 @@ At this point you've now a cleaner integration between the external service and 
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
+1. Does the diagram above make sense? How do you visualize the different layers and components of your CAP services? Do you have a different approach?
+
 ---
 
-[Next exercise](../08-delegate-calls/)
+[Next exercise](../08-introduce-sap-cloud-sdk/)

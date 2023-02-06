@@ -6,6 +6,7 @@
   },
   "settings": {},
   "extensions": [
+    "mechatroner.rainbow-csv",
     "dbaeumer.vscode-eslint",
     "sapse.vscode-cds",
     "sapse.vsc-extension-odata-csdl-modeler",

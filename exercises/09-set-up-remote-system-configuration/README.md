@@ -24,7 +24,7 @@ https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER
 
 ### Try it out via the SAP API Business Hub
 
-👉 Test the [Try Out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) facility and run a request in the default environment, which is the Sandbox. Choose the `GET /A_BusinessPartner` method and endpoint combination (within the "Business Partner" group) and run the request. You should see a response that looks something like this:
+👉 Use the [Try Out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) facility and run a request in the default environment, which is the Sandbox. Choose the `GET /A_BusinessPartner` method and endpoint combination (within the "Business Partner" group) and run the request. You should see a response that looks something like this:
 
 ![trying out in the sandbox](assets/sandbox-try-out.png)
 
@@ -45,7 +45,7 @@ You can see that a GET request with this URL is an OData query operation, in oth
 
 The sandbox system that is serving URLs like this is publicly available. 
 
-👉 Try it out at the command line in your terminal window now, using `curl`:
+👉 Take this URL and try it out at the command line in your terminal window now, using `curl`:
 
 ```bash
 curl \
@@ -92,15 +92,36 @@ read -rp "API key? " APIKEY \
   --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages' 
 ```
 
-> The `--compressed` option tells `curl` to request (and expect) compressed response payloads and the `--location` option tells `curl` to follow any redirect responses automatically.
+> The `--compressed` option tells `curl` to request (and, more importantly, expect) compressed response payloads and the `--location` option tells `curl` to follow any redirect responses automatically.
 
 Perhaps unexpectedly, you get a wall of XML in response, that starts out like this (heavily reduced for brevity):
 
-```xml
-<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/"><id>https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner</id><title type="text">A_BusinessPartner</title><updated>2023-02-01T07:30:41Z</updated><author><name/></author><link href="A_BusinessPartner" rel="self" title="A_BusinessPartner"/><m:count>6494</m:count><entry><id>https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner('11')</id><title type="text">A_BusinessPartner('11')</title><updated>2023-02-01T07:30:41Z</updated><category term="API_BUSINESS_PARTNER.A_BusinessPartnerType" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme"/><link href="A_BusinessPartner('11')" rel="edit" title="A_BusinessPartnerType"/><link href="A_BusinessPartner('11')/to_BuPaIdentification" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/to_BuPaIdentification" type="application/atom+xml;type=feed" title="to_BuPaIdentification"/><link href="A_BusinessPartner('11')/to_BuPaIndustry" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/to_BuPaIndustry" type="application/atom+xml;type=feed" title="to_BuPaIndustry"/>
+```text
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataserv
+ices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xml:base="https://san
+dbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/"><id>https://sandbox.api.sap.co
+m/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner</id><title type="text">A_Busi
+nessPartner</title><updated>2023-02-06T13:19:04Z</updated><author><name/></author><link href="A_Busi
+nessPartner" rel="self" title="A_BusinessPartner"/><m:count>6494</m:count><entry><id>https://sandbox
+.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner('11')</id><title t
+ype="text">A_BusinessPartner('11')</title><updated>2023-02-06T13:19:04Z</updated><category term="API
+_BUSINESS_PARTNER.A_BusinessPartnerType" scheme="http://schemas.microsoft.com/ado/2007/08/dataservic
+es/scheme"/><link href="A_BusinessPartner('11')" rel="edit" title="A_BusinessPartnerType"/><link hre
+f="A_BusinessPartner('11')/to_BuPaIdentification" rel="http://schemas.microsoft.com/ado/2007/08/data
+services/related/to_BuPaIdentification" type="application/atom+xml;type=feed" title="to_BuPaIdentifi
+cation"/><link href="A_BusinessPartner('11')/to_BuPaIndustry" rel="http://schemas.microsoft.com/ado/
+2007/08/dataservices/related/to_BuPaIndustry" type="application/atom+xml;type=feed" title="to_BuPaIn
+dustry"/><link href="A_BusinessPartner('11')/to_BusinessPartnerAddress" rel="http://schemas.microsof
+t.com/ado/2007/08/dataservices/related/to_BusinessPartnerAddress" type="application/atom+xml;type=fe
+ed" title="to_BusinessPartnerAddress"/><link href="A_BusinessPartner('11')/to_BusinessPartnerBank" r
+el="http://schemas.microsoft.com/ado/2007/08/dataservices/related/to_BusinessPartnerBank" type="appl
+ication/atom+xml;type=feed" title="to_BusinessPartnerBank"/><link href="A_BusinessPartner('11')/to_B
+usinessPartnerContact" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/to_Busines
 ```
 
-This of course is the standard OData V2 XML based payload format, and incidentally we can see OData's origins right there in front of us - the [Atom Syndication Format](https://www.rfc-editor.org/rfc/rfc4287). You can read more on the origins of OData - see the links in the [Further reading](#further-reading) section below.
+> For those interested, this width-wrapped version of the output (produced because otherwise the single long line of output wouldn't display very well in this document) was produced by feeding the output of the above `curl` invocation into `| fold -w100 | head -20`. 
+
+This of course is the standard OData V2 XML based payload format, and incidentally we can see OData's origins right there in front of us (starting with the `feed` element) - the [Atom Syndication Format](https://www.rfc-editor.org/rfc/rfc4287). You can read more on the origins of OData - see the links in the [Further reading](#further-reading) section below.
 
 ## Store configuration for the remote system
 
@@ -130,7 +151,7 @@ So one place we could store the URL and API key is in our `package.json` file.
 }
 ```
 
-Remember that the `API_BUSINESS_PARTNER` stanza was added automatically when you [imported the API specification](../03-import-odata-api/README.md#import-the-api-specification) in exercise 03.
+Remember that the `API_BUSINESS_PARTNER` stanza we can see here was added automatically when we [imported the API specification](../03-import-odata-api/README.md#import-the-api-specification) in exercise 03.
 
 What would it look like if we stored the URL and API key in here? Well, we already have a rough idea, from the contents of the `~/.cds-services.json` file that is dynamically and automatically maintained by the local CAP server. We saw an example in [exercise 06](06-mock-separate-process):
 
@@ -169,9 +190,9 @@ If we were to add this information within a "sandbox" profile, it would look lik
 }
 ```
 
-👉 Take a moment to stare at that construct, and understand how the profile name, in square brackets, has been "injected" into the JSON structure for the `API_BUSINESS_PARTNER` details. This leaves room for details in the contexts of other profiles.
+👉 Take a moment to stare at that construct, and understand how the profile name "sandbox", in square brackets, has been "injected" into the JSON structure for the `API_BUSINESS_PARTNER` details. This leaves room for details in the contexts of other profiles.
 
-This is neat, but opens up a big problem with security (adding an API key into a file that is checked in to the source code control system as part of the project contents), and it also makes the configuration more brittle than it could be.
+This is neat, but opens up a big problem with security (adding an API key into a file that is checked in to the source code control system as part of the project contents), and it also makes the configuration a lot more brittle than it could or should be.
 
 ### Using the .env file
 
@@ -258,7 +279,7 @@ There's no change:
 }
 ```
 
-That's because we need to use the global `--profile` option available on all `cds` commands, to specify the effective configuration profile. 
+That's because we need to use the global `--profile` option available on all `cds` commands, to specify the effective configuration profile, "sandbox".
 
 👉 Do that now:
 
@@ -285,7 +306,11 @@ Great!
 
 ## Summary
 
-At this point you have everything configured for a connection to a real remote system, and configured in such a way that is manageable (in a configuration profile) and secure (no credentials checked into source control).
+At this point you have everything configured for a connection to a real remote system, and configured in such a way that is:
+
+* manageable (in a configuration profile)
+* abstract (independent of the service and other configuration)
+* secure (no credentials checked into source control)
 
 ## Further reading
 

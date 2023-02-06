@@ -1,12 +1,12 @@
 # Exercise 10 - Run the service with real remote delegation
 
-At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in the previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships). 
+At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in a previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships). 
 
 ## Start the CAP server
 
 Finally we're ready. Let's go!
 
-👉 Start the service as you have done before, but with the global `--profile` option:
+👉 Start the service as you have done before, but with the global `--profile` option specifying the "sandbox" context:
 
 ```bash
 cds watch --profile sandbox
@@ -33,9 +33,11 @@ This time it's different, in two ways:
 * the type is `odata-v2` rather than `odata`
 * the credentials now also include the APIKey header that will be added to each HTTP request
 
-Note also that even though the `cds` command we used was `watch`, which implies `--with-mocks`, there's no need for the server to mock `API_BUSINESS_PARTNER` because there are details provided for it (and therefore we don't see any log lines that say something like `mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }`. 
+> Before you wonder, yes, the actual case of "APIKey" is not important. You could have `apikey` instead, for example - the sandbox server doesn't mind.
 
-👉 Observe also the contents of `~/.cds-services.json`, which now of course only include information on the provision of the `IncidentsService`:
+Note also that even though the `cds` command we used was `watch`, which implies `--with-mocks`, there's no need for the server to mock `API_BUSINESS_PARTNER` because there are details provided for it. That's also why we don't see any log lines that say something like `mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }`.
+
+👉 Observe also the contents of `~/.cds-services.json`, which now of course only include information on the provision of the `IncidentsService`, by running `cat ~/.cds-services.json` on the command line in a separate terminal:
 
 ```json
 {
@@ -87,7 +89,7 @@ This data is coming directly from the remote system.
 
 ```text
 [cds] - GET /incidents/Customers 
->> delegating to S4 service...
+>> delegating to remote service...
 [remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER//A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000 {
   headers: {
     accept: 'application/json,text/plain',
@@ -106,7 +108,7 @@ This data is coming directly from the remote system.
 * This caused the anonymous function defined as a handler for the `READ` event of the `Customers` entity to be triggered, and the query was received by that function inside the object passed as the argument to the `req` parameter:
     ```js
     this.on('READ', 'Customers', (req) => {
-      console.log('>> delegating to SAP S/4HANA Cloud service...')
+      console.log('>> delegating to remote service...')
       return S4bupa.run(req.query)
     })
     ```

@@ -50,7 +50,7 @@ So let's do it!
 
 ## Provide a handler for delegating calls to the remote system
 
-We need to create a handler in the context of our main incidents service to take appropriate action (retrieve the data from the remote service) when read requests for the `Customers` entity are encountered.
+We need to create a handler in the context of our main incidents service to take appropriate action (retrieve the data from the remote service) when READ requests for the `Customers` entity are encountered.
 
 We can do this by providing a simple service implementation, in the `srv/incidents-service.js` file. This is again part of CAP's convention over configuration - read more about it in the link in the [Further reading](#further-reading) section below.
 
@@ -61,7 +61,7 @@ We can do this by providing a simple service implementation, in the `srv/inciden
 
 ### Add the handler code
 
-This file is ready and waiting for our handlers, and currently looks like this:
+This `srv/incidents.js` file is ready and waiting for our handlers, and currently looks like this:
 
 ```js
 module.exports = (async function() {
@@ -76,12 +76,14 @@ module.exports = (async function() {
     const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
   
     this.on('READ', 'Customers', (req) => {
-      console.log('>> delegating to SAP S/4HANA Cloud service...')
+      console.log('>> delegating to remote service...')
       return S4bupa.run(req.query)
     })
 ```
 
-The `S4bupa` constant will receive a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime. We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises, and right now, that will contain information that looks like this:
+As a result of the `cds.connect.to` call, the `S4bupa` constant will receive a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime. 
+
+We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises, and right now, that will contain information that looks like this:
 
 ```json
 {
@@ -106,7 +108,7 @@ The `S4bupa` constant will receive a connection object that can be used for remo
 
 In other words, the connection object will essentially point to `http://localhost:5005/api-business-partner`. 
 
-> The beauty of this approach is that connection information remains abstract and separate from the service implementation, which is especially important when moving across the tiered landscape and also to protect credentials and manage their lifecycle separately.
+> The beauty of this approach is that connection information remains abstract and separate from the service implementation, which is especially important when moving across tiered landscapes and also to protect credentials and manage their lifecycle separately.
 
 This connection object is then used, when handling the `READ` event for the `Customers` entity, to proxy the actual request (in `req.query`) to the remote system (via `S4bupa.run()`). The response to this remote request is then returned to the original requester (i.e. the request that invoked this `READ` event in the first place). 
 
@@ -130,11 +132,13 @@ This is a direct result of this part of the code you added:
 await cds.connect.to('API_BUSINESS_PARTNER')
 ```
 
-Note that this is just an indication that the remote connection details have been marshalled and calls to the remote system can be made as and when required. No calls have actually been made yet, as you can observe from the fact that the log output from the mocked `API_BUSINESS_PARTNER` service shows no activity.
+Note that this is just an indication that the remote connection details have been marshalled and calls to the remote system can be made as and when required. No calls have actually been made yet, as you can observe from the fact that the log output from the mocked `API_BUSINESS_PARTNER` service (in the other terminal) shows no activity.
 
 👉 Make a request to the `Customers` entity set again.
 
-Whoops! Another error. 
+Whoops! 
+
+Another error. 
 
 But a different one! 
 
@@ -149,7 +153,7 @@ Error during request to remote service: Cannot find module '@sap-cloud-sdk/http-
 👉 Head over to the log output of the main CAP server process and take a look. You should see something like this (heavily reduced for brevity):
 
 ```text
->> delegating to S4 service...
+>> delegating to remote service...
 [remote] - Error: Error during request to remote service:
 Cannot find module '@sap-cloud-sdk/http-client'
 requireStack: [
@@ -173,7 +177,7 @@ request: {
 
 Let's see what we can discern from this.
 
-* we can see the log message (`>> delegating to S4 service...`) appears directly before the error
+* we can see the log message (`>> delegating to remote service...`) appears directly before the error
 * there's a requirement for for an NPM package `@sap-cloud-sdk/http-client` (which we haven't explicitly installed)
 * there's an HTTP GET request being attempted at the time of failure
 * this HTTP request is to the following relative URL (URL-decoded and with whitespace added for readability):

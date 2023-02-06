@@ -1,6 +1,6 @@
 # Exercise 04 - Understand service mocking
 
-At the end of this exercise you'll understand the difference between `cds watch` and `cds run`, and have learned how, during development, the CAP SDK can provide service mocking for rapid development cycles. 
+At the end of this exercise you'll understand the difference between `cds watch` and `cds run`, and have learned how, during development, the CAP SDK can provide service mocking for rapid & comfortable development cycles. 
 
 At this point you've imported the EDMX definition for the external `API_BUSINESS_PARTNER` service, and have a new directory `srv/external/` containing the original EDMX file and a CSN equivalent. Other than that, your basic service definition (at the persistence and service layers) is still the same.
 
@@ -65,10 +65,10 @@ Let's take a moment to experiment. Just for a moment, let's take a naïve approa
 
 👉 Extend the `srv/incidents-service.cds` file as follows:
 
-* add a `using` statement as recommended in the log output
+* add a `using` statement as recommended in the log output [in the previous exercise when you imported the API specification](../03-import-odata-api/README.md#import-the-api-specification)
 * add a new entity `Customers` to the `IncidentsService` service definition, as a projection on the `A_BusinessPartner` entity set in the external service
 
-It should end up looking like this (concentrate here as you'll be undoing this addition shortly!):
+It should end up looking like this (concentrate here as you'll be undoing this addition shortly):
 
 ```cds
 using { acme.incmgt } from '../db/schema';
@@ -82,17 +82,17 @@ service IncidentsService {
 }
 ```
 
-While you do this (and assuming you're typing it in manually, like a good student!) notice how the CDS language support makes it very easy to explore the resources with keyboard completion, as it knows how to read and present the definitions in the recently imported external service:
+While you do this (and assuming you're typing it in manually, like a good participant!) notice how the CDS language support makes it very easy to explore the resources with keyboard completion, as it knows how to read and present the definitions in the recently imported external service:
 
 ![completion of resources from the external service](assets/external-completion.png)
 
-👉 At the command line, restart the server, with `cds run` again:
+👉 At the command line, restart the server by stopping the running one with Ctrl-C and then invoking `cds run` again:
 
 ```bash
 cds run
 ```
 
-This should produce output similar to what you saw just before - no discernible difference.
+This should produce log output similar to what you saw just before - no discernible difference.
 
 👉 Now head on over to <http://localhost:4004> and note that the Customers entity that you added is now showing up in the list of service endpoints, great!
 
@@ -198,7 +198,7 @@ cds serve all --with-mocks --in-memory?
 
 > On a related note, `cds run` is short for `cds serve all`, but without the `--with-mocks` and `--in-memory?` options. Think of `cds watch` as something that's only relevant for development, not production.
 
-Here's the help text for this option:
+Here's the help text for this option, i.e. the `--with-mocks` option for `cds serve`:
 
 ```text
 Use this in combination with the variants serving multiple services.
@@ -219,13 +219,13 @@ This is reflected in another difference in the log output of our invocation of `
 
 This shows us that the external service is being mocked, and being made available under a separate path in the service. That path is `/api-business-partner`. 
 
-👉 Head on over to <http://localhost:4004> to see what is being served in the context of `cds watch` now. You should see something like this:
+👉 Head on over to <http://localhost:4004> to see what is being served in the context of `cds watch` now. You should see something like this (just the first part is shown in this screenshot, there are more entities in the list):
 
 ![the API_BUSINESS_PARTNER service endpoint](assets/api-business-partner-service-endpoint.png)
 
-This is a separate service endpoint that's now being served, at `/api-business-partner`, in addition to the `/incidents` service endpoint. 
+This is a separate second service endpoint that's now being served, at `/api-business-partner`, in addition to the `/incidents` service endpoint, which is listed further down.
 
-👉 Try this mocking out for yourself, by selecting the `A_BusinessPartner` service endpoint from the `api-business-partner` service endpoint, i.e. <http://localhost:4004/api-business-partner/A_BusinessPartner>.
+👉 Try this mocking out for yourself, by selecting the `A_BusinessPartner` entity from the `api-business-partner` service endpoint, i.e. <http://localhost:4004/api-business-partner/A_BusinessPartner>.
 
 You should be presented with something like this:
 
@@ -318,7 +318,9 @@ service IncidentsService {
 }
 ```
 
-> You'll see that while integrating an external service as directly as this (with a `using` statement and a direct projection) is possible, it's not the cleanest and most modular approach. This is why we're removing this experiment now.
+👉 Assuming your `cds watch` process is still running at this point, note what happens when these changes are saved and the CAP server restarts. Both service endpoints, i.e. `/api-business-partner` and `/incidents` are still available and being served, and the `/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file. However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again. 
+
+👉 Take a moment to think about the approach we took here to bring in an external service. While it's possible, it's rather too direct, and definitely not the cleanest and most modular approach. This is why we've removed this experiment now.
 
 ## Summary
 
