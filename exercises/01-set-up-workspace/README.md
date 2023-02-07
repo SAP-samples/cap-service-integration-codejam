@@ -94,6 +94,25 @@ home: /usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap
 
 > The CDS development kit is installed as part of any "Full Stack Cloud Application" type of Dev Space in the SAP Business Application Studio, and for the alternative environment there's a RUN command in the [Dockerfile](../../.devcontainer/Dockerfile) that installs it into the dev container.
 
+## Install the NPM package dependencies
+
+The `package.json` file contains runtime and design time dependencies. 
+
+👉 Make sure you're in the `incidents/` directory (where `package.json` lives) and install them thus:
+
+```bash
+npm install
+```
+
+You can double check what's installed, with `cds list --depth=0`, which should show you similar to this:
+
+```text
+@acme/incidents-mgmt@1.0.0 /home/user/projects/cap-service-integration-codejam/incidents
+├── @sap/cds@6.5.0
+├── express@4.18.2
+└── sqlite3@5.1.4
+```
+
 ## Summary
 
 At this point you've got an environment in which to work through the rest of the exercises in this CodeJam, you've got the contents of the repository, and you have the CDS development kit installed and ready to use.
