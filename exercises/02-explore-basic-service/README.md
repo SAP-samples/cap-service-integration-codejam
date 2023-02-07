@@ -106,6 +106,10 @@ Unless you've turned this type of notification off in your workspace settings, y
 
 ![port 4004 available in VS Code](assets/port-available-vscode.png)
 
+Here's the equivalent message from a Dev Space in the SAP Business Application Studio:
+
+![port 4004 available in BAS](assets/port-available-bas.png)
+
 👉 Open <http://localhost:4004> in your browser, and examine the resources available. You should see something similar to this:
 
 ![Basic service](assets/basic-service.png)
