@@ -8,11 +8,11 @@ We're taking advantage of `cds watch` and the automatic reloading of the definit
 
 So to save time, and prevent you from having to re-execute the HTTP requests in `newincident.http` each time you add an annotation, let's add a customer relation to one of the existing incidents in the corresponding CSV file.
 
-👉 With the CAP server still running (with `cds watch --profile sandbox`), identity the ID of a customer in the same way the first of the three requests in `newincident.http` did, by going to <http://localhost:4004/incidents/Customers?$top=5> and selecting the first one.
+👉 With the CAP server still running (with `cds watch --profile sandbox`), identify the ID of a customer in the same way the first of the three requests in `newincident.http` did, by going to <http://localhost:4004/incidents/Customers?$top=5> and selecting the first one.
 
 > What you're after is this, essentially: <http://localhost:4004/incidents/Customers?$top=1&$select=ID>.
 
-👉 Modify the `db/data/acme.incmgt-Incidents.csv` file to add `customer_ID` as a field to the start of the header line, and to insert a column so that the first record ("Broomstick doesn't fly") has the customer ID value you just obtained (and that the other records have at least an extra semi-colon, as shown:
+👉 Modify the `db/data/acme.incmgt-Incidents.csv` file to add `customer_ID` as a field to the start of the header line, and to insert a column so that the first record ("Broomstick doesn't fly") has the customer ID value you just obtained (and that the other records have at least an extra semi-colon, as shown here, where `11` is the customer ID:
 
 ```csv
 customer_ID;ID;title;urgency;status;service_ID
@@ -173,5 +173,3 @@ And so you're at the end of the CodeJam, congratulations for making it all this 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
 ---
-
-[Next exercise](../DIRNAME/)
