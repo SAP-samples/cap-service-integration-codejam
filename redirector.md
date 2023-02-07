@@ -2,6 +2,8 @@
 
 Follow the instructions in this document if you are working through [exercise 01](exercises/01-set-up-workspace/) and have decided to use a Dev Space in the SAP Business Application Studio as your working environment.
 
+> This is a completely optional step, to allow you to follow `http://localhost:4004` style links in this CodeJam material, even if your CAP server is not actually available at that location.
+
 ## Install the Redirector extension
 
 👉 Head over to the [Redirector extension in the Chrome Web store](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) and select "Add to Chrome". 
