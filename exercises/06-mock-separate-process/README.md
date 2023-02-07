@@ -33,7 +33,9 @@ watch -c jq -C . ~/.cds-services.json
 > The `-c` option to `watch` tells it to interpret ANSI color and style sequences, which we explicitly tell `jq` to emit with the `-C` option. Normally, `jq` won't bother to emit them if it thinks, correctly here, that its output is not directly in the context of a terminal (it's in the context of the `watch` process, here), but we can force its hand.
 
 > Alternatively, you can just open the `~/.cds-services.json` file in the editor, by using the file selector (open it with Cmd-P or Ctrl-P) and entering the filename there, like this:
+>
 > ![Entering the ~/.cds-services.json filename in the file selector](assets/file-selector.png)
+>
 > If you take this approach, you'll only need two terminals in the following sections, not three.
 
 The contents of `~/.cds-services.json` should show that there are currently no services provided, something like this:
