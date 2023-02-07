@@ -104,7 +104,7 @@ The `package.json` file contains runtime and design time dependencies.
 npm install
 ```
 
-You can double check what's installed, with `cds list --depth=0`, which should show you similar to this:
+You can double check what's installed, with `npm list --depth=0`, which should show you similar to this:
 
 ```text
 @acme/incidents-mgmt@1.0.0 /home/user/projects/cap-service-integration-codejam/incidents
