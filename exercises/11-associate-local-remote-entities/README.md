@@ -233,9 +233,7 @@ It would be nice to see this customer displayed in the Fiori UI too. Right now, 
 
 ![The new incident appearing in the list report](assets/list-report.png)
 
-But even when you select it and are taken to the corresponding object page for the selected incident, there's no sign of the customer information:
-
-![The incident detail, lacking any customer information](assets/object-page.png)
+But even when you select it and are taken to the corresponding object page for the selected incident, there's no sign of the customer information.
 
 We'll address that in the next exercise.
 
