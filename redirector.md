@@ -4,8 +4,6 @@ Follow the instructions in this document if you are working through [exercise 01
 
 ## Install the Redirector extension
 
-👉 
-
 👉 Head over to the [Redirector extension in the Chrome Web store](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) and select "Add to Chrome". 
 
 ## Work out what your Dev Space port availability URLs look like
@@ -46,8 +44,8 @@ https://port4004-workspaces-ws-sd4hv.us10.trial.applicationstudio.cloud.sap/
 |-|-|
 |Description|SAP CodeJam on CAP Service Integration|
 |Example URL|`http://localhost:4004`|
-|Include Pattern|`http://localhost:(4004|5005).*`|
-|Redirect to|`https://port$1-workspaces-ws-xxxxx.yyyy.trial.applicationstudio.cloud.sap` where `xxxxx` and `yyyy` are specific to your URLs that you see|
+|Include Pattern|`http://localhost:(4004\|4005).*`|
+|Redirect To|`https://port$1-workspaces-ws-xxxxx.yyyy.trial.applicationstudio.cloud.sap` <br>where `xxxxx` and `yyyy` are specific to your URLs that you see|
 |Pattern type|Regular Expression|
 |Pattern Description|Localhost to Dev Space service|
 
