@@ -58,7 +58,7 @@ Now it's time to move up a layer, from persistence to service.
 
 ### Run the service
 
-Now you feel more familiar with the baseline service for this CodeJam, why not start it up? 
+Now you feel more familiar with the baseline service for this CodeJam, why not start it up?
 
 👉 Make sure you're in the `incidents/` directory and start things up like this:
 
@@ -167,7 +167,7 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
 1. `cds watch` is actually just a shortcut for another `cds` command. What is it?
 
-1. Are the names of the enumerations that you saw in the graphical display of `db/schema.cds` actually specified anywhere explicitly? 
+1. Are the names of the enumerations that you saw in the graphical display of `db/schema.cds` actually specified anywhere explicitly?
 
 ---
 

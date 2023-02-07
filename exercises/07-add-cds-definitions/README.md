@@ -1,6 +1,6 @@
 # Exercise 07 - Add CDS definitions to integrate services
 
-In an earlier exercise, we [took a naïve approach to incorporating the external service](../04-understand-service-mocking/README.md#take-a-naïve-approach-to-incorporating-the-external-service). This worked, but was a little blunt and imprecise, like joining two things together by stacking them on top of each other and hitting them with a sledgehammer. 
+In an earlier exercise, we [took a naïve approach to incorporating the external service](../04-understand-service-mocking/README.md#take-a-naïve-approach-to-incorporating-the-external-service). This worked, but was a little blunt and imprecise, like joining two things together by stacking them on top of each other and hitting them with a sledgehammer.
 
 At the end of this exercise, you'll have added CDS definitions to both the imported external service, and to your main service, to integrate them in a cleaner and more precise way, retaining the identities of both services, in a way that makes a lot more sense when considering the availability and integration of external services more generally.
 
@@ -23,7 +23,7 @@ entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner {
 }
 ```
 
-Here you've defined a new entity `Customers` as a projection on the more generic `A_BusinessPartner` from the external service, and have exposed just two properties from it. 
+Here you've defined a new entity `Customers` as a projection on the more generic `A_BusinessPartner` from the external service, and have exposed just two properties from it.
 
 👉 Ensure your CAP server is still running in mock mode, on port 4004 (i.e. make sure you have `cds watch` going).
 
@@ -47,6 +47,7 @@ extend service IncidentsService with {
 This is what these definitions are doing:
 
 * bringing in a reference to the `IncidentsService` from the `srv/incidents-service.cds` file, which has this content:
+
     ```cds
     using { acme.incmgt } from '../db/schema';
 
@@ -111,9 +112,9 @@ external service  |                     |
 
 What has this `extend service` definition done? Let's have a look.
 
-👉 Head over to the service endpoints at <http://localhost:4004>, where you'll still find the service endpoint for the mocked external service, at `/api-business-partner`, and the service endpoint for your main service, at `/incidents`. 
+👉 Head over to the service endpoints at <http://localhost:4004>, where you'll still find the service endpoint for the mocked external service, at `/api-business-partner`, and the service endpoint for your main service, at `/incidents`.
 
-👉 Note that the data is still being served for the `A_BusinessPartner` entity at <http://localhost:4004/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`). 
+👉 Note that the data is still being served for the `A_BusinessPartner` entity at <http://localhost:4004/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`).
 
 👉 In addition, note that the data is also being served for an entity in the `/incidents` service endpoint that has now started appearing since you added this bit:
 

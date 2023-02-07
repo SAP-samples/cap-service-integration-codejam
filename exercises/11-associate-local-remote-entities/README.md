@@ -120,7 +120,6 @@ There's a new property in this (and all other) entity objects returned in the en
 
 > Of course, this is a new property, for the association, and the data in the CSV files that are used to seed the service doesn't include any values that represent any such associations, so the value for this property in each existing entity is `null`.
 
-
 👉 Now head on over to the service metadata at <http://localhost:4004/incidents/$metadata> and find the definition of the `Incidents` entity type as it appears in this EDMX format. It should look something like this:
 
 ```xml
@@ -208,7 +207,7 @@ POST http://localhost:4004/incidents/Incidents(ID={{id}},IsActiveEntity=false)/d
 Content-Type: application/json
 ```
 
-This file contains three HTTP requests, that are designed to be executed one at a time, in the order that they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available. 
+This file contains three HTTP requests, that are designed to be executed one at a time, in the order that they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available.
 
 👉 Consider what the requests in this file are doing:
 
@@ -229,7 +228,7 @@ http://localhost:4004/incidents/Incidents
   ?$filter=startswith(title,'New Incident') and urgency eq 'low'
 ```
 
-It would be nice to see this customer displayed in the Fiori UI too. Right now, the new incident appears in the [list report](http://localhost:4004/$fiori-preview/IncidentsService/Incidents#preview-app), as shown in this screenshot: 
+It would be nice to see this customer displayed in the Fiori UI too. Right now, the new incident appears in the [list report](http://localhost:4004/$fiori-preview/IncidentsService/Incidents#preview-app), as shown in this screenshot:
 
 ![The new incident appearing in the list report](assets/list-report.png)
 

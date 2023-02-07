@@ -1,6 +1,6 @@
 # Exercise 10 - Run the service with real remote delegation
 
-At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in a previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships). 
+At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in a previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships).
 
 ## Start the CAP server
 
@@ -28,7 +28,7 @@ While it's nice to see that the CAP server is still serving the `IncidentsServic
 [cds] - connect to API_BUSINESS_PARTNER > odata { url: 'http://localhost:5005/api-business-partner' }
 ```
 
-This time it's different, in two ways: 
+This time it's different, in two ways:
 
 * the type is `odata-v2` rather than `odata`
 * the credentials now also include the APIKey header that will be added to each HTTP request
@@ -56,7 +56,7 @@ Note also that even though the `cds` command we used was `watch`, which implies 
 
 ## Request customer data
 
-The moment of truth has arrived! 
+The moment of truth has arrived!
 
 👉 Head over to the list of service endpoints at <http://localhost:4004/>, and choose the `Customers` entity set via <http://localhost:4004/incidents/Customers>.
 
@@ -106,12 +106,14 @@ This data is coming directly from the remote system.
 
 * The query that was sent (from your browser) to the CAP server was `GET /incidents/Customers`
 * This caused the anonymous function defined as a handler for the `READ` event of the `Customers` entity to be triggered, and the query was received by that function inside the object passed as the argument to the `req` parameter:
+
     ```js
     this.on('READ', 'Customers', (req) => {
       console.log('>> delegating to remote service...')
       return S4bupa.run(req.query)
     })
     ```
+
 * The query (in `req.query`) is transparently translated into an OData query by the CAP framework
 * The constructed OData query is sent to the remote system using the SAP Cloud SDK
 
