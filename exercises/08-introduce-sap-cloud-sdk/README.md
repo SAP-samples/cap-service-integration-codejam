@@ -142,7 +142,7 @@ Another error.
 
 But a different one! 
 
-### Analyse the error
+### Analyze the error
 
 There's an XML based HTTP response payload with an error code (502) and a detailed message, the salient part of which is this:
 

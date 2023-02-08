@@ -59,7 +59,7 @@ annotate IncidentsService.Incidents with @(
 );
 ```
 
-> The `...` ellipsis is important here, and not part of the illustration in this exercise - so don't remove it. It's special syntax for refering to the "remaining values" of array-valued annotations. The advantage of this syntax is that you do not have to repeat the other table columns. See the link to Extend Array Annotations in the [Further reading](#further-reading) section below.
+> The `...` ellipsis is important here, and not part of the illustration in this exercise - so don't remove it. It's special syntax for referring to the "remaining values" of array-valued annotations. The advantage of this syntax is that you do not have to repeat the other table columns. See the link to Extend Array Annotations in the [Further reading](#further-reading) section below.
 
 ## Re-examine the incident to see the customer reference
 

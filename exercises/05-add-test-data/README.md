@@ -47,7 +47,7 @@ Z100003;Sunny Sunshine
 cds watch
 ```
 
-You should now see an additional "init from" line in the log output showing that data has been loaded for the mocked externalservice, specifically for the `A_BusinessPartner` entity in  the `API_BUSINESS_PARTNER` namespace:
+You should now see an additional "init from" line in the log output showing that data has been loaded for the mocked external service, specifically for the `A_BusinessPartner` entity in  the `API_BUSINESS_PARTNER` namespace:
 
 ```text
  > init from srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.CSV
