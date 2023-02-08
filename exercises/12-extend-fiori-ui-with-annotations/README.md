@@ -1,10 +1,10 @@
 # Exercise 12 - Extend SAP Fiori elements UI with annotations
 
-At the end of this exercise, you'll have taken the first tentative steps into adding some OData annotations for the SAP Fiori elements based previews provided out of the box by CAP. 
+At the end of this exercise, you'll have taken the first tentative steps into adding some OData annotations for the SAP Fiori elements based previews provided out of the box by CAP.
 
 ## Add a customer relation to one of the existing incidents
 
-We're taking advantage of `cds watch` and the automatic reloading of the definitions each time we edit files. But because we're still just in the mocking stage for our local service, data is reset to what's in the CSV files on restart. 
+We're taking advantage of `cds watch` and the automatic reloading of the definitions each time we edit files. But because we're still just in the mocking stage for our local service, data is reset to what's in the CSV files on restart.
 
 So to save time, and prevent you from having to re-execute the HTTP requests in `newincident.http` each time you add an annotation, let's add a customer relation to one of the existing incidents in the corresponding CSV file.
 
@@ -59,7 +59,7 @@ annotate IncidentsService.Incidents with @(
 );
 ```
 
-> The `...` ellipsis is important here, and not part of the illustration in this exercise - so don't remove it. It's special syntax for refering to the "remaining values" of array-valued annotations. The advantage of this syntax is that you do not have to repeat the other table columns. See the link to Extend Array Annotations in the [Further reading](#further-reading) section below.
+> The `...` ellipsis is important here, and not part of the illustration in this exercise - so don't remove it. It's special syntax for referring to the "remaining values" of array-valued annotations. The advantage of this syntax is that you do not have to repeat the other table columns. See the link to Extend Array Annotations in the [Further reading](#further-reading) section below.
 
 ## Re-examine the incident to see the customer reference
 
@@ -152,7 +152,7 @@ This time, you'll see that as well as the Customer field being open for input, t
 }
 ```
 
-The resolution of the value help is being provided via the JavaScript we added in an earlier exercise to `srv/external-service.js`, and in turn using the SAP Cloud SDK to make an OData query operation on the remote, external service. 
+The resolution of the value help is being provided via the JavaScript we added in an earlier exercise to `srv/external-service.js`, and in turn using the SAP Cloud SDK to make an OData query operation on the remote, external service.
 
 ## Summary
 

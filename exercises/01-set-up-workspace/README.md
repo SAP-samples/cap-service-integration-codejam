@@ -18,7 +18,7 @@ _Follow the "Alternative environment" subsection below if you want to use VS Cod
 
 ![Setting up a dev space](assets/create-full-stack-cloud-application-dev-space.png)
 
-Choosing the "Full Stack Cloud Application" brings in some predefined extensions, as you can see from the screenshot, including a CDS Graphical Modeler and the CAP Tools. 
+Choosing the "Full Stack Cloud Application" brings in some predefined extensions, as you can see from the screenshot, including a CDS Graphical Modeler and the CAP Tools.
 
 > You may need to stop existing Dev Spaces to use this one, depending on your subscription access.
 
@@ -50,19 +50,19 @@ You can check that the extension is indeed installed, by selecting the "Extensio
 
 #### Set up a URL redirector
 
-One of the many great benefits of the SAP Business Application Studio is that you can run it anywhere, all you need is a modern browser. Each Dev Space provides a complete working environment, and the infrastructure also provides you with the facilities to run services and bind to sockets, to listen and respond to incoming requests from your services that are local to the Dev Space but available on the Web. 
+One of the many great benefits of the SAP Business Application Studio is that you can run it anywhere, all you need is a modern browser. Each Dev Space provides a complete working environment, and the infrastructure also provides you with the facilities to run services and bind to sockets, to listen and respond to incoming requests from your services that are local to the Dev Space but available on the Web.
 
 In practice, this means that when running a CAP server "locally" in this context, you'll access it not via `localhost` (as that's specific to your local machine where your browser is running) but via a URL provided and serviced by the SAP Business Application Studio infrastructure, and your requests will find their way to your CAP server in your Dev Space.
 
-The upshot of this is that whereas with a locally running VS Code environment, where `localhost` really means `localhost` even when using a dev container, with such a hosted SAP Business Application Studio context, the URLs will be different for each of your Dev Spaces. 
+The upshot of this is that whereas with a locally running VS Code environment, where `localhost` really means `localhost` even when using a dev container, with such a hosted SAP Business Application Studio context, the URLs will be different for each of your Dev Spaces.
 
 In order to provide a comfortable CodeJam experience, and include links to various CAP server provided resources that you'll create along your journey, we can only use generic `localhost` URLs in the exercise content, because we cannot know in advance what the SAP Business Application Studio infrastructure will provide for you in terms of URL structure.
 
-So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you use a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space. 
+So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you consider using a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space. It's only a recommendation, so that you can click on URLs in this CodeJam content; you can just as easily click on the `http://localhost:4004` style URLs shown in the terminal in your Dev Space instead if you wish.
 
-We've had good experience with the [Redirector](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) extension for Google Chrome and recommend you install it for the duration of this CodeJam. 
+We've had good experience with the [Redirector](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) extension for Google Chrome and this is the one that we recommend you install it for the duration of this CodeJam.
 
-👉 Please follow the instructions in [Set up a temporary localhost redirector](../../redirector.md).
+👉 If you wish, please follow the instructions in [Set up a temporary localhost redirector](../../redirector.md).
 
 ### Alternative environment: VS Code and a container image
 
@@ -75,7 +75,7 @@ git clone https://github.com/SAP-samples/cap-service-integration-codejam
 code cap-service-integration-codejam
 ```
 
-Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to reopen everything in a container, as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container". 
+Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to reopen everything in a container, as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container".
 
 ![The dialog prompting you to "Reopen in Container"](assets/reopen-in-container.png)
 
@@ -112,7 +112,7 @@ home: /usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap
 
 ## Install the NPM package dependencies
 
-The `package.json` file contains runtime and design time dependencies. 
+The `package.json` file contains runtime and design time dependencies.
 
 👉 Make sure you're in the `incidents/` directory (where `package.json` lives) and install them thus:
 
@@ -145,7 +145,7 @@ At this point you've got an environment in which to work through the rest of the
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
-1. What are the advantages of using container images for development work? 
+1. What are the advantages of using container images for development work?
 1. What is the difference between the `@sap/cds` and `@sap/cds-dk` packages?
 
 ---
