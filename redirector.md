@@ -6,7 +6,7 @@ Follow the instructions in this document if you are working through [exercise 01
 
 ## Install the Redirector extension
 
-👉 Head over to the [Redirector extension in the Chrome Web store](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) and select "Add to Chrome". 
+👉 Head over to the [Redirector extension in the Chrome Web store](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) and select "Add to Chrome".
 
 ## Work out what your Dev Space port availability URLs look like
 

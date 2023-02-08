@@ -208,7 +208,7 @@ POST http://localhost:4004/incidents/Incidents(ID={{id}},IsActiveEntity=false)/d
 Content-Type: application/json
 ```
 
-This file contains three HTTP requests, that are designed to be executed one at a time, in the order that they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available. 
+This file contains three HTTP requests, that are designed to be executed one at a time, in the order that they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available.
 
 👉 Consider what the requests in this file are doing:
 
@@ -229,7 +229,7 @@ http://localhost:4004/incidents/Incidents
   ?$filter=startswith(title,'New Incident') and urgency eq 'low'
 ```
 
-It would be nice to see this customer displayed in the Fiori UI too. Right now, the new incident appears in the [list report](http://localhost:4004/$fiori-preview/IncidentsService/Incidents#preview-app), as shown in this screenshot: 
+It would be nice to see this customer displayed in the Fiori UI too. Right now, the new incident appears in the [list report](http://localhost:4004/$fiori-preview/IncidentsService/Incidents#preview-app), as shown in this screenshot:
 
 ![The new incident appearing in the list report](assets/list-report.png)
 

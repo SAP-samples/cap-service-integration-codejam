@@ -2,9 +2,9 @@
 
 It's time to stop having the CAP server mock things for us, even in a separate process, and start to wire things up for a real connection!
 
-At the end of this exercise you'll have everything configured for a remote connection to a real external service, in a sandbox context. Along the way you'll learn about configuration and configuration profiles. 
+At the end of this exercise you'll have everything configured for a remote connection to a real external service, in a sandbox context. Along the way you'll learn about configuration and configuration profiles.
 
-At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in the previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships). 
+At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in the previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships).
 
 ## Terminate the previous mock and watch processes
 
@@ -41,9 +41,9 @@ https://sandbox.api.sap.com
   &$inlinecount=allpages
 ```
 
-You can see that a GET request with this URL is an OData query operation, in other words we're expecting an entity set response (and indeed you can see the start of that response, in JSON format, in the response body part of the screenshot above). 
+You can see that a GET request with this URL is an OData query operation, in other words we're expecting an entity set response (and indeed you can see the start of that response, in JSON format, in the response body part of the screenshot above).
 
-The sandbox system that is serving URLs like this is publicly available. 
+The sandbox system that is serving URLs like this is publicly available.
 
 👉 Take this URL and try it out at the command line in your terminal window now, using `curl`:
 
@@ -61,7 +61,7 @@ You get a response, but perhaps not one that you're looking for:
 < Content-Type: application/json
 < Content-Length: 146
 < Connection: keep-alive
-< 
+<
 * Connection #0 to host sandbox.api.sap.com left intact
 {"fault":{"faultstring":"Failed to resolve API Key variable request.header.apikey","detail":{"errorcode":"steps.oauth.v2.FailedToResolveAPIKey"}}}
 ```
@@ -74,7 +74,7 @@ Credentials are required, not via a standard `Authorization` header in the HTTP 
 
 When logged in to the SAP API Business Hub, you can retrieve your API key, either via the link at any given resource (see the "Show API Key" button at the top right in the screenshot above) or by going to your [SAP API Business Hub settings page](https://api.sap.com/settings) (via a menu available in the far top right).
 
-👉 Retrieve your API key; be aware that this is specific to you and should not be shared with anyone. 
+👉 Retrieve your API key; be aware that this is specific to you and should not be shared with anyone.
 
 ### Retry the request, using the API key
 
@@ -89,7 +89,7 @@ read -rp "API key? " APIKEY \
   --compressed \
   --location \
   --header "APIKey: $APIKEY" \
-  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages' 
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages'
 ```
 
 > The `--compressed` option tells `curl` to request (and, more importantly, expect) compressed response payloads and the `--location` option tells `curl` to follow any redirect responses automatically.
@@ -119,21 +119,21 @@ ication/atom+xml;type=feed" title="to_BusinessPartnerBank"/><link href="A_Busine
 usinessPartnerContact" rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/to_Busines
 ```
 
-> For those interested, this width-wrapped version of the output (produced because otherwise the single long line of output wouldn't display very well in this document) was produced by feeding the output of the above `curl` invocation into `| fold -w100 | head -20`. 
+> For those interested, this width-wrapped version of the output (produced because otherwise the single long line of output wouldn't display very well in this document) was produced by feeding the output of the above `curl` invocation into `| fold -w100 | head -20`.
 
 This of course is the standard OData V2 XML based payload format, and incidentally we can see OData's origins right there in front of us (starting with the `feed` element) - the [Atom Syndication Format](https://www.rfc-editor.org/rfc/rfc4287). You can read more on the origins of OData - see the links in the [Further reading](#further-reading) section below.
 
 ## Store configuration for the remote system
 
-Now that we've identified the sandbox system as the remote system we're going to use, tried it out, and also have the requisite API key with which to authenticate requests, we can store that information in a way that can be used by the CAP server. 
+Now that we've identified the sandbox system as the remote system we're going to use, tried it out, and also have the requisite API key with which to authenticate requests, we can store that information in a way that can be used by the CAP server.
 
 This is information typically held via, and managed by, the Destination service on SAP Business Technology Platform. The SAP Cloud SDK that we introduced into the mix in the previous exercise can work with destination objects defined there, or in other abstract places, such as in CAP's environment configuration.
 
-Given that this is not a productive setup, we can use CAP's configuration profile feature (see the link in the [Further reading](#further-reading) section below). 
+Given that this is not a productive setup, we can use CAP's configuration profile feature (see the link in the [Further reading](#further-reading) section below).
 
 ### Consider storing configuration in package.json
 
-So one place we could store the URL and API key is in our `package.json` file. 
+So one place we could store the URL and API key is in our `package.json` file.
 
 👉 Open your incidents project's `package.json` file and examine the `cds.requires` section. It should look something like this:
 
@@ -196,13 +196,13 @@ This is neat, but opens up a big problem with security (adding an API key into a
 
 ### Using the .env file
 
-On the command line, you can specify individual environment variables when starting up the CAP server. This is a standard UNIX feature. CAP extends that feature by looking for similar values in a special `.env` file (see the link to project-specific configurations in the [Further reading](#further-reading) section below). 
+On the command line, you can specify individual environment variables when starting up the CAP server. This is a standard UNIX feature. CAP extends that feature by looking for similar values in a special `.env` file (see the link to project-specific configurations in the [Further reading](#further-reading) section below).
 
 On startup, the final configuration is determined from a combination of values from different places, including the `cds` section of the project's `package.json` file, and also values in this `.env` file too.
 
 #### Examine the current configuration
 
-The `cds` command line tool sports an `env` command with which the effective configuration of the current environment can be examined. 
+The `cds` command line tool sports an `env` command with which the effective configuration of the current environment can be examined.
 
 👉 Examine the current environment configuration right now:
 
@@ -210,7 +210,7 @@ The `cds` command line tool sports an `env` command with which the effective con
 cds env get
 ```
 
-That produces quite a large amount of output. 
+That produces quite a large amount of output.
 
 👉 Run the command again, this time narrowing it down to the detail for the required `API_BUSINESS_PARTNER` section:
 
@@ -256,7 +256,7 @@ cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.headers.APIKey=<YOUR-API
 
 > The `DEBUG=remote` will cause extra debugging logs to be emitted when remote systems are accessed.
 
-This uses the same properties format as above. Can you see how the dotted notation follows the structure of the JSON hierarchy? 
+This uses the same properties format as above. Can you see how the dotted notation follows the structure of the JSON hierarchy?
 
 #### Check the final combined configuration
 
@@ -266,7 +266,7 @@ This uses the same properties format as above. Can you see how the dotted notati
 cds env get requires.API_BUSINESS_PARTNER
 ```
 
-Oh. 
+Oh.
 
 There's no change:
 

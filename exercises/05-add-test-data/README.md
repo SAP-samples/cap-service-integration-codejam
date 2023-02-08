@@ -28,7 +28,7 @@ mkdir srv/external/data/
 touch srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
 ```
 
-At this point you should have a new file ready to add CSV records too. 
+At this point you should have a new file ready to add CSV records too.
 
 👉 Do that now; add these records (including the CSV header record) to the file:
 
@@ -96,7 +96,7 @@ You should now see an additional "init from" line in the log output showing that
 }
 ```
 
-> Many of the properties in the `A_BusinessPartner` entity type have been omitted here for brevity. But this is a good time to point out that any properties which haven't been supplied with data via CSV are still presented, with `null` as their values. 
+> Many of the properties in the `A_BusinessPartner` entity type have been omitted here for brevity. But this is a good time to point out that any properties which haven't been supplied with data via CSV are still presented, with `null` as their values.
 
 
 ## Summary

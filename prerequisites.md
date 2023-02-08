@@ -6,7 +6,7 @@ These prerequisites are essential to a successful CodeJam. As an attendee, pleas
 
 While there are many ways to work with the SAP Cloud Application Programming Model, with a wide choice of editors and command lines, we will use a primary environment, but also support an alternative. You must decide whether you want to use the primary environment or the alternative, and make sure you have the corresponding prerequisites set up accordingly.
 
-The primary environment is a Dev Space in the SAP Business Application Studio. The alternative environment is VS Code with a dev container. 
+The primary environment is a Dev Space in the SAP Business Application Studio. The alternative environment is VS Code with a dev container.
 
 > The words "primary" and "alternative" are not meant to convey any superiority of one over the other.
 
