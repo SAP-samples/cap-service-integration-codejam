@@ -1,12 +1,12 @@
 # Exercise 08 - Introduce the SAP Cloud SDK
 
-At the end of this exercise, we'll have moved very close to connecting to a real external system for our imported `API_BUSINESS_PARTNER` service. 
+At the end of this exercise, we'll have moved very close to connecting to a real external system for our imported `API_BUSINESS_PARTNER` service.
 
 ## Move the mocking of API_BUSINESS_PARTNER to a separate process
 
 To start on that journey, let's first move away from the in-process mocking that the CAP server provides out of the box for us. We did this already in [exercise 06](../06-mock-separate-process/) so it shouldn't take long to get set up again.
 
-👉 Start by terminating the currently running CAP server (that is probably still running from a previous exercise, having been started with `cds watch`). 
+👉 Start by terminating the currently running CAP server (that is probably still running from a previous exercise, having been started with `cds watch`).
 
 ### Start mocking the external service
 
@@ -16,7 +16,7 @@ To start on that journey, let's first move away from the in-process mocking that
 cds mock API_BUSINESS_PARTNER --port 5005
 ```
 
-If you now visit <http://localhost:5005> you'll see the service endpoint at `/api-business-partner` being served, i.e. the external service. You can still access the three CSV-supplied records in the `A_BusinessPartner` entity set (<http://localhost:5005/api-business-partner/A_BusinessPartner>). 
+If you now visit <http://localhost:5005> you'll see the service endpoint at `/api-business-partner` being served, i.e. the external service. You can still access the three CSV-supplied records in the `A_BusinessPartner` entity set (<http://localhost:5005/api-business-partner/A_BusinessPartner>).
 
 ### Start serving your main service
 
@@ -42,9 +42,9 @@ Yes.
 
 But.
 
-This time, the mocking of the external service is no longer in-process based mocking. It's being mocked in an external process (started separately with `cds mock API_BUSINESS_PARTNER --port 5005`). This is more realistic, and brings about a context that makes it harder for the CAP server to guess what it should automatically do when data is requested. 
+This time, the mocking of the external service is no longer in-process based mocking. It's being mocked in an external process (started separately with `cds mock API_BUSINESS_PARTNER --port 5005`). This is more realistic, and brings about a context that makes it harder for the CAP server to guess what it should automatically do when data is requested.
 
-So it doesn't attempt to, and instead, gently suggests that you have to do it. 
+So it doesn't attempt to, and instead, gently suggests that you have to do it.
 
 So let's do it!
 
@@ -74,14 +74,14 @@ module.exports = (async function() {
 ```js
     const cds = require('@sap/cds');
     const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
-  
+
     this.on('READ', 'Customers', (req) => {
       console.log('>> delegating to remote service...')
       return S4bupa.run(req.query)
     })
 ```
 
-As a result of the `cds.connect.to` call, the `S4bupa` constant will receive a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime. 
+As a result of the `cds.connect.to` call, the `S4bupa` constant will receive a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime.
 
 We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises, and right now, that will contain information that looks like this:
 
@@ -106,11 +106,11 @@ We're currently mocking that service, and we can see the details that will be av
 }
 ```
 
-In other words, the connection object will essentially point to `http://localhost:5005/api-business-partner`. 
+In other words, the connection object will essentially point to `http://localhost:5005/api-business-partner`.
 
 > The beauty of this approach is that connection information remains abstract and separate from the service implementation, which is especially important when moving across tiered landscapes and also to protect credentials and manage their lifecycle separately.
 
-This connection object is then used, when handling the `READ` event for the `Customers` entity, to proxy the actual request (in `req.query`) to the remote system (via `S4bupa.run()`). The response to this remote request is then returned to the original requester (i.e. the request that invoked this `READ` event in the first place). 
+This connection object is then used, when handling the `READ` event for the `Customers` entity, to proxy the actual request (in `req.query`) to the remote system (via `S4bupa.run()`). The response to this remote request is then returned to the original requester (i.e. the request that invoked this `READ` event in the first place).
 
 ### Try it out
 
@@ -136,13 +136,13 @@ Note that this is just an indication that the remote connection details have bee
 
 👉 Make a request to the `Customers` entity set again.
 
-Whoops! 
+Whoops!
 
-Another error. 
+Another error.
 
-But a different one! 
+But a different one!
 
-### Analyse the error
+### Analyze the error
 
 There's an XML based HTTP response payload with an error code (502) and a detailed message, the salient part of which is this:
 
@@ -230,7 +230,7 @@ You should now see the data:
 }
 ```
 
-It doesn't look any different. But this time, while essentially the service is still being mocked, it's being mocked in a separate process, as a proper remote service, with the requests to the data being delegated to it via real OData operations. 
+It doesn't look any different. But this time, while essentially the service is still being mocked, it's being mocked in a separate process, as a proper remote service, with the requests to the data being delegated to it via real OData operations.
 
 👉 To confirm this, look at the log output from the mocked service (the one you started in the other terminal window with `cds mock API_BUSINESS_PARTNER --port 5005`). You should see the evidence of a request:
 
@@ -243,7 +243,7 @@ This is indeed the same request that was attempted before, that we saw in the er
 👉 And in fact, if you check the log output from the serving of the main service (the one started with `cds watch`), you should see something like this:
 
 ```text
-[cds] - GET /incidents/Customers 
+[cds] - GET /incidents/Customers
 >> delegating to S4 service...
 [remote] - GET http://localhost:5005/api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000 {
   headers: {

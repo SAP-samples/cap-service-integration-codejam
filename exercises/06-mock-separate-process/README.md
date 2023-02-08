@@ -4,7 +4,7 @@ At the end of this exercise, you'll have tried out the alternative to in-process
 
 ## Consider the current mocking setup
 
-In [exercise 04](../04-understand-service-mocking/) we ended up with our local `/incidents` service, plus a mocked instance of our external service at `/api-business-partner`, both being served from within the same process, i.e. from the same single CAP server, initiated with `cds watch`. 
+In [exercise 04](../04-understand-service-mocking/) we ended up with our local `/incidents` service, plus a mocked instance of our external service at `/api-business-partner`, both being served from within the same process, i.e. from the same single CAP server, initiated with `cds watch`.
 
 The salient line in the log output is this:
 
@@ -14,7 +14,7 @@ The salient line in the log output is this:
 
 Requests to resources starting with the path `/api-business-partner` are resolved by the CAP server that is also resolving requests to the `/incidents` service.
 
-The advantage of having external services mocked like is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services. 
+The advantage of having external services mocked like is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services.
 
 But the disadvantage is that this is not representative of how the real cross-service communication will happen. The mocked service doesn't behave as a real external service, and the communication happens in-process, rather than over HTTP, for example using the OData protocol.
 
@@ -56,7 +56,7 @@ cds mock API_BUSINESS_PARTNER
 
 > What's happening here? Well, as we're beginning to learn, commands that look simple are just syntactic sugar for more explicit and specific invocations. This is shorthand for `cds serve --mocked API_BUSINESS_PARTNER`.
 
-Two things happen that are of interest to us here. 
+Two things happen that are of interest to us here.
 
 First, we see some log output that looks vaguely familiar:
 
@@ -67,9 +67,9 @@ First, we see some log output that looks vaguely familiar:
 [cds] - server listening on { url: 'http://localhost:45149' }
 ```
 
-Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway. 
+Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway.
 
-You can use the `--port` option to specify a port explicitly, if you want, e.g. `cds mock API_BUSINESS_PARTNER --port 3003`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone. 
+You can use the `--port` option to specify a port explicitly, if you want, e.g. `cds mock API_BUSINESS_PARTNER --port 3003`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone.
 
 👉 Stop that mocked service with Ctrl-C, and then restart it, specifying the explicit port of 5005:
 
@@ -82,7 +82,7 @@ The second thing to notice is that the mocked service appears in the `~/.cds-ser
 ```json
 {
   "cds": {
-    "provides": { 
+    "provides": {
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
         "credentials": {
@@ -96,7 +96,7 @@ The second thing to notice is that the mocked service appears in the `~/.cds-ser
 
 ## Start up the main service
 
-Now we have a mocked version of the external service running in an independent process, we can start up the main service. 
+Now we have a mocked version of the external service running in an independent process, we can start up the main service.
 
 👉 Do that now. Open up a third (yes, third) terminal, and use `cds watch`:
 
@@ -107,13 +107,13 @@ cds watch
 The output should look familiar:
 
 ```text
-cds serve all --with-mocks --in-memory? 
-watching: cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml,env,css,gif,html,jpg,png,svg... 
-live reload enabled for browsers 
+cds serve all --with-mocks --in-memory?
+watching: cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml,env,css,gif,html,jpg,png,svg...
+live reload enabled for browsers
 
         ___________________________
 
- 
+
 [cds] - loaded model from 5 file(s):
 
   db/schema.cds
