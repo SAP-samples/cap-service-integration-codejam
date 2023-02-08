@@ -58,7 +58,7 @@ The upshot of this is that whereas with a locally running VS Code environment, w
 
 In order to provide a comfortable CodeJam experience, and include links to various CAP server provided resources that you'll create along your journey, we can only use generic `localhost` URLs in the exercise content, because we cannot know in advance what the SAP Business Application Studio infrastructure will provide for you in terms of URL structure.
 
-So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you consider using a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space. It's only a recommendation, so that you can click on URLs in this CodeJam content; you can just as easily click on the `http://localhost:4004` style URLs shown in the terminal in your Dev Space instead if you wish.
+So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you consider using a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space. It's only a recommendation, so that you can select URLs in this CodeJam content; you can just as easily select the `http://localhost:4004` style URLs shown in the terminal in your Dev Space instead if you wish.
 
 We've had good experience with the [Redirector](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) extension for Google Chrome and this is the one that we recommend you install it for the duration of this CodeJam.
 
