@@ -158,6 +158,9 @@ At this point you have the service definition for the Business Partner (A2X) API
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
+1. Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP API Business Hub? If you're using a Dev Space for this CodeJam, why not try it out by selecting "Service Center: Focus on SAP API Business Hub View" in the Command Palette? You should be able to quickly find the Business Partner (A2X) API there too.
+    ![Service Center in SAP Business Application Studio](assets/service-center.png)
+
 1. What does "A2X" stand for and represent?
 
 1. If you [tried out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) the Business Partner (A2X) API in the browser, did you notice some of the parameters available for GET requests to the main resources (such as `/A_AddressEmailAddress` or `/A_BusinessPartner`) included ones beginning with `$`? What were they, did you recognize them?
