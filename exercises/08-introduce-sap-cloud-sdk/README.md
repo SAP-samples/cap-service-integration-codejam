@@ -61,7 +61,7 @@ We can do this by providing a simple service implementation, in the `srv/inciden
 
 ### Add the handler code
 
-This `srv/incidents.js` file is ready and waiting for our handlers, and currently looks like this:
+This `srv/incidents-service.js` file is ready and waiting for our handlers, and currently looks like this:
 
 ```js
 module.exports = (async function() {
