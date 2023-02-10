@@ -94,12 +94,6 @@ We're currently mocking that service, and we can see the details that will be av
         "credentials": {
           "url": "http://localhost:5005/api-business-partner"
         }
-      },
-      "IncidentsService": {
-        "kind": "odata",
-        "credentials": {
-          "url": "http://localhost:4004/incidents"
-        }
       }
     }
   }
