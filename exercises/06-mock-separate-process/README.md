@@ -172,13 +172,17 @@ That's because `cds watch` looks for running services listed as provided in the 
 }
 ```
 
+## Stop both services
+
+For simplicity's sake for the rest of the CodeJam, let's switch back to an in-process mocking setup for now.
+
+👉 Stop both `cds watch` processes, and also the `watch` process if it's still running, with Ctrl-C. You can now close all but one terminal window in your workspace.
+
+👉 Now, in the remaining terminal window, run `cds watch` again, which should start a single process, with the CAP server listening on port 4004, mocking the external service and serving your main service too.
+
 ## Summary
 
-At this point you have your main service up and running at <http://localhost:4004> and the external `API_BUSINESS_PARTNER` service mocked and running at <http://localhost:5005>. If you visit the `/A_BusinessPartner` entity set in that mocked service, at <http://localhost:5005/api-business-partner/A_BusinessPartner?$count=true>, you'll see that the data you provided via CSV is still being served (and you can see the details of those requests in the log output in the second terminal window).
-
-For simplicity's sake for the rest of the CodeJam, let's switch back to an in-process mocking setup, so you don't have to run multiple terminal windows.
-
-👉 Stop both `cds watch` processes, and also the `watch` process if it's still running, with Ctrl-C. You can now close all but one terminal window in your workspace. In the remaining terminal window, run `cds watch` again, which should start a single process, with the CAP server listening on port 4004, mocking the external service and serving your main service too.
+At this point you have seen your main service up and running at <http://localhost:4004> and the external `API_BUSINESS_PARTNER` service mocked and running at <http://localhost:5005>. If you visited the `/A_BusinessPartner` entity set in that mocked service, at <http://localhost:5005/api-business-partner/A_BusinessPartner?$count=true>, you'll have seen that the data you provided via CSV is still being served (and you would have seen the details of those requests in the log output in the second terminal window).
 
 ## Further reading
 

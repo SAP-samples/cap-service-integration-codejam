@@ -25,7 +25,7 @@ entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner {
 
 Here you've defined a new entity `Customers` as a projection on the more generic `A_BusinessPartner` from the external service, and have exposed just two properties from it.
 
-👉 Ensure your CAP server is still running in mock mode, on port 4004 (i.e. make sure you have `cds watch` going).
+👉 Ensure you have a single CAP server still running in mock mode, on port 4004 (i.e. make sure you have `cds watch` going).
 
 When you've saved this new `srv/external/index.cds` file, notice that when the CAP server has restarted, there is no discernible difference in what is being served; the two service endpoints at <http://localhost:4004> are still the same, and there's not yet any sign of a `Customers` entity.
 

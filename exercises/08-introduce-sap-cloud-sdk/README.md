@@ -6,7 +6,7 @@ At the end of this exercise, we'll have moved very close to connecting to a real
 
 To start on that journey, let's first move away from the in-process mocking that the CAP server provides out of the box for us. We did this already in [exercise 06](../06-mock-separate-process/) so it shouldn't take long to get set up again.
 
-👉 Start by terminating the currently running CAP server (that is probably still running from a previous exercise, having been started with `cds watch`).
+👉 Begin by terminating the currently running CAP server (that is probably still running from the previous exercise, having been started with `cds watch`).
 
 ### Start mocking the external service
 
@@ -200,9 +200,13 @@ npm add @sap-cloud-sdk/http-client
 
 > `add` is just a synonym for `install` here.
 
-👉 Once the package has been installed (and it will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time with `cds watch` and re-request that `Customers` entity set at <http://localhost:4004/incidents/Customers>.
+👉 Once the package has been installed (and it will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time:
 
-You should now see the data:
+```bash
+cds watch
+```
+
+👉 Re-request that `Customers` entity set at <http://localhost:4004/incidents/Customers>. You should now see the data:
 
 ```json
 {

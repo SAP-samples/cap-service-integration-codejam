@@ -6,7 +6,9 @@ At this point you've imported the EDMX definition for the external `API_BUSINESS
 
 ## Start the CAP server
 
-👉 Start things up with `cds run`:
+During the previous exercise you stopped the CAP server.
+
+👉 Start things up again, but using `cds run`:
 
 ```bash
 cds run
