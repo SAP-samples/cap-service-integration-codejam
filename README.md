@@ -49,6 +49,10 @@ Simply use this [Give Feedback](https://github.com/SAP-samples/cap-service-integ
 
 Thank you!
 
+## Acknowledgements
+
+The exercise content in this repository is based on previous work for an SAP TechEd 2 hour workshop, written by Christian Georgi of the CAP team.
+
 ## How to obtain support
 
 Support for the content in this repository is available during the actual time of the CodeJam event for which this content has been designed.
