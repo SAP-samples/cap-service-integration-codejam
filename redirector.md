@@ -26,10 +26,22 @@ More importantly, you should also then see a popup that looks like this:
 
 ![Port 4004 available](./exercises/02-explore-basic-service/assets/port-available-bas.png)
 
-Choose "Open in a New Tab" and take a note of the URL, which should look something like this, with differences in the workspace ID (it's `sd4hv` here) and possibly the region too (which is `us10` here):
+Choose "Open in a New Tab" and take a note of the URL, which should be variable in three areas:
+
+* the workspace ID
+* whether you're running in a trial account
+* the region
+
+Here's an example of a URL from a trial account based Dev Space (note the extra `.trial` in the fully qualified hostname part):
 
 ```text
 https://port4004-workspaces-ws-sd4hv.us10.trial.applicationstudio.cloud.sap/
+```
+
+Here's an example of a URL from a non-trial account based Dev Space:
+
+```text
+https://port4004-workspaces-ws-h2g2z.eu10.trial.applicationstudio.cloud.sap/
 ```
 
 > In case you're wondering what's being served, it's a simple listing of the contents of the directory where the Python HTTP server is running.
@@ -46,8 +58,8 @@ https://port4004-workspaces-ws-sd4hv.us10.trial.applicationstudio.cloud.sap/
 |-|-|
 |Description|SAP CodeJam on CAP Service Integration|
 |Example URL|`http://localhost:4004`|
-|Include Pattern|`http://localhost:(4004\|4005).*`|
-|Redirect To|`https://port$1-workspaces-ws-xxxxx.yyyy.trial.applicationstudio.cloud.sap` <br>where `xxxxx` and `yyyy` are specific to your URLs that you see|
+|Include Pattern|`http://localhost:(4004\|4005)(.*)`|
+|Redirect To|`https://port$1-workspaces-ws-xxxxx.yyyy.zzzzz.applicationstudio.cloud.sap$2` <br>where `xxxxx` and `yyyy` are specific to your URLs that you see<br>and where you may or may not have the `.zzzzz` part i.e. `.trial`|
 |Pattern type|Regular Expression|
 |Pattern Description|Localhost to Dev Space service|
 
