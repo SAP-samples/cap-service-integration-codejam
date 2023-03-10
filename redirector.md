@@ -41,7 +41,7 @@ https://port4004-workspaces-ws-sd4hv.us10.trial.applicationstudio.cloud.sap/
 Here's an example of a URL from a non-trial account based Dev Space:
 
 ```text
-https://port4004-workspaces-ws-h2g2z.eu10.trial.applicationstudio.cloud.sap/
+https://port4004-workspaces-ws-h2g2z.eu10.applicationstudio.cloud.sap/
 ```
 
 > In case you're wondering what's being served, it's a simple listing of the contents of the directory where the Python HTTP server is running.
