@@ -12,7 +12,7 @@ This CodeJam introduces attendees to service integration with the SAP Cloud Appl
 
 ## About this CodeJam
 
-During this CodeJam, you'll become acquainted with how external services can be integrated and consumed from within a CAP project. You'll also understand about how event-based data federation can work. In working through this CodeJam you'll also become familiar with how the SAP Cloud SDK covers connectivity and destinations, supporting such integration scenarios with CAP.
+During this CodeJam, you'll become acquainted with how external services can be integrated and consumed from within a CAP project. In working through this CodeJam you'll also become familiar with how the SAP Cloud SDK covers connectivity and destinations, supporting such integration scenarios with CAP.
 
 ## Session prerequisites
 
