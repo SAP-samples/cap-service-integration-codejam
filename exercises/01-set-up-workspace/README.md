@@ -28,26 +28,6 @@ Choosing the "Full Stack Cloud Application" brings in some predefined extensions
 
 ![Cloning the repo](assets/dev-space-git-clone.png)
 
-#### Manually install the OData CSDL Modeler extension
-
-The final step to set up your Dev Space for the CodeJam is to manually install another extension, which is not yet available as standard in any Dev Space type. This is the [OData CSDL Modeler](https://marketplace.visualstudio.com/items?itemName=SAPSE.vsc-extension-odata-csdl-modeler), which is similar to the CDS Graphical Modeler extension, except that instead of displaying CDS definitions in a graphical representation, it can display OData definitions (EDMX metadata information) in a graphical representation.
-
-> The "Extensions" perspective in the SAP Business Application Studio's Dev Spaces can be used to install extensions comfortably, but only those available on the [Open VSX Registry](https://open-vsx.org/). The OData CSDL Modeler extension is currently only available on the official Microsoft Visual Studio Marketplace.
-
-👉 Go to the [OData CSDL Modeler](https://marketplace.visualstudio.com/items?itemName=SAPSE.vsc-extension-odata-csdl-modeler) page in the Microsoft Visual Studio Marketplace and download it with the "Download Extension" facility as highlighted here:
-
-![Download Extension from Microsoft Visual Studio Marketplace](assets/download-extension.png)
-
-👉 Once the file is available on your local machine, drag it to the Dev Space's "Explorer" perspective window to upload it to your Dev Space. Then, use the context menu on the file and choose "Install Extension VSIX":
-
-![Installing the extension VSIX](assets/install-extension-vsix.png)
-
-> Once installed, you can safely delete the file from the Explorer.
-
-You can check that the extension is indeed installed, by selecting the "Extensions" perspective, where you'll see it listed:
-
-![the CSDL extension listed](assets/extension-installed.png)
-
 #### Set up a URL redirector
 
 One of the many great benefits of the SAP Business Application Studio is that you can run it anywhere, all you need is a modern browser. Each Dev Space provides a complete working environment, and the infrastructure also provides you with the facilities to run services and bind to sockets, to listen and respond to incoming requests from your services that are local to the Dev Space but available on the Web.
