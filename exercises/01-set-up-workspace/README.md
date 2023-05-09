@@ -1,6 +1,6 @@
 # Exercise 01 - Set up your workspace
 
-At the end of this exercise, you'll have an environment in which to work for the duration of this CodeJam, and the contents of this repository loaded and ready to use
+At the end of this exercise, you'll have an environment in which to work for the duration of this CodeJam, and the contents of this repository loaded and ready to use.
 
 ## Set up the environment and clone this repository
 
@@ -30,7 +30,7 @@ Choosing the "Full Stack Cloud Application" brings in some predefined extensions
 
 #### Manually install the OData CSDL Modeler extension
 
-The final step to set up your Dev Space for the CodeJam is to manually install another extension, which is not yet available as standard in any Dev Space type. This is the [OData CSDL Modeler](https://marketplace.visualstudio.com/items?itemName=SAPSE.vsc-extension-odata-csdl-modeler), which is similar to the CDS Graphical Modeler extension, except that instead of displaying CDS definitions in a graphical representation, it can display OData definitions (EDMX metadata files) in a graphical representation.
+The final step to set up your Dev Space for the CodeJam is to manually install another extension, which is not yet available as standard in any Dev Space type. This is the [OData CSDL Modeler](https://marketplace.visualstudio.com/items?itemName=SAPSE.vsc-extension-odata-csdl-modeler), which is similar to the CDS Graphical Modeler extension, except that instead of displaying CDS definitions in a graphical representation, it can display OData definitions (EDMX metadata information) in a graphical representation.
 
 > The "Extensions" perspective in the SAP Business Application Studio's Dev Spaces can be used to install extensions comfortably, but only those available on the [Open VSX Registry](https://open-vsx.org/). The OData CSDL Modeler extension is currently only available on the official Microsoft Visual Studio Marketplace.
 
