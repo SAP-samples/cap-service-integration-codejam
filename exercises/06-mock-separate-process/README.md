@@ -196,6 +196,8 @@ At this point you have seen your main service up and running at <http://localhos
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
+1. Could you choose any port with the `--port` option? What about, say, port 42, or 1023? What happens, and why? 
+
 ---
 
 [Next exercise](../07-add-cds-definitions/)
