@@ -48,7 +48,7 @@ https://port4004-workspaces-ws-h2g2z.eu10.applicationstudio.cloud.sap/
 
 ## Create a rule in the Redirector
 
-👉 Open the Redirector configuration, which should look something like this (you may need to choose the "Create new redirect" button first:
+👉 Open the Redirector configuration, which should look something like this (you may need to choose the "Create new redirect" button first):
 
 ![Redirector configuration](./assets/redirector-configuration.png)
 
@@ -68,6 +68,16 @@ https://port4004-workspaces-ws-h2g2z.eu10.applicationstudio.cloud.sap/
 👉 Now, to test, try selecting this link: <http://localhost:4004>. If the redirect entry has been configured successfully, you should be taken to the corresponding URL served from your Dev Space, and see the directory listing as before.
 
 That's it!
+
+👉 Once you're satisfied that the redirects are working as required, you can stop the test HTTP server with `Ctrl-C` (also depicted as `^C`). You'll see something like this:
+
+```console
+user: cap-service-integration-codejam $ python3 -mhttp.server 4004
+Serving HTTP on 0.0.0.0 port 4004 (http://0.0.0.0:4004/) ...
+127.0.0.1 - - [10/May/2023 06:06:03] "GET / HTTP/1.1" 200 -
+^C
+Keyboard interrupt received, exiting.
+```
 
 ## Removing the rule and / or extension
 

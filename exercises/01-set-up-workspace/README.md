@@ -100,7 +100,13 @@ home: /usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap
 
 The `package.json` file contains runtime and design time dependencies.
 
-👉 Make sure you're in the `incidents/` directory (where `package.json` lives) and install them thus:
+👉 Make sure you're in the `incidents/` directory (where `package.json` lives):
+
+```bash
+cd $HOME/projects/cap-service-integration-codejam/incidents/
+```
+
+👉 Now install the dependencies thus:
 
 ```bash
 npm install
