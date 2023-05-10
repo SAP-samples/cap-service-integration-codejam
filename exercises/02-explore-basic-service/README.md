@@ -57,7 +57,7 @@ Now it's time to move up a layer, from persistence to service.
 
 * this time the main namespace is `IncidentsService` and there are imported namespaces too
 * in contrast to the entities shown in the graphical display of `db/schema.cds` we now see projections
-* there isn't a one-to-one mapping of projections to entities
+* there isn't a one-to-one mapping of projections to all entities
 * but where there is a mapping, there's a one-to-one property correlation (i.e. all the properties at the persistence layer are available at this service layer)
 
 ### Run the service
@@ -170,8 +170,6 @@ If you finish earlier than your fellow participants, you might like to ponder th
 1. There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?
 
 1. `cds watch` is actually just a shortcut for another `cds` command. What is it?
-
-1. Are the names of the enumerations that you saw in the graphical display of `db/schema.cds` actually specified anywhere explicitly?
 
 ---
 
