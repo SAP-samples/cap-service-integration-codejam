@@ -292,7 +292,7 @@ This file contains sections for services provided, and services required, and is
 }
 ```
 
-> If you're using a Dev Space in the SAP Business Application Studio, you will most likely only see the contents of this repo [that you cloned in a previous exercise](../01-set-up-workspace/README.md#clone-this-repository), and this CDS services registry is in your home directory, higher up in the directory hierarchy. Nevertheless you can use the menu option "Go -> Go to File..." (commonly invoked with Ctrl-P or Cmd-P) and specify the name and location manually and directly, like this:
+> You can use the menu option "Go -> Go to File..." (commonly known as the "File Selector"), often invoked with Ctrl-P or Cmd-P, and specify the name and location manually and directly, like this:
 >
 > ![go to file ~/.cds-services.json](assets/go-to-file.png)
 

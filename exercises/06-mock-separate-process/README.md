@@ -16,7 +16,7 @@ Requests to resources starting with the path `/api-business-partner` are resolve
 
 The advantage of having external services mocked like is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services.
 
-But the disadvantage is that this is not representative of how the real cross-service communication will happen. The mocked service doesn't behave as a real external service, and the communication happens in-process, rather than over HTTP, for example using the OData protocol.
+But the disadvantage is that this is not representative of how the real cross-service communication will happen. The mocked service doesn't behave as a real external service, and the communication happens in-process, rather than over HTTP using the OData protocol, for example.
 
 ## Run the mocked API_BUSINESS_PARTNER service in a separate process
 
@@ -30,9 +30,9 @@ It's possible to mock external services in a separate process, and in this secti
 watch -c jq -C . ~/.cds-services.json
 ```
 
-> The `-c` option to `watch` tells it to interpret ANSI color and style sequences, which we explicitly tell `jq` to emit with the `-C` option. Normally, `jq` won't bother to emit them if it thinks, correctly here, that its output is not directly in the context of a terminal (it's in the context of the `watch` process, here), but we can force its hand.
+> The `-c` option to `watch` tells it to interpret ANSI color and style sequences, which we explicitly tell `jq` to emit with the `-C` option. Normally, `jq` won't bother to emit them if it thinks, correctly here, that its output is not directly in the context of a terminal (it's in the context of the `watch` process), but we can force its hand.
 
-> Alternatively, you can just open the `~/.cds-services.json` file in the editor, by using the file selector (open it with Cmd-P or Ctrl-P) and entering the filename there, like this:
+> Alternatively, you can just open the `~/.cds-services.json` file in the editor by using the File Selector as [mentioned in a previous exercise](../04-understand-service-mocking/README.md#learn-about-the-cds-services-registry):
 >
 > ![Entering the ~/.cds-services.json filename in the file selector](assets/file-selector.png)
 >
@@ -48,7 +48,7 @@ The contents of `~/.cds-services.json` should show that there are currently no s
 }
 ```
 
-👉 Now, open up a second terminal, and in there, start the mocking of the external service like this:
+👉 Now, open up a second terminal (a "split" terminal is recommended, so you can see content in both at the same time), and in there, start the mocking of the external service like this:
 
 ```bash
 cds mock API_BUSINESS_PARTNER
@@ -69,7 +69,7 @@ First, we see some log output that looks vaguely familiar:
 
 Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway.
 
-You can use the `--port` option to specify a port explicitly, if you want, e.g. `cds mock API_BUSINESS_PARTNER --port 3003`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone.
+You can use the `--port` option to specify a port explicitly, if you want, e.g. `cds mock API_BUSINESS_PARTNER --port 1234`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone.
 
 👉 Stop that mocked service with Ctrl-C, and then restart it, specifying the explicit port of 5005:
 
@@ -147,9 +147,9 @@ Note however that in contrast to when we originally [introduced mocking in exerc
 [cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
 ```
 
-That's because `cds watch` looks for running services listed as provided in the `~/.cds-services.json` file and connects to them. It found the entry for `API_BUSINESS_PARTNER` in there, meaning that there was no need to mock it itself.
+That's because `cds watch` looks in the `~/.cds-services.json` file for running services listed as being provided, and connects to them. In this particular instance, it found the entry for `API_BUSINESS_PARTNER` in there, meaning that there was no need to mock it itself.
 
-👉 Check again the contents of the `~/.cds-services.json` file, where you should now see an entry for the main service too, on the default port:
+👉 Check again the contents of the `~/.cds-services.json` file, where you should now see an entry for the main `IncidentsService` too, on the default port of 4004:
 
 ```json
 {
@@ -174,7 +174,7 @@ That's because `cds watch` looks for running services listed as provided in the 
 
 ## Stop both services
 
-For simplicity's sake for the rest of the CodeJam, let's switch back to an in-process mocking setup for now.
+For simplicity's sake, let's switch back to an in-process mocking setup for now.
 
 👉 Stop both `cds watch` processes, and also the `watch` process if it's still running, with Ctrl-C. You can now close all but one terminal window in your workspace.
 
@@ -182,7 +182,7 @@ For simplicity's sake for the rest of the CodeJam, let's switch back to an in-pr
 
 ## Summary
 
-At this point you have seen your main service up and running at <http://localhost:4004> and the external `API_BUSINESS_PARTNER` service mocked and running at <http://localhost:5005>. If you visited the `/A_BusinessPartner` entity set in that mocked service, at <http://localhost:5005/api-business-partner/A_BusinessPartner?$count=true>, you'll have seen that the data you provided via CSV is still being served (and you would have seen the details of those requests in the log output in the second terminal window).
+At this point you have seen your main service up and running at <http://localhost:4004> and the external `API_BUSINESS_PARTNER` service mocked and running at <http://localhost:5005>. If you visited the `/A_BusinessPartner` entity set in that mocked service, at <http://localhost:5005/api-business-partner/A_BusinessPartner?$count=true>, you'll have seen that the data you provided via CSV is still being served (and you would have seen the details of those requests in the log output in the terminal window where you started `cds mock API_BUSINESS_PARTNER`).
 
 ## Further reading
 
