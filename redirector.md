@@ -58,7 +58,7 @@ https://port4004-workspaces-ws-h2g2z.eu10.applicationstudio.cloud.sap/
 |-|-|
 |Description|SAP CodeJam on CAP Service Integration|
 |Example URL|`http://localhost:4004`|
-|Include Pattern|`http://localhost:(4004\|4005)(.*)`|
+|Include Pattern|`http://localhost:(4004\|5005)(.*)`|
 |Redirect To|`https://port$1-workspaces-ws-xxxxx.yyyy.zzzzz.applicationstudio.cloud.sap$2` <br>where `xxxxx` and `yyyy` are specific to your URLs that you see<br>and where you may or may not have the `.zzzzz` part i.e. `.trial`|
 |Pattern type|Regular Expression|
 |Pattern Description|Localhost to Dev Space service|
