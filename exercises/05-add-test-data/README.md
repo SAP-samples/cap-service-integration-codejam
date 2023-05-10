@@ -39,6 +39,8 @@ Z100002;Sherlock Holmes
 Z100003;Sunny Sunshine
 ```
 
+> Yes, this is not strictly CSV (it's semi-colon separated), but it's fine for now. 
+
 ## Restart the server
 
 👉 At this point, start or restart the CAP server with `cds watch`:
