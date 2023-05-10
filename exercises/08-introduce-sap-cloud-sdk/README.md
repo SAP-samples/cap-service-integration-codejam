@@ -50,9 +50,11 @@ So let's do it!
 
 ## Provide a handler for delegating calls to the remote system
 
-We need to create a handler in the context of our main incidents service to take appropriate action (retrieve the data from the remote service) when READ requests for the `Customers` entity are encountered.
+We need to provide a handler in the context of our main incidents service to take appropriate action (retrieve the data from the remote service) when READ requests for the `Customers` entity are encountered. CAP has told us it is not going to attempt this generically and implicitly for us, because it's no longer a simple in-process connection, but a more real external (HTTP and OData based) connection that's needed.
 
-We can do this by providing a simple service implementation, in the `srv/incidents-service.js` file. This is again part of CAP's convention over configuration - read more about it in the link in the [Further reading](#further-reading) section below.
+We can do this by creating a simple service implementation, in the `srv/incidents-service.js` file. 
+
+> The fact that this filename has the same base as the `srv/incidents-service.cds` file is no coincidence; it's just another example of CAP's lovely convention over configuration - read more about it in the link in the [Further reading](#further-reading) section below.
 
 
 ### Stop the main CAP server process
@@ -69,7 +71,7 @@ module.exports = (async function() {
 })
 ```
 
-👉 Inside the function (i.e. in between the top and bottom lines), add the following:
+👉 Inside the function (i.e. in between the top and bottom lines that are in there already), add the following:
 
 ```js
     const cds = require('@sap/cds');
@@ -81,9 +83,11 @@ module.exports = (async function() {
     })
 ```
 
-As a result of the `cds.connect.to` call, the `S4bupa` constant will receive a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime.
+Let's walk through this code at a high level. 
 
-We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises, and right now, that will contain information that looks like this:
+As a result of the `cds.connect.to('API_BUSINESS_PARTNER')` call, the `S4bupa` constant will contain a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime.
+
+We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises. In fact, because the `cds mock API_BUSINESS_PARTNER` process is still running, that file contains, right now, information that looks like this:
 
 ```json
 {
@@ -104,11 +108,11 @@ In other words, the connection object will essentially point to `http://localhos
 
 > The beauty of this approach is that connection information remains abstract and separate from the service implementation, which is especially important when moving across tiered landscapes and also to protect credentials and manage their lifecycle separately.
 
-This connection object is then used, when handling the `READ` event for the `Customers` entity, to proxy the actual request (in `req.query`) to the remote system (via `S4bupa.run()`). The response to this remote request is then returned to the original requester (i.e. the request that invoked this `READ` event in the first place).
+Continuing to look through the code in `srv/incidents-service.js`, this connection object is then used, when handling the `READ` event for the `Customers` entity, to relay the actual request (in `req.query`) to the remote system (via `S4bupa.run()`). The response to this remote request is then returned to the original requester (i.e. the request that invoked this `READ` event in the first place).
 
 ### Try it out
 
-👉 Now restart the main CAP server process:
+👉 Now, while leaving the `cds mock API_BUSINESS_PARTNER` still running, restart the main CAP server process:
 
 ```bash
 cds watch
@@ -128,7 +132,7 @@ await cds.connect.to('API_BUSINESS_PARTNER')
 
 Note that this is just an indication that the remote connection details have been marshalled and calls to the remote system can be made as and when required. No calls have actually been made yet, as you can observe from the fact that the log output from the mocked `API_BUSINESS_PARTNER` service (in the other terminal) shows no activity.
 
-👉 Make a request to the `Customers` entity set again.
+👉 Make a request to the `Customers` entity set again via <http://localhost:4004/incidents/Customers>.
 
 Whoops!
 
@@ -138,7 +142,7 @@ But a different one!
 
 ### Analyze the error
 
-There's an XML based HTTP response payload with an error code (502) and a detailed message, the salient part of which is this:
+There's an XML based HTTP response payload with an error code (502) and a detailed message, the important part of which is this:
 
 ```text
 Error during request to remote service: Cannot find module '@sap-cloud-sdk/http-client'
@@ -169,7 +173,7 @@ request: {
 }
 ```
 
-Let's see what we can discern from this.
+Let's see what we can discern from this:
 
 * we can see the log message (`>> delegating to remote service...`) appears directly before the error
 * there's a requirement for for an NPM package `@sap-cloud-sdk/http-client` (which we haven't explicitly installed)
@@ -184,7 +188,7 @@ Let's see what we can discern from this.
 
 If you were thinking that this was the direct result of the call to `S4bupa.run(req.query)`, which in turn was the direct result of the `READ` event for `Customers` being triggered, which in turn was a direct result of you making a request to `http://localhost:4004/incidents/Customers`, you'd be spot on.
 
-CAP makes use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA On-premise and web proxies, and more.
+CAP makes use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA On-premise and web proxies, and more. There's a link in the [Further reading](#further-reading) section below that will take you to the SAP Cloud SDK guide.
 
 ### Install the @sap-cloud-sdk/http-client package
 
@@ -192,7 +196,7 @@ So let's install what's needed.
 
 👉 Stop the main CAP server process again with Ctrl-C.
 
-👉 Now add the package:
+👉 Now, making sure you're still in the `incidents/` directory, add the package:
 
 ```bash
 npm add @sap-cloud-sdk/http-client
@@ -206,7 +210,7 @@ npm add @sap-cloud-sdk/http-client
 cds watch
 ```
 
-👉 Re-request that `Customers` entity set at <http://localhost:4004/incidents/Customers>. You should now see the data:
+👉 Re-request that `Customers` entity set at <http://localhost:4004/incidents/Customers>. You should now get the data, instead of the error, and it will look something like this:
 
 ```json
 {
@@ -228,7 +232,7 @@ cds watch
 }
 ```
 
-It doesn't look any different. But this time, while essentially the service is still being mocked, it's being mocked in a separate process, as a proper remote service, with the requests to the data being delegated to it via real OData operations.
+The data itself doesn't look any different. But this time, while essentially the service is still being mocked, it's being mocked in a separate process, as a proper remote service, with the requests to the data being delegated to it via real OData operations.
 
 👉 To confirm this, look at the log output from the mocked service (the one you started in the other terminal window with `cds mock API_BUSINESS_PARTNER --port 5005`). You should see the evidence of a request:
 
@@ -257,7 +261,13 @@ This is a sign of a successful delegation to a remote service!
 
 ## Summary
 
-At this point, you're running your external service in a mocked but real, remote service, accessed via HTTP, you've added handler code for the appropriate event to delegate calls to that remote service as required, and have installed the HTTP client library from the SAP Cloud SDK to make this connectivity and remote calling possible.
+At this point: 
+
+* you're running your external service in a mocked but real, remote service, accessed via HTTP
+* you've added handler code for the appropriate event to delegate calls to that remote service as required
+* you've installed the HTTP client library from the SAP Cloud SDK to make this connectivity and remote calling possible
+
+Great work!
 
 ## Further reading
 
