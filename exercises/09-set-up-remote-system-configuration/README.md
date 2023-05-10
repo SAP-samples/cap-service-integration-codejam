@@ -4,7 +4,7 @@ It's time to stop having the CAP server mock things for us, even in a separate p
 
 At the end of this exercise you'll have everything configured for a remote connection to a real external service, in a sandbox context. Along the way you'll learn about configuration and configuration profiles.
 
-At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER` based customer data you've integrated via [the definitions in the previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships).
+At the end of this exercise you'll have your main service integrated with a real remote system for the `API_BUSINESS_PARTNER`-based customer data you've integrated via [the definitions in a previous exercise](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships).
 
 ## Terminate the previous mock and watch processes
 
@@ -68,7 +68,7 @@ You get a response, but perhaps not one that you're looking for:
 
 👉 Pay attention to the response code and to the JSON in the response payload.
 
-Credentials are required, not via a standard `Authorization` header in the HTTP request, but in the form of a custom header conveying an API key.
+Credentials are required. Not via a standard `Authorization` header in the HTTP request, but in the form of a custom header conveying an API key.
 
 ### Retrieve your API key
 
@@ -153,7 +153,7 @@ So one place we could store the URL and API key is in our `package.json` file.
 
 Remember that the `API_BUSINESS_PARTNER` stanza we can see here was added automatically when we [imported the API specification](../03-import-odata-api/README.md#import-the-api-specification) in exercise 03.
 
-What would it look like if we stored the URL and API key in here? Well, we already have a rough idea, from the contents of the `~/.cds-services.json` file that is dynamically and automatically maintained by the local CAP server. We saw an example in [exercise 06](06-mock-separate-process):
+What would it look like if we stored the URL and API key in here? Well, we already have a rough idea, from the contents of the `~/.cds-services.json` file that is dynamically and automatically maintained by the local CAP server. We saw an example in [exercise 06](../06-mock-separate-process/README.md#run-the-mocked-api_business_partner-service-in-a-separate-process):
 
 ```json
 "API_BUSINESS_PARTNER": {
@@ -193,6 +193,8 @@ If we were to add this information within a "sandbox" profile, it would look lik
 👉 Take a moment to stare at that construct, and understand how the profile name "sandbox", in square brackets, has been "injected" into the JSON structure for the `API_BUSINESS_PARTNER` details. This leaves room for details in the contexts of other profiles.
 
 This is neat, but opens up a big problem with security (adding an API key into a file that is checked in to the source code control system as part of the project contents), and it also makes the configuration a lot more brittle than it could or should be.
+
+So we won't be going in that direction.
 
 ### Using the .env file
 
@@ -235,7 +237,7 @@ This produces what we want to see at this point, which is something like this:
 cds env ls requires.API_BUSINESS_PARTNER
 ```
 
-You'll see something like this (which is known as "properties format"):
+You'll see the same information, but in a different format (known as "properties format"):
 
 ```text
 requires.API_BUSINESS_PARTNER.external = true
@@ -279,7 +281,7 @@ There's no change:
 }
 ```
 
-That's because we need to use the global `--profile` option available on all `cds` commands, to specify the effective configuration profile, "sandbox".
+That's because of the `[sandbox]` part in each of the `API_BUSINESS_PARTNER` properties, which represents a specific ("sandbox") configuration profile (as we saw just earlier in the `package.json` mockup), and so we need to use the global `--profile` option available on our `cds env` invocations, to specify that effective configuration profile.
 
 👉 Do that now:
 
