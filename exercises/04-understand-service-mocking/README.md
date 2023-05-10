@@ -2,7 +2,7 @@
 
 At the end of this exercise you'll understand the difference between `cds watch` and `cds run`, and have learned how, during development, the CAP SDK can provide service mocking for rapid & comfortable development cycles.
 
-At this point you've imported the EDMX definition for the external `API_BUSINESS_PARTNER` service, and have a new directory `srv/external/` containing the original EDMX file and a CSN equivalent. Other than that, your basic service definition (at the persistence and service layers) is still the same.
+At this point, going into this exercise, you've imported the EDMX definition for the external `API_BUSINESS_PARTNER` service, and have a new directory `srv/external/` containing the original EDMX file and a CSN equivalent. Other than that, your basic service definition (at the persistence and service layers) is still the same.
 
 ## Start the CAP server
 
@@ -47,7 +47,7 @@ This should produce log output that looks like this:
 
 ![basic service](assets/basic-service.png)
 
-This sort of makes sense, as `API_BUSINESS_PARTNER` is defined as an external service, one that this service will consume, rather than make available. The only clue that this external service is even acknowledged is in the list of files that are loaded, at the start of the log output:
+This sort of makes sense, as `API_BUSINESS_PARTNER` is defined as an external service, one that this service will consume, rather than make available. The only clue that this external service is even acknowledged is in the list of files that are loaded, at the start of the log output, which now includes `srv/external/API_BUSINESS_PARTNER.csn`:
 
 ```text
 [cds] - loaded model from 5 file(s):
@@ -55,15 +55,15 @@ This sort of makes sense, as `API_BUSINESS_PARTNER` is defined as an external se
   db/schema.cds
   srv/incidents-service.cds
   app/fiori.cds
-  srv/external/API_BUSINESS_PARTNER.csn   👈
+  srv/external/API_BUSINESS_PARTNER.csn
   ../../../usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds/common.cds
 ```
 
-👉 For now, stop the server with Ctrl-C.
+👉 For now, stop the server again with Ctrl-C.
 
 ## Take a naïve approach to incorporating the external service
 
-Let's take a moment to experiment. Just for a moment, let's take a naïve approach to bringing in this external service into our own basic service, without thinking too much about it. How might that look?
+Let's try an experiment. Just for a moment, let's take a naïve approach to bringing in this external service into our own basic service, without thinking too much about it. How might that look?
 
 👉 Extend the `srv/incidents-service.cds` file as follows:
 
@@ -125,7 +125,9 @@ Indeed, checking in `srv/external/API_BUSINESS_PARTNER.csn` shows us that this i
 }
 ```
 
-This is because external service definitions, like CSN files that are generated during the import of an API definition (such as we have here), can be used as any other CDS definition, but they don't generate database tables and views unless they are mocked. This is reflected in the use of the `@cds.persistence.skip` annotation, which tells the compiler that the entity shall not exist in the database at all (see the reference to CDS persistence annotations in the [Further reading](#further-reading) section at the end of this exercise).
+This is because external service definitions, like CSN files that are generated during the import of an API definition (such as we have here), can be used as any other CDS definition, but they don't generate database tables and views unless they are mocked. 
+
+This is reflected in the use of the `@cds.persistence.skip` annotation, which tells the compiler that the entity shall not exist in the database at all (see the reference to CDS persistence annotations in the [Further reading](#further-reading) section at the end of this exercise).
 
 This makes sense, as we're dealing here with an external, independent service.
 
@@ -184,7 +186,7 @@ It looks very similar to the output we've just seen from `cds run`, but there ar
 
 ## Understand what is happening with mocking
 
-First, we see this:
+👉 First, take a look at this part:
 
 ```text
 cds serve all --with-mocks --in-memory?
@@ -200,7 +202,7 @@ cds serve all --with-mocks --in-memory?
 
 > On a related note, `cds run` is short for `cds serve all`, but without the `--with-mocks` and `--in-memory?` options. Think of `cds watch` as something that's only relevant for development, not production.
 
-Here's the help text for this option, i.e. the `--with-mocks` option for `cds serve`:
+Here's the help text for the `--with-mocks` option for `cds serve`:
 
 ```text
 Use this in combination with the variants serving multiple services.
@@ -212,6 +214,8 @@ enabled with configuration 'features.mocked_bindings=true'.
 ```
 
 It's that second sentence that is key for us here. Our imported `API_BUSINESS_PARTNER` service is a required service, in `package.json#cds.requires`. We saw that in the previous exercise when we [imported the API specification](../03-import-odata-api/README.md#import-the-api-specification). It's a required service - but we don't have an external binding for it. So via `--with-mocks`, it will be mocked for us.
+
+> What is an "external binding"? Put simply, it is a set of related properties containing information on how and where to connect to a remote (i.e. "external") endpoint.
 
 This is reflected in another difference in the log output of our invocation of `cds watch`, where we see this additional line:
 
@@ -225,7 +229,7 @@ This shows us that the external service is being mocked, and being made availabl
 
 ![the API_BUSINESS_PARTNER service endpoint](assets/api-business-partner-service-endpoint.png)
 
-This is a separate second service endpoint that's now being served, at `/api-business-partner`, in addition to the `/incidents` service endpoint, which is listed further down.
+This is a separate, second service endpoint that's now being served, at `/api-business-partner`, in addition to the `/incidents` service endpoint, which is listed further down.
 
 👉 Try this mocking out for yourself, by selecting the `A_BusinessPartner` entity from the `api-business-partner` service endpoint, i.e. <http://localhost:4004/api-business-partner/A_BusinessPartner>.
 
@@ -261,9 +265,9 @@ There was another line in the output from `cds watch` that we don't see in the `
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 ```
 
-> Note from the filename that this is in your home directory (`~`) and is a hidden file (the name begins with a period). This is only for non-productive use, in the context of `cds watch`.
+> Note from the filename that this is in your home directory (`~`) and is a hidden file (the name begins with a period). It should be clear from this that this is only for non-productive use, in the context of `cds watch`.
 
-This file contains service sections for services provided, and services required, and is written to or fetched from when `cds watch` is invoked (for more information, see the link to the Automatic Binding documentation in the [Further reading](#further-reading) below).
+This file contains sections for services provided, and services required, and is written to or fetched from when `cds watch` is invoked (for more information, see the link to the Automatic Binding documentation in the [Further reading](#further-reading) below).
 
 👉 Examine the contents of this file; at this point, you should see something like this:
 
@@ -287,6 +291,10 @@ This file contains service sections for services provided, and services required
   }
 }
 ```
+
+> If you're using a Dev Space in the SAP Business Application Studio, you will most likely only see the contents of this repo [that you cloned in a previous exercise](../01-set-up-workspace/README.md#clone-this-repository), and this CDS services registry is in your home directory, higher up in the directory hierarchy. Nevertheless you can use the menu option "Go -> Go to File..." (commonly invoked with Ctrl-P or Cmd-P) and specify the name and location manually and directly, like this:
+>
+> ![go to file ~/.cds-services.json](assets/go-to-file.png)
 
 In other words, the CAP server currently started is providing both the locally defined `IncidentsService` but is also providing, via mocking, the `API_BUSINESS_PARTNER` service too.
 
@@ -320,7 +328,9 @@ service IncidentsService {
 }
 ```
 
-👉 Assuming your `cds watch` process is still running at this point, note what happens when these changes are saved and the CAP server restarts. Both service endpoints, i.e. `/api-business-partner` and `/incidents` are still available and being served, and the `/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file. However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again.
+👉 Assuming your `cds watch` process is still running at this point, note what happens when these changes are saved and the CAP server restarts. 
+
+Both service endpoints, i.e. `/api-business-partner` and `/incidents` are still available and being served (at <http://localhost:4004>), and the `/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file. However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again.
 
 👉 Take a moment to think about the approach we took here to bring in an external service. While it's possible, it's rather too direct, and definitely not the cleanest and most modular approach. This is why we've removed this experiment now.
 
