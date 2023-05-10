@@ -4,7 +4,7 @@ At the end of this exercise you'll have some test data that will be served for y
 
 ## Add CSV data
 
-You'll have noticed by now in the log output to `cds run` and `cds watch` that at the persistence layer, CSV data is loaded automatically, as long as the location and filenames are as the CAP server expects (remember, convention over configuration is key with CAP). The filenames are made up from the namespace and and entity names - see the link in the [Further reading](#further-reading) section below on providing initial data.
+You'll have noticed by now in the log output to `cds run` and `cds watch` that at the persistence layer, CSV data is loaded automatically, as long as the location and filenames are as the CAP server expects (remember, convention over configuration is key with CAP). The filenames are made up from the namespace and entity names - see the link in the [Further reading](#further-reading) section below on providing initial data.
 
 Relevant log output lines for entities in the context of the local (incidents) service look like this:
 
@@ -107,6 +107,7 @@ At this point the external service that you imported is now not only mocked, but
 
 * [Providing initial data](https://cap.cloud.sap/docs/guides/databases#providing-initial-data)
 * [$count as a system query option in OData V4](https://github.com/qmacro/odata-v4-and-cap/blob/main/slides.md#odata-v4)
+* [Adding data for our SAP Cloud Application Programming Model service](https://www.youtube.com/watch?v=N8B5395qA0M&list=PL6RpkC85SLQABOpzhd7WI-hMpy99PxUo0&index=3) (video)
 
 ---
 
@@ -115,6 +116,8 @@ At this point the external service that you imported is now not only mocked, but
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
 1. Is CSV data supplied for the entire external service, or just a single entity within that? What about at the property level within the entity?
+
+1. Normally, one might expect data files to be provided at the persistence layer, i.e. somewhere within the `db/` directory. But the data we provided here was not in there. Where was it, and why? Would it work if you put it into `db/data/`?
 
 ---
 
