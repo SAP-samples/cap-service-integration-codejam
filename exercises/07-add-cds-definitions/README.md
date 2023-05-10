@@ -6,9 +6,35 @@ At the end of this exercise, you'll have added CDS definitions to both the impor
 
 ## Create a projection on the external service
 
-The external service lives, for want of a better word, in the `srv/external/` directory. That's where it belongs, and where it can remain largely independent of your main service. It's here that for our first step towards cleaner integration, we can add some CDS definitions to "adapt" the service for our own needs. Doing it here also promotes the idea that such a model could come from a third party.
+The external service "lives", for want of a better word, in the `srv/external/` directory. That's where it belongs, and where it can remain largely independent of your main service. It's here where, for our first step towards cleaner integration, we can add some CDS definitions to "adapt" the service for our own needs. Doing it here also promotes the idea that such a model could come from a third party.
 
-Within this `external/srv/` location, you're going to create a projection on the external service.
+> Did you notice that CAP has subtly guided us to this point, to this way of thinking, already? It has done that by convention, by having the default location for `cds import` to be `srv/external/`. See "Import API Definition" in the [Further reading](#further-reading) section below for more details, as well as the output from `cds import --help`, which includes (reduced for brevity):
+>
+> ```text
+> SYNOPSIS
+> 
+>     cds import <source> [<options>]
+> 
+>     Without any options the source is copied to ./srv/external and the csn
+>     output written next to it. Finally it will add an entry for the imported
+>     service to package.json#cds.requires.
+> 
+> OPTIONS
+> 
+>     --no-copy
+>         Skips copying to ./srv/external.
+> 
+>     --no-save
+>         Skips updating ./package.json.
+> 
+>     -o | --out <filename>
+>         Skips copying to ./srv/external and writes to the specified location.
+> 
+>     ...
+> ```
+
+
+Within this `srv/external/` location, you're going to create a projection on the external service.
 
 👉 Create a new file `index.cds` in the `srv/external/` directory, and add the following content:
 
@@ -31,7 +57,7 @@ When you've saved this new `srv/external/index.cds` file, notice that when the C
 
 ## Expose the new Customers entity in your main service
 
-Now that you have a clean and more meaningful (focused) interface to the `API_BUSINESS_PARTNER` external service, in the form of `s4.simple.Customers` with its two properties `ID` and `name` (pointing to `BusinessPartner` and `BusinessPartnerFullName` respectively), it's time to integrate that entity into your own main service.
+Now that you have a clean and more meaningful (focused) interface to the `API_BUSINESS_PARTNER` external service, in the form of the `s4.simple.Customers` entity with its two properties `ID` and `name` (pointing to `BusinessPartner` and `BusinessPartnerFullName` respectively), it's time to integrate that entity into your own main service.
 
 👉 In the `srv/` directory (not in `srv/external/`) create a new file `mashup.cds` with the following contents:
 
@@ -59,13 +85,13 @@ This is what these definitions are doing:
 
 * bringing in a reference to the top level part of the `s4.simple` namespace in the `index.cds` file we just added earlier; this namespace is where the `Customers` entity in that file belongs
 
-* adding the `Customers` projection on to the `IncidentsService` service which already has three existing projections (`Incidents`, `Appointments` and `ServiceWorkers`)
+* adding the `Customers` projection entity to the `IncidentsService` service which already has three existing projection entities (`Incidents`, `Appointments` and `ServiceWorkers`)
 
 > Did you spot the shorthand references in the second `using` statement? The first one was the import of `s4` being the entire top-level namespace which therefore includes `s4.simple`; the second one was to `./external` - the `index.cds` is defaulted.
 
 ### Consider the units of definition and their relationships
 
-It's worth pausing here to make sure we can visualize what's happening, and where.
+👉 Take a moment here to make sure you can visualize what's happening, and where:
 
 ```text
                   +--    +------------------------------+
@@ -109,6 +135,14 @@ external service  |                     |
 
 ### Check the effect of the mashup definitions
 
+In `srv/mashup.cds` there's this part:
+
+```cds
+extend service IncidentsService with {
+  entity Customers as projection on s4.simple.Customers;
+}
+```
+
 What has this `extend service` definition done? Let's have a look.
 
 👉 Head over to the service endpoints at <http://localhost:4004>, where you'll still find the service endpoint for the mocked external service, at `/api-business-partner`, and the service endpoint for your main service, at `/incidents`.
@@ -123,7 +157,9 @@ extend service IncidentsService with {
 }
 ```
 
-👉 That entity is `Customers` and is at <http://localhost:4004/incidents/Customers>. Access the entity now (essentially you're making an OData query on this new `Customers` entity set) and examine what is returned; it should look something like this:
+That entity is `Customers` and is at <http://localhost:4004/incidents/Customers>.
+
+👉 Access the entity now (essentially you're making an OData query on this new `Customers` entity set) and examine what is returned; it should look something like this:
 
 ```json
 {
@@ -145,11 +181,17 @@ extend service IncidentsService with {
 }
 ```
 
-This is the same source of data at the (mocked) persistence level, but because it's via the [projection you created earlier in this exercise](#create-a-projection-on-the-external-service), only the two properties that are defined in that projection are exposed. Neat!
+This is the same source of data at the (mocked) persistence level, but because it's via the [projection you created earlier in this exercise](#create-a-projection-on-the-external-service), only the two properties that are defined in that projection are exposed. 
+
+Neat!
 
 ## Summary
 
-At this point you've now a cleaner integration between the external service and your own main service.
+At this point you now have a cleaner integration between the external service and your own main service.
+
+## Further reading
+
+* [Import API Definition](https://cap.cloud.sap/docs/guides/using-services#import-api)
 
 ---
 
