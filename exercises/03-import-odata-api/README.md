@@ -1,6 +1,6 @@
 # Exercise 03 - Import an OData service definition
 
-At the end of this exercise, you'll be familiar with discovering & exploring SAP APIs, also known as service definitions. These service definitions are required to use remote services in CAP (e.g. to call a remote service, build projections upon them, and so on). Also by the end of this exercise you'll have imported the service definition into your CAP project and have seen what that brings.
+At the end of this exercise, you'll be familiar with discovering & exploring SAP APIs, also known as service definitions. These service definitions are required to use remote services in CAP (e.g. to call a remote service, build projections upon them, and so on). Also by the end of this exercise you'll have imported the service definition into your CAP project and have seen what that brings, specifically an entity type that we'll use for an additional "customer" entity in our existing service.
 
 ## Stop the execution of the basic service
 
@@ -31,7 +31,7 @@ The [SAP Business Accelerator Hub](https://api.sap.com) is where service definit
 
 > It's specifically the "Business Partner" area within the wider Business Partner (A2X) API that we'll be digging deeper into in this CodeJam.
 
-👉 Within the "Business Partner" group, identify and expand the first endpoint in the list, which is the `GET /A_BusinessPartner` endpoint. Scroll down to the "Responses" section for this entry, which should look like this, showing a typical OData V2 JSON response (with the tell-tale `d` property) as the "Example Value":
+👉 Within the "Business Partner" group, identify and expand the first endpoint in the list, which is the `GET /A_BusinessPartner` endpoint. Scroll down to the "Responses" section for this entry, which should look like this, showing a typical OData V2 JSON response (with the [tell-tale `d` property](https://www.odata.org/documentation/odata-version-2-0/json-format/#:~:text=The%20name%20of%20the%20name,but%20not%20valid%20JavaScript%20statements.)) as the "Example Value":
 
 ![The responses section for the GET /A_BusinessPartner endpoint](assets/get-a_businesspartner-endpoint-responses.png)
 
@@ -73,7 +73,7 @@ We'll be using the generic "Business Partner" concept to be a further entity in 
 
 Each API has a machine-readable specification. More than one, in fact. To incorporate such an API into a CAP project, such a specification is needed.
 
-👉 In the [API overview](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), select the "API Specification" from the "API Resources" section, and download the EDMX specification to a download directory on your local machine. The file should be called `API_BUSINESS_PARTNER.edmx`.
+👉 In the API's [Overview](https://api.sap.com/api/API_BUSINESS_PARTNER/overview) section, select the "API Specification" from the "API Resources" area, and download the EDMX specification to a directory on your local machine. The file should be called `API_BUSINESS_PARTNER.edmx`.
 
 > You need to be logged on to the SAP Business Accelerator Hub to download specifications.
 
@@ -83,7 +83,7 @@ Each API has a machine-readable specification. More than one, in fact. To incorp
 
 The contents aren't particularly human-readable, not easily anyway, but in the wall of text and angle brackets you may notice some aspects that might be familiar to you. Yes, it's an OData metadata document for the API!
 
-👉 Use the context menu on the filename to select the "Open With..." menu item, and choose the "OData CSDL Modeler" that was mentioned in [exercise 01](../01-set-up-workspace/).
+👉 Use the context menu on the filename to select the "Open With..." menu item, and choose the "OData CSDL Modeler".
 
 You should be presented with a graphical display of the contents of the EDMX file, in a very similar way to how you saw graphical displays of the basic CAP project's `db/schema.cds` and `srv/incidents-service.cds` files in [exercise 02](../02-explore-basic-service/). This is the sort of thing that you should see:
 
@@ -158,8 +158,13 @@ At this point you have the service definition for the Business Partner (A2X) API
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
-1. Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP Business Accelerator Hub? If you're using a Dev Space for this CodeJam, why not try it out by selecting "Service Center: Focus on SAP API Business Hub View" in the Command Palette? You should be able to quickly find the Business Partner (A2X) API there too. (The SAP API Business Hub has recently been renamed to SAP Business Accelerator Hub but the renaming process is one that is based on [Eventual Consistency](https://en.wikipedia.org/wiki/Eventual_consistency).)
+1. Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP Business Accelerator Hub? 
+
+    If you're using a Dev Space for this CodeJam, why not try it out by selecting "Service Center: Focus on SAP API Business Hub View" in the Command Palette? You should be able to quickly find the Business Partner (A2X) API there too (you may be prompted for your SAP Business Accelerator Hub credentials):
+
     ![Service Center in SAP Business Application Studio](assets/service-center.png)
+
+     (The SAP API Business Hub has recently been renamed to SAP Business Accelerator Hub but the renaming process is one that is based on [Eventual Consistency](https://en.wikipedia.org/wiki/Eventual_consistency).)
 
 1. What does "A2X" stand for and represent?
 
