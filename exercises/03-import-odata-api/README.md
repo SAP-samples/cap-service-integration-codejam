@@ -10,11 +10,11 @@ At the end of this exercise, you'll be familiar with discovering & exploring SAP
 
 ## Find and examine the Business Partner API
 
-The [SAP API Business Hub](https://api.sap.com) is where service definitions for APIs associated with its major products are published.
+The [SAP Business Accelerator Hub](https://api.sap.com) is where service definitions for APIs associated with its major products are published.
 
-### Find it in the SAP API Business Hub
+### Find it in the SAP Business Accelerator Hub
 
-👉 Go to the [SAP API Business Hub](https://api.sap.com) and find the SAP S/4HANA Cloud "Business Partner (A2X)" API; you can take whichever route you like, here's just a suggestion:
+👉 Go to the [SAP Business Accelerator Hub](https://api.sap.com) and find the SAP S/4HANA Cloud "Business Partner (A2X)" API; you can take whichever route you like, here's just a suggestion:
 
 1. Use the "Explore" menu at the top of the page and select "SAP S/4HANA Cloud" under the "Products" category
 1. Select the "APIs" category and narrow the content down by selecting the "ODATA V2" subcategory
@@ -75,7 +75,7 @@ Each API has a machine-readable specification. More than one, in fact. To incorp
 
 👉 In the [API overview](https://api.sap.com/api/API_BUSINESS_PARTNER/overview), select the "API Specification" from the "API Resources" section, and download the EDMX specification to a download directory on your local machine. The file should be called `API_BUSINESS_PARTNER.edmx`.
 
-> You need to be logged on to the SAP API Business Hub to download specifications.
+> You need to be logged on to the SAP Business Accelerator Hub to download specifications.
 
 👉 Now copy the `API_BUSINESS_PARTNER.edmx` file to your workspace, specifically into the `incidents/` directory. You can drag files and drop them into the Explorer perspective in either type of workspace - an SAP Business Application Studio Dev Space or VS Code with container image. In the case of VS Code with a container image, you can also simply copy the file into the cloned repository directory on your locally machine ... and it will become automatically available in the context of the running container image.
 
@@ -158,7 +158,7 @@ At this point you have the service definition for the Business Partner (A2X) API
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
-1. Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP API Business Hub? If you're using a Dev Space for this CodeJam, why not try it out by selecting "Service Center: Focus on SAP API Business Hub View" in the Command Palette? You should be able to quickly find the Business Partner (A2X) API there too.
+1. Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP Business Accelerator Hub? If you're using a Dev Space for this CodeJam, why not try it out by selecting "Service Center: Focus on SAP API Business Hub View" in the Command Palette? You should be able to quickly find the Business Partner (A2X) API there too. (The SAP API Business Hub has recently been renamed to SAP Business Accelerator Hub but the renaming process is one that is based on [Eventual Consistency](https://en.wikipedia.org/wiki/Eventual_consistency).)
     ![Service Center in SAP Business Application Studio](assets/service-center.png)
 
 1. What does "A2X" stand for and represent?

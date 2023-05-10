@@ -12,17 +12,17 @@ At the end of this exercise you'll have your main service integrated with a real
 
 ## Identify and test the remote system
 
-The remote system we'll use is the SAP S/4HANA Cloud sandbox system that we looked briefly at in exercise 03, where we [found and examined the Business Partner API in the SAP API Business Hub](../03-import-odata-api/README.md#find-and-examine-the-business-partner-api).
+The remote system we'll use is the SAP S/4HANA Cloud sandbox system that we looked briefly at in exercise 03, where we [found and examined the Business Partner API in the SAP Business Accelerator Hub](../03-import-odata-api/README.md#find-and-examine-the-business-partner-api).
 
 ### Find the remote system
 
-👉 Check out the Configuration Details section of the [Business Partner (A2X)](https://api.sap.com/api/API_BUSINESS_PARTNER/overview) overview in the SAP API Business Hub, where you'll see that the SANDBOX URL is given as:
+👉 Check out the Configuration Details section of the [Business Partner (A2X)](https://api.sap.com/api/API_BUSINESS_PARTNER/overview) overview in the SAP Business Accelerator Hub, where you'll see that the SANDBOX URL is given as:
 
 ```text
 https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER
 ```
 
-### Try it out via the SAP API Business Hub
+### Try it out via the SAP Business Accelerator Hub
 
 👉 Use the [Try Out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) facility and run a request in the default environment, which is the Sandbox. Choose the `GET /A_BusinessPartner` method and endpoint combination (within the "Business Partner" group) and run the request. You should see a response that looks something like this:
 
@@ -72,7 +72,7 @@ Credentials are required, not via a standard `Authorization` header in the HTTP 
 
 ### Retrieve your API key
 
-When logged in to the SAP API Business Hub, you can retrieve your API key, either via the link at any given resource (see the "Show API Key" button at the top right in the screenshot above) or by going to your [SAP API Business Hub settings page](https://api.sap.com/settings) (via a menu available in the far top right).
+When logged in to the SAP Business Accelerator Hub, you can retrieve your API key, either via the link at any given resource (see the "Show API Key" button at the top right in the screenshot above) or by going to your [SAP Business Accelerator Hub settings page](https://api.sap.com/settings) (via a menu available in the far top right).
 
 👉 Retrieve your API key; be aware that this is specific to you and should not be shared with anyone.
 
@@ -328,7 +328,7 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
 1. In the `curl` invocation, the `--compressed` option was used. There was a response header that tells us what the compression technique was - what was that response header and what was the encoding?
 
-1. When [requesting business partner data from the sandbox](#retry-the-request-using-the-api-key) we got an XML response. If we wanted a JSON response (to match what we got when trying it out in the sandbox on the SAP API Business Hub website), how might we request that? There are two ways - what are they?
+1. When [requesting business partner data from the sandbox](#retry-the-request-using-the-api-key) we got an XML response. If we wanted a JSON response (to match what we got when trying it out in the sandbox on the SAP Business Accelerator Hub website), how might we request that? There are two ways - what are they?
 
 ---
 

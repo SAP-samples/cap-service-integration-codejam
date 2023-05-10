@@ -28,9 +28,9 @@ You'll also need [git](https://git-scm.com/) to be able to clone this repository
 
 ## Other prerequisites
 
-You'll also need SAP BTP account details to be able to log into the [SAP Business API Hub](https://api.sap.com/) (API hub); this is because downloading API specifications from the API hub, which you'll be doing early on in the CodeJam, requires you to be authenticated.
+You'll also need SAP BTP account details to be able to log into the [SAP Business Accelerator Hub](https://api.sap.com/); this is because downloading API specifications from that website, which you'll be doing early on in the CodeJam, requires you to be authenticated.
 
-👉 Check this by heading over to the [SAP Business API Hub](https://api.sap.com) and ensuring that you can log in.
+👉 Check this by heading over to the [SAP Business Accelerator Hub](https://api.sap.com) and ensuring that you can log in.
 
 We recommend Google Chrome as the browser if you are using the SAP Business Application Studio ([more browsers are of course supported](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/8f46c6e6f86641cc900871c903761fd4.html?locale=en-US&q=sap%20business%20application%20studio%20chrome#availability)) specifically because you'll be encouraged to use a particular extension to make things more comfortable during the course of the CodeJam.
 
