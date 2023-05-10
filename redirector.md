@@ -10,7 +10,7 @@ Follow the instructions in this document if you are working through [exercise 01
 
 ## Work out what your Dev Space port availability URLs look like
 
-👉 In your new Dev Space, open a new terminal and run a simple test HTTP server on port 4004 to trigger the SAP Business Application Studio's port forwarding infrastructure, so you can open a new browser tab to see what the URL looks like for your Dev Space:
+👉 In your new Dev Space, open a new terminal (menu path `Terminal -> New Terminal`) and run a simple test HTTP server on port 4004 to trigger the SAP Business Application Studio's port forwarding infrastructure, so you can open a new browser tab to see what the URL looks like for your Dev Space:
 
 ```bash
 python3 -mhttp.server 4004
@@ -48,7 +48,7 @@ https://port4004-workspaces-ws-h2g2z.eu10.applicationstudio.cloud.sap/
 
 ## Create a rule in the Redirector
 
-👉 Open the Redirector configuration, which should look something like this:
+👉 Open the Redirector configuration, which should look something like this (you may need to choose the "Create new redirect" button first:
 
 ![Redirector configuration](./assets/redirector-configuration.png)
 
