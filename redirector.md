@@ -69,7 +69,7 @@ https://port4004-workspaces-ws-h2g2z.eu10.applicationstudio.cloud.sap/
 
 That's it!
 
-👉 Once you're satisfied that the redirects are working as required, you can stop the test HTTP server with `Ctrl-C` (also depicted as `^C`). You'll see something like this:
+👉 Once you're satisfied that the redirects are working as required, you can stop the test HTTP server with Ctrl-C (also depicted as `^C`). You'll see something like this:
 
 ```console
 user: cap-service-integration-codejam $ python3 -mhttp.server 4004
