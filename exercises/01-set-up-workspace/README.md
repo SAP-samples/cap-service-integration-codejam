@@ -24,9 +24,11 @@ Choosing the "Full Stack Cloud Application" brings in some predefined extensions
 
 #### Clone this repository
 
-👉 Once the Dev Space is started and you're in it, use the "Clone from Git" option in the "Get Started" screen that appears, to clone this repository, following the subsequent prompts to open the cloned repository (at which point your Dev Space will restart):
+👉 Once the Dev Space is started and you're in it, use the "Clone from Git" option in the "Get Started" screen that appears, to clone this repository, following the subsequent prompts to open the cloned repository; specify `https://github.com/SAP-samples/cap-service-integration-codejam/` as the URL.
 
 ![Cloning the repo](assets/dev-space-git-clone.png)
+
+At this point your Dev Space will restart.
 
 #### Set up a URL redirector
 
@@ -34,7 +36,7 @@ One of the many great benefits of the SAP Business Application Studio is that yo
 
 In practice, this means that when running a CAP server "locally" in this context, you'll access it not via `localhost` (as that's specific to your local machine where your browser is running) but via a URL provided and serviced by the SAP Business Application Studio infrastructure, and your requests will find their way to your CAP server in your Dev Space.
 
-The upshot of this is that whereas with a locally running VS Code environment, where `localhost` really means `localhost` even when using a dev container, with such a hosted SAP Business Application Studio context, the URLs will be different for each of your Dev Spaces.
+The upshot of this is that whereas with a locally running VS Code environment, where `localhost` really means `localhost` even when using a dev container (this is because of [published ports in container networking](https://docs.docker.com/config/containers/container-networking/#published-ports), with such a hosted SAP Business Application Studio context, the URLs will be different for each of your Dev Spaces.
 
 In order to provide a comfortable CodeJam experience, and include links to various CAP server provided resources that you'll create along your journey, we can only use generic `localhost` URLs in the exercise content, because we cannot know in advance what the SAP Business Application Studio infrastructure will provide for you in terms of URL structure.
 
