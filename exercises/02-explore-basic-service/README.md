@@ -2,7 +2,7 @@
 
 In this CodeJam repository there's a basic "Incidents Management" service that's supplied, that will be the starter for your explorations. Think of it as your "local" service. It's in the [incidents/](../../incidents/) directory. At the end of this exercise, you'll feel comfortable with what that service offers, and have explored its components.
 
-> All activities in this and subsequent exercises, unless otherwise stated, will be in the context of this `incidents/` directory.
+> All activities in this and subsequent exercises, unless otherwise stated, will be in the context of this `incidents/` directory (which you are already likely to be in, in your current terminal session, following the end of the previous exercise).
 
 ## Take a quick tour of the service
 
@@ -20,7 +20,7 @@ As a classic CAP based service, the core components are to be found within the l
 
 While it's important to feel comfortable reading and writing declaratively in CDS's definition language CDL, it also doesn't hurt to use an editor extension to view the same information graphically sometimes too.
 
-> See the link in [Further reading](#further-reading) below for more information on CDL).
+> See the link in [Further reading](#further-reading) below for more information on CDL.
 
 ### Examine the schema at the persistence layer
 
@@ -32,13 +32,17 @@ You will be presented with a graphical model representing the details in `db/sch
 
 ![The schema presented graphically](assets/graphical-schema.png)
 
+You may have to use this button to reveal the property sheet on the right:
+
+![property sheet button](assets/property-sheet-button.png)
+
 👉 Take a few moments to [stare](https://qmacro.org/blog/posts/2017/02/19/the-beauty-of-recursion-and-list-machinery/#initialrecognition) at this to see what reveals itself. Here are few pointers to what's available here:
 
-* in the right hand column the major components are listed, including entities and enumerations
+* on the right hand side various components and properties are listed, including imports, entities and so on
 * in the main graphical display there are entities, such as `Incidents` and `ServiceWorkers` (note the icon denoting entities)
 * the `Incidents` entity is further decorated with the `cuid` and `managed` aspects
 * there are relationships shown between the entities, such as the one-to-many relationship between `ServiceWorkers` and `Appointments`
-* the enumerations (enums) are used to provide possible values for certain properties (the `urgency` property of the `Incidents` entity in this example is linked to the `Incidents_urgency` enumeration)
+* the enumerations (enums) are used to provide possible values for certain properties (such as for `urgency` and `status`)
 * the main namespace is `acme.incmgt` but there are also namespaces from the imported items (via the CDS `using` statement at the beginning of `db/schema.cds`)
 
     ![The selectable main and imported namespaces](assets/namespaces.png)
