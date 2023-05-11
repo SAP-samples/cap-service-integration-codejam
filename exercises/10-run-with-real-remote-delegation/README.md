@@ -25,7 +25,9 @@ cds watch --profile sandbox
 While it's nice to see that the CAP server is still serving the `IncidentsService` as we'd expect (in the second log line here), it's also heart warming to see the connection to the system that is serving the external service, shown in the first log line. What we're seeing in this line is similar to what we saw when we [tried out a remote call to the mocked service which was running in an external process, in exercise 08](../08-introduce-sap-cloud-sdk/README.md#try-it-out):
 
 ```text
-[cds] - connect to API_BUSINESS_PARTNER > odata { url: 'http://localhost:5005/api-business-partner' }
+[cds] - connect to API_BUSINESS_PARTNER > odata { 
+  url: 'http://localhost:5005/api-business-partner'
+}
 ```
 
 This time it's different, in two ways:
@@ -35,9 +37,9 @@ This time it's different, in two ways:
 
 > Before you wonder, yes, the actual case of "APIKey" is not important. You could have `apikey` instead, for example - the sandbox server doesn't mind.
 
-Note also that even though the `cds` command we used was `watch`, which implies `--with-mocks`, there's no need for the server to mock `API_BUSINESS_PARTNER` because there are details provided for it. That's also why we don't see any log lines that say something like `mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }`.
+Note also that even though the `cds` command we used was `watch`, which implies `--with-mocks`, there's no need for the server to mock `API_BUSINESS_PARTNER` because there are details provided for it. There's an external binding! That's also why we don't see any log lines that say something like `mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }`.
 
-👉 Observe also the contents of `~/.cds-services.json`, which now of course only include information on the provision of the `IncidentsService`, by running `cat ~/.cds-services.json` on the command line in a separate terminal:
+👉 Also open up the contents of `~/.cds-services.json` by running `cat ~/.cds-services.json` on the command line in a separate terminal. This now of course only includes information on the provision of the `IncidentsService`:
 
 ```json
 {
@@ -85,12 +87,14 @@ The response should be similar to what you've seen before, but also different. D
 
 This data is coming directly from the remote system.
 
-👉 Check the log output:
+👉 Check the log output (whitespace has been added to the URL for better readability):
 
 ```text
 [cds] - GET /incidents/Customers
 >> delegating to remote service...
-[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER//A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000 {
+[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER//A_BusinessPartner
+               ?$select=BusinessPartner,BusinessPartnerFullName
+               &$orderby=BusinessPartner%20asc&$top=1000 {
   headers: {
     accept: 'application/json,text/plain',
     'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -112,8 +116,8 @@ This data is coming directly from the remote system.
       return S4bupa.run(req.query)
     })
     ```
-* The query (in `req.query`) is transparently translated into an OData query by the CAP framework
-* The constructed OData query is sent to the remote system using the SAP Cloud SDK
+* The query (in `req.query`) was transparently translated into an OData query by the CAP framework
+* The constructed OData query was sent to the remote system using the SAP Cloud SDK
 
 ## Summary
 
