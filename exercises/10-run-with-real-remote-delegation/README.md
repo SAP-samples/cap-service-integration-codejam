@@ -92,7 +92,7 @@ This data is coming directly from the remote system.
 ```text
 [cds] - GET /incidents/Customers
 >> delegating to remote service...
-[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER//A_BusinessPartner
+[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
                ?$select=BusinessPartner,BusinessPartnerFullName
                &$orderby=BusinessPartner%20asc&$top=1000 {
   headers: {
