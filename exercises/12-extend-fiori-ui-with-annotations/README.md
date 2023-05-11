@@ -12,7 +12,7 @@ So to save time, and prevent you from having to re-execute the HTTP requests in 
 
 > What you're after is this, essentially: <http://localhost:4004/incidents/Customers?$top=1&$select=ID>.
 
-👉 Modify the `db/data/acme.incmgt-Incidents.csv` file to add `customer_ID` as a field to the start of the header line, and to insert a column so that the first record ("Broomstick doesn't fly") has the customer ID value you just obtained (and that the other records have at least an extra semi-colon, as shown here, where `11` is the customer ID:
+👉 Modify the `db/data/acme.incmgt-Incidents.csv` file to add `customer_ID` as a field to the start of the header line, and to insert a column so that the first record ("Broomstick doesn't fly") has the customer ID value you just obtained (and that the other records have at least an extra semi-colon, as shown here, where `11` is the customer ID):
 
 ```csv
 customer_ID;ID;title;urgency;status;service_ID
@@ -38,7 +38,7 @@ There's no reference to any customer information here yet.
 
 ## Add customer ID to the General Information section of the object page
 
-In this SAP Fiori elements object page you can see a field group titled "General Information".
+In this SAP Fiori elements object page you can see a field group titled "General Information" containing the "Urgency", "Status" and "Type" fields.
 
 Let's have the customer ID show up here. This customization relates to our incidents service (and not directly to the remote service), so it makes sense to add the required annotation in the `srv/mashup.cds` file, in the service layer.
 
@@ -63,9 +63,9 @@ annotate IncidentsService.Incidents with @(
 
 ## Re-examine the incident to see the customer reference
 
-👉 At this point, after the CAP server restarts after your changes to `srv/mashup.cds`, re-examine the object page for the "Broomstick doesn't fly" incident (you can re-navigate there or just hit refresh in the browser).
+👉 At this point, after the CAP server restarts, following your changes to `srv/mashup.cds`, re-examine the object page for the "Broomstick doesn't fly" incident (you can re-navigate there or just hit refresh in the browser, if an automatic refresh hasn't taken place).
 
-You should now see the new field in the "General Information" field group:
+You should now see the new "Customer" field in the "General Information" field group:
 
 ![object page for "Broomstick doesn't fly" incident with customer reference](assets/general-information-field-group-with-customer.png)
 
@@ -79,9 +79,11 @@ Note that the Customer field is open for input, but that's about it; there isn't
 
 ![customer input field with no value help](assets/customer-no-value-help.png)
 
+Let's address that now.
+
 ## Annotate the Customers entity
 
-We can fix that by extending our adoption of the external service, i.e. by adding extra customization information in the CDS that we [referred to as the "front door" in the previous exercise](../11-associate-local-remote-entities/README.md#examine-what-we-have-so-far).
+Let's extend our adoption of the external service, and add extra customization information in the CDS that we [referred to as the "front door" in the previous exercise](../11-associate-local-remote-entities/README.md#examine-what-we-have-so-far).
 
 👉 In the `srv/external/index.cds` file, append the following:
 
@@ -94,7 +96,7 @@ annotate Customers with {
 }
 ```
 
-The second `annotate` here is fairly easy to think about: it adds `@title` annotations to each of the properties in the entity defined just above it in the file; the effect of this is that `Customer ID` and `Customer Name` will appear as column headers instead of the raw property names `ID` and `name` (you'll see this shortly in the popup that will appear when we invoke Value Help).
+The f `annotate` here is fairly easy to think about: it adds `@title` annotations to each of the properties in the entity defined just above it in the file; the effect of this is that "Customer ID" and "Customer Name" will appear as column headers instead of the raw property names "ID" and "name" (you'll see this shortly in the popup that will appear when we invoke Value Help).
 
 The first is a little bit more special. The `@cds.odata.valuelist` annotation provides advanced, convenient support for Value Help as understood and supported by SAP Fiori. When added to an entity, like here, all managed associations targeting this entity will automatically receive Value Help lists. This single annotation causes the generation of various `@Common.ValueList` annotations.
 
@@ -123,21 +125,21 @@ The first is a little bit more special. The `@cds.odata.valuelist` annotation pr
 </Annotations>
 ```
 
-See the [Further reading](#further-reading) section below for more information on value help support.
+See the [Further reading](#further-reading) section below for more information on Value Help support.
 
 ## Observe the effect of your new annotations
 
 👉 Just like you did before, return to the list report at <http://localhost:4004/$fiori-preview/IncidentsService/Incidents#preview-app> and use the "Create" action (highlighted here) to start the process of creating a new incident again.
 
-This time, you'll see that as well as the Customer field being open for input, there's now a symbol in the field indicating that there's value help available.
+This time, you'll see that as well as the Customer field being open for input, there's now a symbol in the field indicating that there's Value Help available.
 
-👉 Select that symbol to bring up the value help. You should see a value help pop up, like this:
+👉 Select that symbol to bring up the Value Help. You should see a Value Help pop up, like this:
 
 ![customer input field with value help](assets/customer-with-value-help.png)
 
 👉 Observe also that the column headings in the list of customers are as defined with the other annotations you just added ("Customer ID" and "Customer Name").
 
-👉 Perhaps most importantly, take a look at the CAP server log records that were emitted when you invoked this value help. You should see something like this:
+👉 Perhaps most importantly, take a look at the CAP server log records that were emitted when you invoked this Value Help. You should see something like this:
 
 ```text
 [cds] - > READ Customers { '$select': 'ID,name', '$count': 'true', '$orderby': 'ID', '$skip': '0', '$top': '73' }
@@ -152,7 +154,7 @@ This time, you'll see that as well as the Customer field being open for input, t
 }
 ```
 
-The resolution of the value help is being provided via the JavaScript we added in an earlier exercise to `srv/external-service.js`, and in turn using the SAP Cloud SDK to make an OData query operation on the remote, external service.
+The resolution of the Value Help is being provided via the JavaScript we added in an earlier exercise to `srv/external-service.js`, and in turn using the SAP Cloud SDK to make an OData query operation on the remote, external service.
 
 ## Summary
 
@@ -162,6 +164,7 @@ And so you're at the end of the CodeJam, congratulations for making it all this 
 
 ## Further reading
 
+* [A deep dive into OData and CDS annotations](https://qmacro.org/blog/posts/2023/03/10/a-deep-dive-into-odata-and-cds-annotations/)
 * [Extend Array Annotations](https://cap.cloud.sap/docs/cds/cdl#extend-array-annotations)
 * [Supported floorplans in SAP Fiori elements](https://experience.sap.com/fiori-design-web/smart-templates/#supported-floorplans)
 * [Value Help Support](https://cap.cloud.sap/docs/advanced/fiori#value-help-support)
@@ -171,5 +174,7 @@ And so you're at the end of the CodeJam, congratulations for making it all this 
 ## Questions
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
+
+1. When you added the annotation to include the "Customer" field in the "General Information" field group, the value of the `Data` array looked like this (compressed for brevity): `Data: [ { Value: customer_ID, Label: 'Customer'}, ... ]`. What happens if you switch around the ellipsis (`...`) to come before the object describing the "Customer" field in the array, instead of after it? 
 
 ---
