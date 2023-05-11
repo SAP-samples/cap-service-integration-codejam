@@ -4,7 +4,7 @@ At the end of this exercise, your main "incidents" service will be related to th
 
 ## Examine what we have so far
 
-All we have so far in terms of any relationship between the main service and the external service is the simple projection onto the `Customers` entity defined in the `index.cds` file (the "front door") in the section of the service layer that represents the external service, i.e. in `srv/external/`. This projection is defined in the `mashup.cds` file which sits delicately between remote entities in the external service, and the entities in the local service.
+All we have so far in terms of any relationship between the main service and the external service is the simple projection onto the `Customers` entity defined in the `index.cds` file (the "front door") in the section of the service layer that represents the external service, i.e. in `srv/external/`. This projection is defined in the `mashup.cds` file which sits delicately between remote entities in the external service and the entities in the local service.
 
 That might be a little tough to visualize, so let's spend some time looking at how all the parts come together, and how the flexibility and beauty of certain CDS language elements allow us to maintain clean, abstract and layered solutions, with components that we define directly, but also with components that we can import, transform and make use of.
 
@@ -175,7 +175,7 @@ Adding this new association seems to have achieved what we need - a relationship
 
 ## Add a new incident for a customer
 
-At this point we now have the `customer` property in the `Incidents` entity as defined at the CDS level. Being a managed association, this has a generated field of `customer_ID` at the OData metadata level, the level at which we interact with the actual service.
+At this point we now have the `customer` property in the `Incidents` entity as defined at the CDS level. Being a managed association, this has a generated field of `customer_ID` at the persistence layer, which finds its way to the OData metadata level, the level at which we interact with the actual service. Find out more about managed associations in the [Further reading](#further-reading) section below.
 
 Let's do that now, by using the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension that should be available in your workspace (it's built in to the Dev Space, and [listed as on of the extensions to install into the dev container](../../.devcontainer/devcontainer.json) if you're using VS Code).
 
@@ -208,12 +208,13 @@ POST http://localhost:4004/incidents/Incidents(ID={{id}},IsActiveEntity=false)/d
 Content-Type: application/json
 ```
 
-This file contains three HTTP requests, that are designed to be executed one at a time, in the order that they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available.
+This file contains three HTTP requests that are designed to be executed one at a time, in the order that they're presented. When you view the file in your workspace editor, the contents should be recognized and "Send request" links should become available.
 
 👉 Consider what the requests in this file are doing:
 
 1. First there is an OData query operation ("CustomersQuery") to get a list of the customers via the `Customers` entity set which is our projection onto the external service. This is so we have a customer ID to use in the next request.
-1. Next comes an OData create operation ("IncidentsCreate") which sends a payload in a POST request to the `Incidents` entity set. The payload is a JSON representation of some of the properties of the entity type: the incident's title and urgency, and the ID of the customer with which the new incident should be associated. There are a couple of variables used here; the `$timestamp` is used to distinguish multiple new incidents, in case you want create more than one, and the `customer_ID` which is a reference to the determination of the ID of the first entity in the entity set returned from the first (query) operation, via `CustomersQuery.response.body.value[0].ID`.
+1. Next comes an OData create operation ("IncidentsCreate") which sends a payload in a POST request to the `Incidents` entity set. The payload is a JSON representation of some of the properties of the entity type: the incident's title and urgency, and the ID of the customer with which the new incident should be associated. 
+    There are a couple of variables used here; the built-in `$timestamp` variable is used to distinguish multiple new incidents, in case you want create more than one, and the `customer_ID` variable which is a reference to the determination of the ID of the first entity in the entity set returned from the first (query) operation, via `CustomersQuery.response.body.value[0].ID`.
 1. Finally there's a third request that turns a draft into an active entry which is required for all changes to entities managed by SAP Fiori's draft mechanism - see the link in the [Further reading](#further-reading) section below for more information.
 
 👉 Now that you understand what these requests are, make them, one after the other, by using the "Send request" links. Take a moment to look at the HTTP responses, too.
@@ -227,6 +228,31 @@ At this point, you have a new incident relating to a customer. To finish off thi
 ```text
 http://localhost:4004/incidents/Incidents
   ?$filter=startswith(title,'New Incident') and urgency eq 'low'
+```
+
+You should see a response that looks similar to this: 
+
+```json
+{
+  "@odata.context": "$metadata#Incidents",
+  "value": [
+    {
+      "ID": "1a5be77e-107f-473b-b45a-52828281f088",
+      "createdAt": "2023-05-11T05:46:28.698Z",
+      "createdBy": "anonymous",
+      "modifiedAt": "2023-05-11T05:46:28.698Z",
+      "modifiedBy": "anonymous",
+      "title": "New Incident 1683783973",
+      "urgency": "low",
+      "status": null,
+      "service_ID": null,
+      "customer_ID": "11",
+      "IsActiveEntity": true,
+      "HasActiveEntity": false,
+      "HasDraftEntity": false
+    }
+  ]
+}
 ```
 
 It would be nice to see this customer displayed in the Fiori UI too. Right now, the new incident appears in the [list report](http://localhost:4004/$fiori-preview/IncidentsService/Incidents#preview-app), as shown in this screenshot:
@@ -245,6 +271,7 @@ At this point you have more deeply integrated the external service with your own
 
 * [CAP's support for Fiori's Draft-Based Editing](https://cap.cloud.sap/docs/advanced/fiori#draft-support)
 * [Managed associations in CAP](https://cap.cloud.sap/docs/guides/domain-models#managed-associations)
+* [Back to basics: Managed associations in SAP Cloud Application Programming Model](https://www.youtube.com/playlist?list=PL6RpkC85SLQCSm1JSRzeBE-BlkygKRAAF) (video playlist)
 
 ---
 
