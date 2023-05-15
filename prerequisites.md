@@ -26,6 +26,8 @@ You'll also need [git](https://git-scm.com/) to be able to clone this repository
 
 👉 Ensure you have VS Code, Docker Desktop and git available on your machine and that you have administrative access.
 
+👉 Once you have VS Code, check that you have the Dev Containers extension - you can read about this and how to install it in this [Dev Containers tutorial](https://code.visualstudio.com/docs/devcontainers/tutorial).
+
 ## Other prerequisites
 
 You'll also need SAP BTP account details to be able to log into the [SAP Business Accelerator Hub](https://api.sap.com/); this is because downloading API specifications from that website, which you'll be doing early on in the CodeJam, requires you to be authenticated.
