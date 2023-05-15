@@ -138,7 +138,7 @@ cd $HOME/projects/cap-service-integration-codejam/incidents/
 npm install
 ```
 
-You can double check what's installed, with `npm list --depth=0`, which should show you similar to this:
+You can double check what's installed, with `npm list --depth=0`, which should show you something similar to this:
 
 ```text
 @acme/incidents-mgmt@1.0.0 /home/user/projects/cap-service-integration-codejam/incidents
