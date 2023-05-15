@@ -144,6 +144,8 @@ and it would still work, data would still be served at <http://localhost:4004/ap
 
 _Could you choose any port with the `--port` option? What about, say, port 42, or 1023? What happens, and why?_
 
+Ports below 1024 are privileged, i.e. administrative privileges are required to bind to and listen on ports below that number. This is because standard services (such as HTTP, HTTPS, FTP, POP3, SMTP, etc) all listen on low numbered ports, so preventing non-root users from running a service on a low numbered port is a security feature (to prevent service spoofing). See [Priviliged Ports](https://www.w3.org/Daemon/User/Installation/PrivilegedPorts.html) (sic) for more detail. What actually happens in the current CAP server implementation is that no error will be issued if you specify a port below 1024 (e.g. with `--port 80`) but the service will be started on a random (high numbered) port implicitly.
+
 # Exercise 07 - Add CDS definitions to integrate services
 
 _Does the diagram above make sense? How do you visualize the different layers and components of your CAP services? Do you have a different approach?_
