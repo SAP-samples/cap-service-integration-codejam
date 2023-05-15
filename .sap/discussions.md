@@ -169,7 +169,9 @@ See [Customizing Layouts](http://web.archive.org/web/20221207175033/https://cap.
 
 _When you "make a request to the `Customers` entity set again", what type of OData operation is it?_
 
-It's an OData query operation. With a query operation one requests zero, one or more entities in an entity set that is to be the response. The entity set (that used to be a `<feed>` top-level element in OData v2 when the default representation was `atom/xml`) is what distinguishes this from the response to an OData read operation, which is a request for a single entity. The representations (we'll look at them in their JSON representations here as CAP will serve OData v4 by default) differ.
+It's an OData query operation. With a query operation one requests zero, one or more entities in an entity set that is to be the response. The entity set (that used to be a `<feed>` top-level element in OData v2 when the default representation was `atom/xml` - see <https://services.odata.org/V2/OData/OData.svc/Products> for an example) is what distinguishes this from the response to an OData read operation, which is a request for a single entity (and which used to be an `<entry>` element, see <https://services.odata.org/V2/OData/OData.svc/Products(1)> for an example of that).
+
+The representations (we'll look at them in their JSON representations here as CAP will serve OData v4 by default) differ.
 
 Here's a typical entity set response (i.e. to an OData query operation, specifically <http://localhost:4004/incidents/Customers>) - note the reference to `$metadata#Customers` which tells us (implicitly) it's an entity set:
 
