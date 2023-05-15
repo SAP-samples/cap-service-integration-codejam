@@ -75,7 +75,7 @@ mkdir -p $HOME/projects/ \
 
 > If the `projects/` directory already exists, for some reason, then the `mkdir` command would normally fail and emit a message; this would also mean that the subsequent `ln` command would not run (as they're connected via `&&`). So we use the `-p` option to tell `mkdir` not to complain.
 
-You can make sure that everything is OK by checking that you can see the `incidents/` directory, that's contained in this repo, via this new `projects/` directory in your dev container user's home directory. Here's an example, with what you might expect to see (the `incidents/` directory is visible near the end of the list):
+You can make sure that everything is OK by checking that you can see the directories inside the repo, via this new `projects/` directory in your dev container user's home directory. Here's an example, with what you might expect to see:
 
 ```shell
 $ find -L $HOME/projects -maxdepth 2 -type d
@@ -124,7 +124,7 @@ home: /usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap
 
 ## Install the NPM package dependencies
 
-The `package.json` file contains runtime and design time dependencies.
+We'll be working mostly within the `incidents/` directory of this repo, which contains a simple starter CAP project. In there, the `package.json` file contains runtime and design time dependencies.
 
 👉 Make sure you're in the `incidents/` directory (where `package.json` lives):
 

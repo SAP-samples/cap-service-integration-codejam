@@ -1,6 +1,6 @@
 # Exercise 02 - Explore the basic service
 
-In this CodeJam repository there's a basic "Incidents Management" service that's supplied, that will be the starter for your explorations. Think of it as your "local" service. It's in the [incidents/](../../incidents/) directory. At the end of this exercise, you'll feel comfortable with what that service offers, and have explored its components.
+As you saw at the end of the previous exercise, there's a basic "Incidents Management" service that's supplied. This will be the starter for your explorations. Think of it as your "local" service. It's in the [incidents/](../../incidents/) directory. At the end of this exercise, you'll feel comfortable with what that service offers, and have explored its components.
 
 > All activities in this and subsequent exercises, unless otherwise stated, will be in the context of this `incidents/` directory (which you are already likely to be in, in your current terminal session, following the end of the previous exercise).
 
