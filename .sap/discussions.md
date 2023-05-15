@@ -110,7 +110,12 @@ _Is CSV data supplied for the entire external service, or just a single entity w
 It's just for the single entity "A_BusinessPartner". We can see that from the fact that there's just a single CSV file, and we know that the convention is that there's generally one file per entity. Moreover, there are only two fields in the CSV data, whereas there are many, many properties in the actual definition of the `A_BusinessPartner` type. How many? Hmm, let's see:
 
 ```console
-; jq '.definitions|with_entries(select(.key | endswith("A_BusinessPartner")))|to_entries[0].value.elements|length' srv/external/API_BUSINESS_PARTNER.csn
+; jq '
+.definitions
+| with_entries(select(.key | endswith("A_BusinessPartner")))
+| to_entries[0].value.elements
+| length
+' srv/external/API_BUSINESS_PARTNER.csn
 84
 ```
 
