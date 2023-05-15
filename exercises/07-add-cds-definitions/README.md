@@ -87,7 +87,11 @@ This is what these definitions are doing:
 
 * adding the `Customers` projection entity to the `IncidentsService` service which already has three existing projection entities (`Incidents`, `Appointments` and `ServiceWorkers`)
 
-> Did you spot the shorthand references in the second `using` statement? The first one was the import of `s4` being the entire top-level namespace which therefore includes `s4.simple`; the second one was to `./external` - the `index.cds` is defaulted.
+> Did you spot the shorthand references in the second `using` statement:
+> ```cds
+> using { s4 } from './external';
+> ```
+> The first shorthand reference is the import of `s4`, being the entire top-level namespace which therefore includes `s4.simple`. The second one was to `./external` - the `index.cds` file within that directory is implicit.
 
 ### Consider the units of definition and their relationships
 
@@ -147,7 +151,7 @@ What has this `extend service` definition done? Let's have a look.
 
 👉 Head over to the service endpoints at <http://localhost:4004>, where you'll still find the service endpoint for the mocked external service, at `/api-business-partner`, and the service endpoint for your main service, at `/incidents`.
 
-👉 Note that the data is still being served for the `A_BusinessPartner` entity at <http://localhost:4004/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`).
+👉 Note that the data is still being served for the `A_BusinessPartner` entity in the `/api-business-partner` service at <http://localhost:4004/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`).
 
 👉 In addition, note that the data is also being served for an entity in the `/incidents` service endpoint that has now started appearing since you added this bit:
 
@@ -200,6 +204,8 @@ At this point you now have a cleaner integration between the external service an
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
 1. Does the diagram above make sense? How do you visualize the different layers and components of your CAP services? Do you have a different approach?
+
+1. After [creating a projection on the external service](#create-a-projection-on-the-external-service) where you added content in `srv/external/index.cds`, we noted that there was no difference in what was served, after the CAP server restart - the "Loaded model from N file(s)" message didn't show this new file. Do you know why that was?
 
 ---
 
