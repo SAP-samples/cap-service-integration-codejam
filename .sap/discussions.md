@@ -2,11 +2,27 @@
 
 _What are the advantages of using container images for development work?_
 
+There are many, including:
+
+* consistent: a container image can represent a reproducible environment for development, testing or other related purposes
+* shareable: everyone can have the same environment regardless of the actual OS running on their local machine
+* focused: tools that are only relevant for a given development stack or task can be installed as part of the image and not pollute the host OS
+* portable: anywhere that has a container engine can be used as a host for development and the experience is the same
+* onboarding: a repo containing development artifacts can also contain an image description file (such as a `Dockerfile`) that can enable a much quicker onboarding for new developers
+
+See [Reproducible Development with Devcontainers](https://www.infoq.com/articles/devcontainers/).
+
 _What is the difference between the `@sap/cds` and `@sap/cds-dk` packages?_
+
+The `dk` stands for Development Kit and refers to the extra tools made available for design, development and testing processes. So the former is the runtime, and the latter is the "SDK" (software development kit).
 
 # Exercise 02 - Explore the basic service
 
 _While there are two imported namespaces shown when examining the `db/schema.cds` contents (`global` and `sap.common`), there are three shown when examining the `srv/incidents-service.cds` contents. What is the third, and where does that come from?_
+
+There is a third because basically we have moved up a layer in the CAP service, from the persistence layer to the service layer. So while at the persistence layer (in `db/schema.cds`) the namespace was `acme.incmgt` and, via the `using` statement we got `sap.common` and `global` by default as imported namespaces ... at this service layer, the file-local name (in `srv/incidents-service.cds`) is `IncidentsService` (the name of the service declared in the file) and we then have the three namespaces from the persistence layer as imported namespaces, brought in via the `using { acme.incmgt } from '../db/schema'` statement.
+
+![the namespaces at the service layer](assets/incidents-service-namespaces.png)
 
 _In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?_
 
