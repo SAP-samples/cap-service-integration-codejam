@@ -150,6 +150,8 @@ Ports below 1024 are privileged, i.e. administrative privileges are required to 
 
 _Does the diagram above make sense? How do you visualize the different layers and components of your CAP services? Do you have a different approach?_
 
+This is a question to provide the context for a general discussion on layering and organization of local & remote resources, and mashups.
+
 _After [creating a projection on the external service](../exercises/07-add-cds-definitions/README.md#create-a-projection-on-the-external-service) where you added content in `srv/external/index.cds`, we noted that there was no difference in what was served, after the CAP server restart - the "Loaded model from N file(s)" message didn't show this new file. Do you know why that was?_
 
 This is down to the default locations, known as "roots", from where the CAP server will automatically fetch and load CDS definitions. These are `db/index.cds` (or `db/*.cds`), `srv/index.cds` (or `srv/*.cds`), `app/index.cds` (or `app/*.cds`), plus `schema.cds` and `services.cds`. You can check what these locations are, they're available in the cds env:
@@ -167,7 +169,51 @@ See [Customizing Layouts](http://web.archive.org/web/20221207175033/https://cap.
 
 _When you "make a request to the `Customers` entity set again", what type of OData operation is it?_
 
-_If you stop the mocked external service process (the one you started with `cds watch API_BUSINESS_PARTNER --port 5005`) and then make a call to the `Customers` entity set again, what happens?_
+It's an OData query operation. With a query operation one requests zero, one or more entities in an entity set that is to be the response. The entity set (that used to be a `<feed>` top-level element in OData v2 when the default representation was `atom/xml`) is what distinguishes this from the response to an OData read operation, which is a request for a single entity. The representations (we'll look at them in their JSON representations here as CAP will serve OData v4 by default) differ.
+
+Here's a typical entity set response (i.e. to an OData query operation, specifically <http://localhost:4004/incidents/Customers>) - note the reference to `$metadata#Customers` which tells us (implicitly) it's an entity set:
+
+
+```json
+{
+  "@odata.context": "$metadata#Customers",
+  "value": [
+    {
+      "ID": "Z100001",
+      "name": "Harry Potter"
+    },
+    {
+      "ID": "Z100002",
+      "name": "Sherlock Holmes"
+    },
+    {
+      "ID": "Z100003",
+      "name": "Sunny Sunshine"
+    }
+  ]
+}
+```
+
+Here's a typical entity response (i.e. to an OData read operation, specifically <http://localhost:4004/incidents/Customers/Z100001>) - note the reference to `$metadata#Customers/$entity` which is more explicit about the context being an entity; note also that the properties (`ID` and `name`) are provided directly, not within any array "container" property:
+
+```json
+{
+  "@odata.context": "$metadata#Customers/$entity",
+  "ID": "Z100001",
+  "name": "Harry Potter"
+}
+```
+
+_If you stop the mocked external service process (the one you started with `cds mock API_BUSINESS_PARTNER --port 5005`) and then make a call to the `Customers` entity set again, what happens?_
+
+We get yet another error, from which we can also learn something. It's not really unexpected, and tells us exactly what's happened:
+
+```xml
+<error xmlns="http://docs.oasis-open.org/odata/ns/metadata">
+  <code>502</code>
+  <message>Error during request to remote service: connect ECONNREFUSED 127.0.0.1:5005</message>
+</error>
+```
 
 # Exercise 09 - Set up the real remote system configuration
 
