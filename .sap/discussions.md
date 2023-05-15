@@ -83,7 +83,7 @@ This question is referring to parameters such as `$top`, `$skip`, `$filter`, and
 
 _When looking at the "Business Partner" endpoints, did you notice the "/A\_" prefix on each of the endpoints? What do you think that signifies?_
 
-This prefix comes from the naming conventions used in the SAP S/4HANA Virtual Data Model (VDM). Different views of the same underlying persistence-level entity are named with prefixes that describe what type of views they are. There are Basic, Consumption and Composite views, and also Remote API views, which is what the "/A\_" prefixed names are from.
+This prefix comes from the naming conventions used in the SAP S/4HANA Virtual Data Model (VDM). Different views of the same underlying persistence-level entity are named with prefixes that describe what type of views they are. There are Basic, Consumption and Composite views, and also Remote API views, which is what the "/A\_" prefixed names are from. In the [Further reading](../exercises/03-import-odata-api/README.md#further-reading) section of this exercise, there's a link to an article on the topic.
 
 # Exercise 04 - Understand service mocking
 
