@@ -56,7 +56,7 @@ Now it's time to move up a layer, from persistence to service.
 👉 Find the `srv/incidents.cds` file, and open it with the CDS Graphical Modeler. Like before, take a few moments to stare at the graphical representation of the service layer; here are some pointers to what you should notice:
 
 * this time the main namespace is `IncidentsService` and there are imported namespaces too
-* in contrast to the entities shown in the graphical display of `db/schema.cds` we now see projections
+* in contrast to the entities shown in the graphical display of `db/schema.cds` we now see projections (note the icon is different from the one that represented entities previously)
 * there isn't a one-to-one mapping of projections to all entities
 * but where there is a mapping, there's a one-to-one property correlation (i.e. all the properties at the persistence layer are available at this service layer)
 
@@ -121,7 +121,7 @@ Here's the equivalent message from a Dev Space in the SAP Business Application S
 While this is not unexpected, take a moment to consider what else is evident from the content of this generated web page, beyond the list of entities with links to the corresponding entity set resources and Fiori preview apps:
 
 * There are no "Web Applications" as this is a headless service (and we have very little in the Application layer, certainly not any HTML)
-* There are endpoints for just a single service, and that service is represented by the service prefix `/incidents`, which just happens also to be the path to the corresponding OData service document (as `/incidents/$metadata` just happens to be the path to the metadata document of the service)
+* There are endpoints for just a single service, and that service is represented by the service prefix `/incidents`, which just happens also to be the path to the corresponding OData service document (at <http://localhost:4004/incidents>), just as `/incidents/$metadata` happens to be the path to the metadata document of the service (at <http://localhost:4004/incidents/$metadata>)
 
 ## Summary
 
@@ -170,6 +170,8 @@ If you finish earlier than your fellow participants, you might like to ponder th
 1. There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?
 
 1. `cds watch` is actually just a shortcut for another `cds` command. What is it?
+
+1. In the "Welcome to @sap/cds Server" landing page at <http://localhost:4004>, where do the details `Serving @acme/incidents-mgmt 1.0.0` come from?
 
 ---
 
