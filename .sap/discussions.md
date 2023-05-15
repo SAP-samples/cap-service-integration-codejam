@@ -30,10 +30,10 @@ In `db/schema.cds` there's another entity `TeamCalendar`. That is the one that i
 
 _There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?_
 
-There is a lot to see. Briefly:
+There is a lot to see. Briefly (as some of this will be pointed out in the next exercise):
 
 * the `cds watch` command is actually something a little more complicated underneath (see the next question)
-* we can see that `cds watch` is part of the set of development tools as it has a "live reload" facility built in for comfortable development with rapid turnaround of feedback and results 
+* we can see that `cds watch` is part of the set of development tools as it has a "live reload" facility built in for comfortable development with rapid turnaround of feedback and results
 * the CAP server has identified the model that it should serve, and shows us where it's getting the model definitions from
 * also as part of the development tools set we see the use of the user-local-and-private `~/.cds-services.json` file
 * as part of the convention over configuration approach the server starts up with an SQLite powered in-memory storage mechanism
@@ -75,11 +75,11 @@ _Did you know that the SAP Business Application Studio Dev Spaces offer a [Servi
 
 _What does "A2X" stand for and represent?_
 
-The SAP Business Accelerator Hub [contains many APIs that are marked "A2X"](https://www.google.com/search?q=site%3Aapi.sap.com+%22A2X%22), and it's an important identifier. While "A2A" stands for "Application to Application", suggesting backend(-only) systems that talk to each other, "A2X" stands for "Application to X users" and is normally used to classify synchronous APIs that are used (amongst other purposes) for consumption in frontend (UI) applications. A2X APIs are mostly RESTful in nature (such as OData services) and also often contain annotations (metadata) that can be used by the presentation level to influence the user interface that makes use of data from such an API. See [APIs on SAP API Business Hub](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8308e6d301d54584a33cd04a9861bc52/1e60f14bdc224c2c975c8fa8bcfd7f3f.html?locale=en-US) (sic) for more detail. 
+The SAP Business Accelerator Hub [contains many APIs that are marked "A2X"](https://www.google.com/search?q=site%3Aapi.sap.com+%22A2X%22), and it's an important identifier. While "A2A" stands for "Application to Application", suggesting backend(-only) systems that talk to each other, "A2X" stands for "Application to X users" and is normally used to classify synchronous APIs that are used (amongst other purposes) for consumption in frontend (UI) applications. A2X APIs are mostly RESTful in nature (such as OData services) and also often contain annotations (metadata) that can be used by the presentation level to influence the user interface that makes use of data from such an API. See [APIs on SAP API Business Hub](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8308e6d301d54584a33cd04a9861bc52/1e60f14bdc224c2c975c8fa8bcfd7f3f.html?locale=en-US) (sic) for more detail.
 
 _If you [tried out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) the Business Partner (A2X) API in the browser, did you notice some of the parameters available for GET requests to the main resources (such as `/A_AddressEmailAddress` or `/A_BusinessPartner`) included ones beginning with `$`? What were they, did you recognize them?_
 
-This question is referring to parameters such as `$top`, `$skip`, `$filter`, and so on. They are [OData system query options](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360955), and are recognizable by their `$` prefix. 
+This question is referring to parameters such as `$top`, `$skip`, `$filter`, and so on. They are [OData system query options](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360955), and are recognizable by their `$` prefix.
 
 _When looking at the "Business Partner" endpoints, did you notice the "/A\_" prefix on each of the endpoints? What do you think that signifies?_
 
@@ -89,11 +89,51 @@ This prefix comes from the naming conventions used in the SAP S/4HANA Virtual Da
 
 _In the [Understand what is happening with mocking](/exercises/04-understand-service-mocking/README.md#understand-what-is-happening-with-mocking) section, you got the following output; what is this, and what does it tell us?_
 
+```json
+{
+  "@odata.context": "$metadata#A_BusinessPartner",
+  "value": []
+}
+```
+
+In that section we actually made two requests:
+
+1. <http://localhost:4004/api-business-partner/A_BusinessPartner>
+1. <http://localhost:4004/incidents/Customers>
+
+So first, this tells us that this is a response for the first request. It tells us that the data context is the entity set "A_BusinessPartner" (see the list of entity sets and their URLs in the service document at <http://localhost:4004/api-business-partner>). Specifically it refers to the `A_BusinessPartner` entity set and type in the metadata document. So we know it's a list of business partners. But the list - the `[ ... ]` array which is the value of the `value` property, is empty, i.e. right now no business partner records are available.
+
 # Exercise 05 - Add test data for the mocked external service
 
 _Is CSV data supplied for the entire external service, or just a single entity within that? What about at the property level within the entity?_
 
+It's just for the single entity "A_BusinessPartner". We can see that from the fact that there's just a single CSV file, and we know that the convention is that there's generally one file per entity. Moreover, there are only two fields in the CSV data, whereas there are many, many properties in the actual definition of the `A_BusinessPartner` type. How many? Hmm, let's see:
+
+```console
+; jq '.definitions|with_entries(select(.key | endswith("A_BusinessPartner")))|to_entries[0].value.elements|length' srv/external/API_BUSINESS_PARTNER.csn
+84
+```
+
 _Normally, one might expect data files to be provided at the persistence layer, i.e. somewhere within the `db/` directory. But the data we provided here was not in there. Where was it, and why? Would it work if you put it into `db/data/`?_
+
+The philosophy and mental model of having this external service, and everything related to it, in `srv/external/` actually is at two levels:
+
+* the external service is a _service_ and therefore doesn't fit as well being placed at the same level as the persistence layer definitions
+* we want to think about it and treat it as a separate, self-contained resource, so having test data in that same self-contained place makes total sense
+
+If you moved `API_BUSINESS_PARTNER-A_BusinessPartner.csv` out of `srv/external/data/` and put it into `db/data/` and restarted the CAP server, you'd see:
+
+```log
+> init from db/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
+```
+
+instead of
+
+```log
+> init from srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
+```
+
+and it would still work, data would still be served at <http://localhost:4004/api-business-partner/A_BusinessPartner?$select=BusinessPartnerFullName>.
 
 # Exercise 06 - Mock external service in a separate process
 
@@ -112,7 +152,7 @@ cds env get roots
 [ "db/", "srv/", "app/", "schema", "services" ]
 ```
 
-So while `index.cds` is indeed a "default" CDS file name (a bit like the `index.html` in the classic [Apache's HTTP Server](https://httpd.apache.org/docs/trunk/getting-started.html#page-header) software), it's not in any of the roots, so won't be loaded by default. 
+So while `index.cds` is indeed a "default" CDS file name (a bit like the `index.html` in the classic [Apache's HTTP Server](https://httpd.apache.org/docs/trunk/getting-started.html#page-header) software), it's not in any of the roots, so won't be loaded by default.
 
 See [Customizing Layouts](http://web.archive.org/web/20221207175033/https://cap.cloud.sap/docs/get-started/projects#customizing-layouts) in the older Capire docu for more detail.
 
