@@ -61,8 +61,7 @@ code cap-service-integration-codejam
 
 Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to reopen everything in a container, as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container".
 
-> You may need to separately install the Dev Container extension in VS Code for this to happen.
-
+> If this doesn't happen, check that you have the Dev Containers extension in VS Code - see the [corresponding prerequisites section](../../prerequisites.md#alternative-environment-vs-code-with-a-dev-container) section for details. 
 ![The dialog prompting you to "Reopen in Container"](assets/reopen-in-container.png)
 
 At this stage, once VS Code has reopened, you should be all set. You are ready to explore service integration with CAP in your dev container.
