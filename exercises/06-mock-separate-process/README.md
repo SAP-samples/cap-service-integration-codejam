@@ -6,21 +6,21 @@ At the end of this exercise, you'll have tried out the alternative to in-process
 
 In [exercise 04](../04-understand-service-mocking/) we ended up with our local `/incidents` service, plus a mocked instance of our external service at `/api-business-partner`, both being served from within the same process, i.e. from the same single CAP server, initiated with `cds watch`.
 
-The salient line in the log output is this:
+The salient line in the log output in relation to the mocked external service is this:
 
 ```text
 [cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
 ```
 
-Requests to resources starting with the path `/api-business-partner` are resolved by the CAP server that is also resolving requests to the `/incidents` service.
+Requests to resources starting with the path `/api-business-partner` are resolved by the same CAP server that is also resolving requests to the `/incidents` service.
 
-The advantage of having external services mocked like is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services.
+The advantage of having external services mocked like this is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services.
 
 But the disadvantage is that this is not representative of how the real cross-service communication will happen. The mocked service doesn't behave as a real external service, and the communication happens in-process, rather than over HTTP using the OData protocol, for example.
 
 ## Run the mocked API_BUSINESS_PARTNER service in a separate process
 
-It's possible to mock external services in a separate process, and in this section you're going to try that out.
+It's possible to mock external services in a completely separate process, and in this section you're going to try that out.
 
 👉 First, stop any CAP server, using Ctrl-C to exit any `cds run` or `cds watch` invocations that might still be active.
 
@@ -69,7 +69,7 @@ First, we see some log output that looks vaguely familiar:
 
 Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway.
 
-You can use the `--port` option to specify a port explicitly, if you want, e.g. `cds mock API_BUSINESS_PARTNER --port 1234`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone.
+You can use the `--port` option to specify a port explicitly, if you want, for example `cds mock API_BUSINESS_PARTNER --port 5005`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone.
 
 👉 Stop that mocked service with Ctrl-C, and then restart it, specifying the explicit port of 5005:
 
@@ -176,13 +176,13 @@ That's because `cds watch` looks in the `~/.cds-services.json` file for running 
 
 For simplicity's sake, let's switch back to an in-process mocking setup for now.
 
-👉 Stop both `cds watch` processes, and also the `watch` process if it's still running, with Ctrl-C. You can now close all but one terminal window in your workspace.
+👉 Stop the `cds watch` process and the `cds mock` process, and also the `watch` process if it's still running, with Ctrl-C. You can now close all but one terminal window in your workspace.
 
 👉 Now, in the remaining terminal window, run `cds watch` again, which should start a single process, with the CAP server listening on port 4004, mocking the external service and serving your main service too.
 
 ## Summary
 
-At this point you have seen your main service up and running at <http://localhost:4004> and the external `API_BUSINESS_PARTNER` service mocked and running at <http://localhost:5005>. If you visited the `/A_BusinessPartner` entity set in that mocked service, at <http://localhost:5005/api-business-partner/A_BusinessPartner?$count=true>, you'll have seen that the data you provided via CSV is still being served (and you would have seen the details of those requests in the log output in the terminal window where you started `cds mock API_BUSINESS_PARTNER`).
+At this point you have seen your main service up and running at one host/port combination, and the external `API_BUSINESS_PARTNER` service mocked and available at another host/port combination. If you had visited the `/A_BusinessPartner` entity set in that mocked service, you would have seen that the data you provided via CSV was still being served (and you would have seen the details of those requests in the log output in the terminal window where you started `cds mock API_BUSINESS_PARTNER`).
 
 ## Further reading
 
