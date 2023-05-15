@@ -71,11 +71,19 @@ The values here are from within the [package.json](../incidents/package.json) fi
 
 _Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP Business Accelerator Hub?_
 
+(Note that, at least at the time of writing, the Service Center does not yet reflect "SAP Business Accelerator Hub" as the new name for "SAP API Business Hub").
+
 _What does "A2X" stand for and represent?_
+
+The SAP Business Accelerator Hub [contains many APIs that are marked "A2X"](https://www.google.com/search?q=site%3Aapi.sap.com+%22A2X%22), and it's an important identifier. While "A2A" stands for "Application to Application", suggesting backend(-only) systems that talk to each other, "A2X" stands for "Application to X users" and is normally used to classify synchronous APIs that are used (amongst other purposes) for consumption in frontend (UI) applications. A2X APIs are mostly RESTful in nature (such as OData services) and also often contain annotations (metadata) that can be used by the presentation level to influence the user interface that makes use of data from such an API. See [APIs on SAP API Business Hub](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8308e6d301d54584a33cd04a9861bc52/1e60f14bdc224c2c975c8fa8bcfd7f3f.html?locale=en-US) (sic) for more detail. 
 
 _If you [tried out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) the Business Partner (A2X) API in the browser, did you notice some of the parameters available for GET requests to the main resources (such as `/A_AddressEmailAddress` or `/A_BusinessPartner`) included ones beginning with `$`? What were they, did you recognize them?_
 
+This question is referring to parameters such as `$top`, `$skip`, `$filter`, and so on. They are [OData system query options](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360955), and are recognizable by their `$` prefix. 
+
 _When looking at the "Business Partner" endpoints, did you notice the "/A\_" prefix on each of the endpoints? What do you think that signifies?_
+
+This prefix comes from the naming conventions used in the SAP S/4HANA Virtual Data Model (VDM). Different views of the same underlying persistence-level entity are named with prefixes that describe what type of views they are. There are Basic, Consumption and Composite views, and also Remote API views, which is what the "/A\_" prefixed names are from.
 
 # Exercise 04 - Understand service mocking
 
