@@ -26,11 +26,46 @@ There is a third because basically we have moved up a layer in the CAP service, 
 
 _In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?_
 
+In `db/schema.cds` there's another entity `TeamCalendar`. That is the one that is not shown. It's simply because it is not exposed (like the others are, via entity projections), in the `IncidentsService` service in `srv/incidents-service.cds`.
+
 _There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?_
+
+There is a lot to see. Briefly:
+
+* the `cds watch` command is actually something a little more complicated underneath (see the next question)
+* we can see that `cds watch` is part of the set of development tools as it has a "live reload" facility built in for comfortable development with rapid turnaround of feedback and results 
+* the CAP server has identified the model that it should serve, and shows us where it's getting the model definitions from
+* also as part of the development tools set we see the use of the user-local-and-private `~/.cds-services.json` file
+* as part of the convention over configuration approach the server starts up with an SQLite powered in-memory storage mechanism
+* the storage is for persisting data for the entities, in the form of tables (and views), seed data for which can be supplied in (and is being loaded from) CSV files, again, because of what they've been named (`<namespace>-<Entity name>`) and where they've been stored (`db/data/`)
+* the CAP server will serve the service(s) defined, and also make some sensible choices on service path names (for example here, the `IncidentsService` service is served at `/incidents` (lowercase, without an explicit "service" suffix)
+* the default port for CAP services is 4004; and while the URL shown is `http://localhost:4004`, suggesting that the socket is only available on the loopback device (127.0.0.1), it is in fact listening on `INADDR_ANY` (i.e. 0.0.0.0), as we can see:
+    ```console
+    ; netstat -atn | grep 4004
+    tcp6       0      0 :::4004                 :::*                    LISTEN
+    ```
 
 _`cds watch` is actually just a shortcut for another `cds` command. What is it?_
 
+We can see the answer to this by simply examining the CAP server output (see the previous question) which shows us `cds serve all --with-mocks --in-memory?`, or by looking at the output from `cds watch --help`, which tells us the same thing:
+
+```text
+
+SYNOPSIS
+
+  cds watch [<project>]
+
+  Tells cds to watch for relevant things to come or change in the specified
+  project or the current work directory. Compiles and (re-)runs the server
+  on every change detected.
+
+  Actually, cds watch is just a convenient shortcut for:
+  cds serve all --with-mocks --in-memory?
+```
+
 _In the "Welcome to @sap/cds Server" landing page at <http://localhost:4004>, where do the details `Serving @acme/incidents-mgmt 1.0.0` come from?_
+
+The values here are from within the [package.json](../incidents/package.json) file, specifically the values of the `name` and `version` properties.
 
 # Exercise 03 - Import an OData service definition
 
