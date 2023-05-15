@@ -40,7 +40,7 @@ The upshot of this is that whereas with a locally running VS Code environment, w
 
 In order to provide a comfortable CodeJam experience, and include links to various CAP server provided resources that you'll create along your journey, we can only use generic `localhost` URLs in the exercise content, because we cannot know in advance what the SAP Business Application Studio infrastructure will provide for you in terms of URL structure.
 
-So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you consider using a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space. 
+So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you consider using a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space.
 
 Note that this is only a recommendation so that you can comfortably select URLs in this CodeJam content. You don't have to install such an extension -- you can just as easily select the `http://localhost:4004` style URLs shown in the terminal in your Dev Space instead if you wish.
 
@@ -61,10 +61,39 @@ code cap-service-integration-codejam
 
 Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to reopen everything in a container, as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container".
 
-> If this doesn't happen, check that you have the Dev Containers extension in VS Code - see the [corresponding prerequisites section](../../prerequisites.md#alternative-environment-vs-code-with-a-dev-container) section for details. 
+> If this doesn't happen, check that you have the Dev Containers extension in VS Code - see the [corresponding prerequisites section](../../prerequisites.md#alternative-environment-vs-code-with-a-dev-container) section for details.
 ![The dialog prompting you to "Reopen in Container"](assets/reopen-in-container.png)
 
-At this stage, once VS Code has reopened, you should be all set. You are ready to explore service integration with CAP in your dev container.
+At this stage, once VS Code has reopened, you need to do one more thing, so that both primary and alternative environments are aligned (and so that the instructions in this CodeJam content don't need to differ between them). When you use the "git clone" facility in a Dev Space, the repo is cloned into a directory called `projects/`, which itself lives in your home directory, in other words, it gets cloned to `/home/user/projects/<the-repo>`. In a VS Code dev container, the equivalent repo will be in `/workspaces/<the-repo>`. So let's align the repo location in your VS Code dev container environment to the Dev Space one.
+
+👉 Create a `projects/` directory in your dev container user's home directory, and then create a symbolic link to the repo in there:
+
+```shell
+mkdir -p $HOME/projects/ \
+  && ln -s /workspaces/cap-service-integration-codejam/ $HOME/projects/
+```
+
+> If the `projects/` directory already exists, for some reason, then the `mkdir` command would normally fail and emit a message; this would also mean that the subsequent `ln` command would not run (as they're connected via `&&`). So we use the `-p` option to tell `mkdir` not to complain.
+
+You can make sure that everything is OK by checking that you can see the `incidents/` directory, that's contained in this repo, via this new `projects/` directory in your dev container user's home directory. Here's an example, with what you might expect to see (the `incidents/` directory is visible near the end of the list):
+
+```shell
+$ find -L $HOME/projects -maxdepth 2 -type d
+/home/node/projects
+/home/node/projects/cap-service-integration-codejam
+/home/node/projects/cap-service-integration-codejam/.devcontainer
+/home/node/projects/cap-service-integration-codejam/.git
+/home/node/projects/cap-service-integration-codejam/.github
+/home/node/projects/cap-service-integration-codejam/.reuse
+/home/node/projects/cap-service-integration-codejam/.vscode
+/home/node/projects/cap-service-integration-codejam/LICENSES
+/home/node/projects/cap-service-integration-codejam/assets
+/home/node/projects/cap-service-integration-codejam/exercises
+/home/node/projects/cap-service-integration-codejam/incidents
+/home/node/projects/cap-service-integration-codejam/scripts
+```
+
+Now you should be all set. You are ready to explore service integration with CAP in your dev container.
 
 ## Check the installation of the CDS development kit
 
