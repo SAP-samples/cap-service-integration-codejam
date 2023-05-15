@@ -47,7 +47,7 @@ This should produce log output that looks like this:
 
 ![basic service](assets/basic-service.png)
 
-This sort of makes sense, as `API_BUSINESS_PARTNER` is defined as an external service, one that this service will consume, rather than make available. The only clue that this external service is even acknowledged is in the list of files that are loaded, at the start of the log output, which now includes `srv/external/API_BUSINESS_PARTNER.csn`:
+This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an external service, one that this service will consume, rather than make available. The only clue that this external service is even acknowledged is in the list of files that are loaded, at the start of the log output, which now includes `srv/external/API_BUSINESS_PARTNER.csn`:
 
 ```text
 [cds] - loaded model from 5 file(s):
@@ -130,6 +130,29 @@ This is because external service definitions, like CSN files that are generated 
 This is reflected in the use of the `@cds.persistence.skip` annotation, which tells the compiler that the entity shall not exist in the database at all (see the reference to CDS persistence annotations in the [Further reading](#further-reading) section at the end of this exercise).
 
 This makes sense, as we're dealing here with an external, independent service.
+
+> If you're curious about where exactly in the JSON-based `API_BUSINESS_PARTNER.csn` file this annotation is represented, and want to find out mechanically rather than look through it yourself, you could of course embrace jq and use a short expression to get right to it:
+> ```jq
+> .definitions
+> | with_entries(select(.key | endswith("A_BusinessPartner")))
+> | to_entries | first | .value
+> | with_entries(select(.key | startswith("@")))
+> ```
+> Here's an example of running this (in one line) against the file:
+> ```shell
+> jq '.definitions|with_entries(select(.key | endswith("A_BusinessPartner")))|to_entries[0].value|with_entries(select(.key | startswith("@")))' srv/external/API_BUSINESS_PARTNER.csn
+> ```
+> And here's what it should produce:
+> ```json
+> {
+>   "@cds.external": true,
+>   "@cds.persistence.skip": true,
+>   "@sap.deletable": "false",
+>   "@sap.content.version": "1",
+>   "@sap.label": "Business Partner"
+> }
+> ```
+> jq's trio of functions `to_entries`, `from_entries` and `with_entries` provide a powerful way to convert to and from dynamic and static (predictable) keys and values in objects.
 
 Ultimately, we experienced this issue because we (deliberately) used `cds run`.
 
@@ -343,6 +366,7 @@ At this point you have the service definition for the Business Partner (A2X) API
 * [CDS persistence annotations](https://cap.cloud.sap/docs/cds/annotations#persistence)
 * [Automatic Bindings by cds watch](https://cap.cloud.sap/docs/guides/extensibility/composition#bindings-via-cds-watch)
 * [Model Projections](https://cap.cloud.sap/docs/guides/using-services#model-projections)
+* [to_entries, from_entries, with_entries](https://stedolan.github.io/jq/manual/#to_entries,from_entries,with_entries) in jq
 
 ---
 
