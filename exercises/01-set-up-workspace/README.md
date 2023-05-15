@@ -66,8 +66,6 @@ Once VS Code has started, and opened the directory, it should notice the [dev co
 
 At this stage, once VS Code has reopened, you should be all set. You are ready to explore service integration with CAP in your dev container.
 
-> In case you noticed the manual installation step for the OData CSDL Modeler extension in the context of using a Dev Space (the primary environment instructions), and were wondering why there's no equivalent step here, it's because the extension identifier (`sapse.vsc-extension-odata-csdl-modeler`) is included in the [devcontainer.json](../../.devcontainer/devcontainer.json) file in the list of extensions to install into the dev container. Nice!
-
 ## Check the installation of the CDS development kit
 
 _This and subsequent steps apply to both the primary and alternative environments._
