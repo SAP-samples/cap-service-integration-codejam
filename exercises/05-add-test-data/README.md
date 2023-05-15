@@ -98,8 +98,7 @@ You should now see an additional "init from" line in the log output showing that
 }
 ```
 
-> Many of the properties in the `A_BusinessPartner` entity type have been omitted here for brevity. But this is a good time to point out that any properties which haven't been supplied with data via CSV are still presented, with `null` as their values.
-
+> Many of the properties in the `A_BusinessPartner` entity type have been omitted here for brevity (in fact you could just request the single (non-key) property for which we have values in the CSV file like this: <http://localhost:4004/api-business-partner/A_BusinessPartner?$select=BusinessPartnerFullName>). But however you want to view the data right now, it is a good time to point out that any properties which haven't been supplied with data via CSV are still presented, with `null` as their values.
 
 ## Summary
 
