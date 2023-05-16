@@ -96,7 +96,7 @@ annotate Customers with {
 }
 ```
 
-The f `annotate` here is fairly easy to think about: it adds `@title` annotations to each of the properties in the entity defined just above it in the file; the effect of this is that "Customer ID" and "Customer Name" will appear as column headers instead of the raw property names "ID" and "name" (you'll see this shortly in the popup that will appear when we invoke Value Help).
+Let's start with the second of the two `annotate` expressions here. It's fairly easy to think about: it adds `@title` annotations to each of the properties in the entity defined just above it in the file; the effect of this is that "Customer ID" and "Customer Name" will appear as column headers instead of the raw property names "ID" and "name" (you'll see this shortly in the popup that will appear when we invoke Value Help).
 
 The first is a little bit more special. The `@cds.odata.valuelist` annotation provides advanced, convenient support for Value Help as understood and supported by SAP Fiori. When added to an entity, like here, all managed associations targeting this entity will automatically receive Value Help lists. This single annotation causes the generation of various `@Common.ValueList` annotations.
 
@@ -144,7 +144,7 @@ This time, you'll see that as well as the Customer field being open for input, t
 ```text
 [cds] - > READ Customers { '$select': 'ID,name', '$count': 'true', '$orderby': 'ID', '$skip': '0', '$top': '73' }
 >> delegating to remote service...
-[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER//A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$inlinecount=allpages&$top=73 {
+[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$inlinecount=allpages&$top=73 {
   headers: {
     accept: 'application/json,text/plain',
     'accept-language': 'en-GB',
