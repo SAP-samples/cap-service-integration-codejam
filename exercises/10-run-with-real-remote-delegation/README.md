@@ -118,6 +118,7 @@ This data is coming directly from the remote system.
     ```
 * The query (in `req.query`) was transparently translated into an OData query by the CAP framework
 * The constructed OData query was sent to the remote system using the SAP Cloud SDK
+* The OData query included a `$select` system query option for `BusinessPartner` and `BusinessPartnerFullName`
 
 ## Summary
 
@@ -136,6 +137,8 @@ If you finish earlier than your fellow participants, you might like to ponder th
 1. When we [started the CAP server](#start-the-cap-server), why did we observe a difference between the remote system types "odata" and "odata-v2"?
 
 1. If you were to have omitted the `--profile sandbox` option when running `cds watch`, what would have happened?
+
+1. Why was there a `$select=BusinessPartner,BusinessPartnerFullName` in the query made to the remote system?
 
 ---
 
