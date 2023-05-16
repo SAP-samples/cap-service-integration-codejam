@@ -364,7 +364,11 @@ entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner {
 }
 ```
 
-And tracing back through that projection, we see that the `BusinessPartner` property in `API_BUSINESS_PARTNER.A_BusinessPartner` is defined as `String(10)`, which explains both the value of the `MaxLength` attribute in the EDMX and also the value of the `Type` attribute:
+And tracing back through that projection, we see that the `BusinessPartner` property in `API_BUSINESS_PARTNER.A_BusinessPartner` is defined as `String(10)`:
+
+![the BusinessPartner key property](assets/business-partner-key.png)
+
+This explains both the value of the `MaxLength` attribute in the EDMX and also the value of the `Type` attribute:
 
 ```xml
 <Property Name="customer_ID" Type="Edm.String" MaxLength="10"/>
