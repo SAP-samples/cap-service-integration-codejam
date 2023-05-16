@@ -378,3 +378,41 @@ This explains both the value of the `MaxLength` attribute in the EDMX and also t
 
 __When you added the annotation to include the "Customer" field in the "General Information" field group, the value of the `Data` array looked like this (compressed for brevity): `Data: [ { Value: customer_ID, Label: 'Customer'}, ... ]`. What happens if you switch around the ellipsis (`...`) to come before the object describing the "Customer" field in the array, instead of after it?__
 
+As you'll see, order is important. With the annotation as it was, i.e. like this:
+
+```cds
+annotate IncidentsService.Incidents with @(
+  UI: {
+    FieldGroup #GeneralInformation : {
+      Data: [
+        { Value: customer_ID, Label: 'Customer'},
+        ...
+      ]
+    },
+  }
+);
+```
+
+the "Customer" field appears in the first position in the "General Information" field group:
+
+![Before change - customer field at the start of the field group](assets/before-customer-at-start.png)
+
+If we were to switch things around so that the contents of the `Data` array look like this:
+
+```cds
+annotate IncidentsService.Incidents with @(
+  UI: {
+    FieldGroup #GeneralInformation : {
+      Data: [
+        ...,
+        { Value: customer_ID, Label: 'Customer'}
+      ]
+    },
+  }
+);
+```
+
+then the "Customer" field appears in the last position in the field group:
+
+![After change - customer field at the end of the field group](assets/after-customer-at-end.png)
+
