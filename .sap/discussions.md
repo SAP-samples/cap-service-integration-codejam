@@ -269,7 +269,83 @@ read -rp "API key? " APIKEY \
 
 _When we [started the CAP server](/exercises/10-run-with-real-remote-delegation/README.md#start-the-cap-server), why did we observe a difference between the remote system types "odata" and "odata-v2"?_
 
+This is because the real service, served by the SAP API Business Accelerator Hub's sandbox system, is an OData V2 service:
+
+![the API is an OData V2 service](assets/api-is-odata-v2.png)
+
+Remember the stanza added to `package.json` for this external service actually has "odata-v2" explicitly, in the `kind` property:
+
+```json
+{
+  "API_BUSINESS_PARTNER": {
+    "kind": "odata-v2",
+    "model": "srv/external/API_BUSINESS_PARTNER"
+  }
+}
+```
+
+But the mocked version of the service, provided by the CAP server (the separate process started with `cds mock API_BUSINESS_PARTNER`) is not V2, but V4 (represented here simply by "odata" rather than "odata-v2"). V4 is CAP's default for OData (and quite appropriately too, given that [OData v4 has been in existence for a decade already](https://github.com/qmacro/odata-specs/blob/master/overview.md)).
+
 _If you were to have omitted the `--profile sandbox` option when running `cds watch`, what would have happened?_
+
+We'd be back to the in-process mocking of the `API_BUSINESS_PARTNER` service.
+
+Why?
+
+Because without the `--profile sandbox`, the only information relating to this service is the `kind` and `model`, and not any `credentials` properties. In other words, no external bindings. And if there are no external bindings, and we run `cds watch`, which, as we have learned, is just syntactic sugar for `cds serve  all --with-mocks --in-memory?`, then any service without external bindings are automatically mocked for us. This is what `--with-mocks` does.
+
+Note the difference between the output for `cds env get` with and without the `--profile sandbox` option:
+
+```shell
+cds env get requires.API_BUSINESS_PARTNER --profile sandbox
+```
+
+Returns:
+
+```json
+{
+  "impl": "@sap/cds/libx/_runtime/remote/Service.js",
+  "external": true,
+  "kind": "odata-v2",
+  "model": "srv/external/API_BUSINESS_PARTNER",
+  "credentials": {
+    "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER",
+    "headers": {
+      "APIKey": "<YOUR-API-KEY>"
+    }
+  }
+}
+```
+
+Whereas:
+
+```shell
+cds env get requires.API_BUSINESS_PARTNER
+```
+
+returns just:
+
+```json
+{
+  "impl": "@sap/cds/libx/_runtime/remote/Service.js",
+  "external": true,
+  "kind": "odata-v2",
+  "model": "srv/external/API_BUSINESS_PARTNER"
+}
+```
+
+_Why was there a `$select=BusinessPartner,BusinessPartnerFullName` in the query made to the remote system?_
+
+Because these are the only two properties required, according to the projection made in [../exercises/07-add-cds-definitions/README.md#07-add-cds-definitions#create-a-projection-on-the-external-service):
+
+```cds
+entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner {
+  key BusinessPartner as ID,
+  BusinessPartnerFullName as name
+}
+```
+
+It makes sense to reduce to a minimum the amount of data being requested and transferred.
 
 # Exercise 11 - Associate local and remote entities
 
