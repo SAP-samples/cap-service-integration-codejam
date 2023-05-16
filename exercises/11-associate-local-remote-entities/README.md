@@ -272,6 +272,7 @@ At this point you have more deeply integrated the external service with your own
 * [CAP's support for Fiori's Draft-Based Editing](https://cap.cloud.sap/docs/advanced/fiori#draft-support)
 * [Managed associations in CAP](https://cap.cloud.sap/docs/guides/domain-models#managed-associations)
 * [Back to basics: Managed associations in SAP Cloud Application Programming Model](https://www.youtube.com/playlist?list=PL6RpkC85SLQCSm1JSRzeBE-BlkygKRAAF) (video playlist)
+* [Understanding and exploring managed associations in CAP](https://github.com/qmacro/managed-associations-in-cap/tree/main/guide)
 
 ---
 
