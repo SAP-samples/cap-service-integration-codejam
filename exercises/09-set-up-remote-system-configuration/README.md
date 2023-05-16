@@ -198,9 +198,9 @@ So we won't be going in that direction.
 
 ### Using the .env file
 
-On the command line, you can specify individual environment variables when starting up the CAP server. This is a standard UNIX feature. CAP extends that feature by looking for similar values in a special `.env` file (see the link to project-specific configurations in the [Further reading](#further-reading) section below).
+On the command line, you can specify individual environment variables when starting up the CAP server. This is a common UNIX pattern. CAP extends that by looking for similar values in a special `.env` file (see the link to project-specific configurations in the [Further reading](#further-reading) section below). This is another well-known and understood technique.
 
-On startup, the final configuration is determined from a combination of values from different places, including the `cds` section of the project's `package.json` file, and also values in this `.env` file too.
+On startup, the final configuration is determined from a combination of values from different places, including the `cds` section of the project's `package.json` file, and values in this `.env` file too.
 
 #### Examine the current configuration
 
