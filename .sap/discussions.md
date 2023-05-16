@@ -219,9 +219,51 @@ We get yet another error, from which we can also learn something. It's not reall
 
 # Exercise 09 - Set up the real remote system configuration
 
-_In the `curl` invocation, the `--compressed` option was used. There was a response header that tells us what the compression technique was - what was that response header and what was the encoding?_
+_In the second instance of the `curl` invocation, the `--compressed` option was used. There was a response header that tells us what the compression technique was - what was that response header and what was the encoding?_
+
+The representation in response to a request for the resource at <https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages> is transferred in a compressed form. In other words, the output will be binary data and unreadable. To be fair, along with the "Content-Type" header, the web server sending the response also includes a "Content-Encoding" header in the HTTP response indicating the compression technique used ([gzip](https://www.gnu.org/software/gzip/)):
+
+```log
+Content-Type: application/atom+xml;type=feed; charset=utf-8
+Content-Encoding: gzip
+```
+
+Using the `--compressed` explicitly in the invocation tells curl to request a compressed response, and to automatically decompress the content. This has two effects; first, curl sends this header in the HTTP request:
+
+```log
+Accept-Encoding: deflate, gzip, br
+```
+
+And then it automatically will decompress whatever is returned, according to the compression technique declared in the "Content-Encoding" header of the response.
 
 _When [requesting business partner data from the sandbox](/exercises/09-set-up-remote-system-configuration/README.md#retry-the-request-using-the-api-key) we got an XML response. If we wanted a JSON response (to match what we got when trying it out in the sandbox on the SAP Business Accelerator Hub website), how might we request that? There are two ways - what are they?_
+
+One is to add the [$format](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361046) system query option to the query string in the request's URL, like this:
+
+```shell
+read -rp "API key? " APIKEY \
+&& curl \
+  --verbose \
+  --compressed \
+  --location \
+  --header "APIKey: $APIKEY" \
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$format=json&$top=50&$inlinecount=allpages'
+```
+
+The other is to use [content negotiation](https://en.wikipedia.org/wiki/Content_negotiation) by specifying an "Accept" header in the HTTP request what the desired content type should be, like this:
+
+```shell
+read -rp "API key? " APIKEY \
+&& curl \
+  --verbose \
+  --compressed \
+  --location \
+  --header "APIKey: $APIKEY" \
+  --header "Accept: application/json" \
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages'
+```
+
+> The correct MIME type for JSON is 'application/json', see [Common MIME Types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types).
 
 # Exercise 10 - Run the service with real remote delegation
 
