@@ -288,11 +288,7 @@ But the mocked version of the service, provided by the CAP server (the separate 
 
 _If you were to have omitted the `--profile sandbox` option when running `cds watch`, what would have happened?_
 
-We'd be back to the in-process mocking of the `API_BUSINESS_PARTNER` service.
-
-Why?
-
-Because without the `--profile sandbox`, the only information relating to this service is the `kind` and `model`, and not any `credentials` properties. In other words, no external bindings. And if there are no external bindings, and we run `cds watch`, which, as we have learned, is just syntactic sugar for `cds serve  all --with-mocks --in-memory?`, then any service without external bindings are automatically mocked for us. This is what `--with-mocks` does.
+We'd be back to the in-process mocking of the `API_BUSINESS_PARTNER` service. Why? Because without the `--profile sandbox`, the only information relating to this service is the `kind` and `model`, and not any `credentials` properties. In other words, no external bindings. And if there are no external bindings, and we run `cds watch`, which, as we have learned, is just syntactic sugar for `cds serve  all --with-mocks --in-memory?`, then any service without external bindings are automatically mocked for us. This is what `--with-mocks` does.
 
 Note the difference between the output for `cds env get` with and without the `--profile sandbox` option:
 
