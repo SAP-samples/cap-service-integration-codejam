@@ -1,6 +1,6 @@
 # Exercise 01 - Set up your workspace
 
-_What are the advantages of using container images for development work?_
+__What are the advantages of using container images for development work?__
 
 There are many, including:
 
@@ -12,23 +12,23 @@ There are many, including:
 
 See [Reproducible Development with Devcontainers](https://www.infoq.com/articles/devcontainers/).
 
-_What is the difference between the `@sap/cds` and `@sap/cds-dk` packages?_
+__What is the difference between the `@sap/cds` and `@sap/cds-dk` packages?__
 
 The `dk` stands for Development Kit and refers to the extra tools made available for design, development and testing processes. So the former is the runtime, and the latter is the "SDK" (software development kit).
 
 # Exercise 02 - Explore the basic service
 
-_While there are two imported namespaces shown when examining the `db/schema.cds` contents (`global` and `sap.common`), there are three shown when examining the `srv/incidents-service.cds` contents. What is the third, and where does that come from?_
+__While there are two imported namespaces shown when examining the `db/schema.cds` contents (`global` and `sap.common`), there are three shown when examining the `srv/incidents-service.cds` contents. What is the third, and where does that come from?__
 
 There is a third because basically we have moved up a layer in the CAP service, from the persistence layer to the service layer. So while at the persistence layer (in `db/schema.cds`) the namespace was `acme.incmgt` and, via the `using` statement we got `sap.common` and `global` by default as imported namespaces ... at this service layer, the file-local name (in `srv/incidents-service.cds`) is `IncidentsService` (the name of the service declared in the file) and we then have the three namespaces from the persistence layer as imported namespaces, brought in via the `using { acme.incmgt } from '../db/schema'` statement.
 
 ![the namespaces at the service layer](assets/incidents-service-namespaces.png)
 
-_In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?_
+__In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?__
 
 In `db/schema.cds` there's another entity `TeamCalendar`. That is the one that is not shown. It's simply because it is not exposed (like the others are, via entity projections), in the `IncidentsService` service in `srv/incidents-service.cds`.
 
-_There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?_
+__There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?__
 
 There is a lot to see. Briefly (as some of this will be pointed out in the next exercise):
 
@@ -45,7 +45,7 @@ There is a lot to see. Briefly (as some of this will be pointed out in the next 
     tcp6       0      0 :::4004                 :::*                    LISTEN
     ```
 
-_`cds watch` is actually just a shortcut for another `cds` command. What is it?_
+__`cds watch` is actually just a shortcut for another `cds` command. What is it?__
 
 We can see the answer to this by simply examining the CAP server output (see the previous question) which shows us `cds serve all --with-mocks --in-memory?`, or by looking at the output from `cds watch --help`, which tells us the same thing:
 
@@ -63,31 +63,31 @@ SYNOPSIS
   cds serve all --with-mocks --in-memory?
 ```
 
-_In the "Welcome to @sap/cds Server" landing page at <http://localhost:4004>, where do the details `Serving @acme/incidents-mgmt 1.0.0` come from?_
+__In the "Welcome to @sap/cds Server" landing page at <http://localhost:4004>, where do the details `Serving @acme/incidents-mgmt 1.0.0` come from?__
 
 The values here are from within the [package.json](../incidents/package.json) file, specifically the values of the `name` and `version` properties.
 
 # Exercise 03 - Import an OData service definition
 
-_Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP Business Accelerator Hub?_
+__Did you know that the SAP Business Application Studio Dev Spaces offer a [Service Center](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/1e8ec75c9c784b51a91c7370f269ff98.html) which lets you browse content from various sources, including the SAP Business Accelerator Hub?__
 
 (Note that, at least at the time of writing, the Service Center does not yet reflect "SAP Business Accelerator Hub" as the new name for "SAP API Business Hub").
 
-_What does "A2X" stand for and represent?_
+__What does "A2X" stand for and represent?__
 
 The SAP Business Accelerator Hub [contains many APIs that are marked "A2X"](https://www.google.com/search?q=site%3Aapi.sap.com+%22A2X%22), and it's an important identifier. While "A2A" stands for "Application to Application", suggesting backend(-only) systems that talk to each other, "A2X" stands for "Application to X users" and is normally used to classify synchronous APIs that are used (amongst other purposes) for consumption in frontend (UI) applications. A2X APIs are mostly RESTful in nature (such as OData services) and also often contain annotations (metadata) that can be used by the presentation level to influence the user interface that makes use of data from such an API. See [APIs on SAP API Business Hub](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/8308e6d301d54584a33cd04a9861bc52/1e60f14bdc224c2c975c8fa8bcfd7f3f.html?locale=en-US) (sic) for more detail.
 
-_If you [tried out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) the Business Partner (A2X) API in the browser, did you notice some of the parameters available for GET requests to the main resources (such as `/A_AddressEmailAddress` or `/A_BusinessPartner`) included ones beginning with `$`? What were they, did you recognize them?_
+__If you [tried out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) the Business Partner (A2X) API in the browser, did you notice some of the parameters available for GET requests to the main resources (such as `/A_AddressEmailAddress` or `/A_BusinessPartner`) included ones beginning with `$`? What were they, did you recognize them?__
 
 This question is referring to parameters such as `$top`, `$skip`, `$filter`, and so on. They are [OData system query options](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31360955), and are recognizable by their `$` prefix.
 
-_When looking at the "Business Partner" endpoints, did you notice the "/A\_" prefix on each of the endpoints? What do you think that signifies?_
+__When looking at the "Business Partner" endpoints, did you notice the "/A\_" prefix on each of the endpoints? What do you think that signifies?__
 
 This prefix comes from the naming conventions used in the SAP S/4HANA Virtual Data Model (VDM). Different views of the same underlying persistence-level entity are named with prefixes that describe what type of views they are. There are Basic, Consumption and Composite views, and also Remote API views, which is what the "/A\_" prefixed names are from. In the [Further reading](../exercises/03-import-odata-api/README.md#further-reading) section of this exercise, there's a link to an article on the topic.
 
 # Exercise 04 - Understand service mocking
 
-_In the [Understand what is happening with mocking](/exercises/04-understand-service-mocking/README.md#understand-what-is-happening-with-mocking) section, you got the following output; what is this, and what does it tell us?_
+__In the [Understand what is happening with mocking](/exercises/04-understand-service-mocking/README.md#understand-what-is-happening-with-mocking) section, you got the following output; what is this, and what does it tell us?__
 
 ```json
 {
@@ -105,7 +105,7 @@ So first, this tells us that this is a response for the first request. It tells 
 
 # Exercise 05 - Add test data for the mocked external service
 
-_Is CSV data supplied for the entire external service, or just a single entity within that? What about at the property level within the entity?_
+__Is CSV data supplied for the entire external service, or just a single entity within that? What about at the property level within the entity?__
 
 It's just for the single entity "A_BusinessPartner". We can see that from the fact that there's just a single CSV file, and we know that the convention is that there's generally one file per entity. Moreover, there are only two fields in the CSV data, whereas there are many, many properties in the actual definition of the `A_BusinessPartner` type. How many? Hmm, let's see:
 
@@ -119,7 +119,7 @@ It's just for the single entity "A_BusinessPartner". We can see that from the fa
 84
 ```
 
-_Normally, one might expect data files to be provided at the persistence layer, i.e. somewhere within the `db/` directory. But the data we provided here was not in there. Where was it, and why? Would it work if you put it into `db/data/`?_
+__Normally, one might expect data files to be provided at the persistence layer, i.e. somewhere within the `db/` directory. But the data we provided here was not in there. Where was it, and why? Would it work if you put it into `db/data/`?__
 
 The philosophy and mental model of having this external service, and everything related to it, in `srv/external/` actually is at two levels:
 
@@ -142,17 +142,17 @@ and it would still work, data would still be served at <http://localhost:4004/ap
 
 # Exercise 06 - Mock external service in a separate process
 
-_Could you choose any port with the `--port` option? What about, say, port 42, or 1023? What happens, and why?_
+__Could you choose any port with the `--port` option? What about, say, port 42, or 1023? What happens, and why?__
 
 Ports below 1024 are privileged, i.e. administrative privileges are required to bind to and listen on ports below that number. This is because standard services (such as HTTP, HTTPS, FTP, POP3, SMTP, etc) all listen on low numbered ports, so preventing non-root users from running a service on a low numbered port is a security feature (to prevent service spoofing). See [Priviliged Ports](https://www.w3.org/Daemon/User/Installation/PrivilegedPorts.html) (sic) for more detail. What actually happens in the current CAP server implementation is that no error will be issued if you specify a port below 1024 (e.g. with `--port 80`) but the service will be started on a random (high numbered) port implicitly.
 
 # Exercise 07 - Add CDS definitions to integrate services
 
-_Does the diagram above make sense? How do you visualize the different layers and components of your CAP services? Do you have a different approach?_
+__Does the diagram above make sense? How do you visualize the different layers and components of your CAP services? Do you have a different approach?__
 
 This is a question to provide the context for a general discussion on layering and organization of local & remote resources, and mashups.
 
-_After [creating a projection on the external service](../exercises/07-add-cds-definitions/README.md#create-a-projection-on-the-external-service) where you added content in `srv/external/index.cds`, we noted that there was no difference in what was served, after the CAP server restart - the "Loaded model from N file(s)" message didn't show this new file. Do you know why that was?_
+__After [creating a projection on the external service](../exercises/07-add-cds-definitions/README.md#create-a-projection-on-the-external-service) where you added content in `srv/external/index.cds`, we noted that there was no difference in what was served, after the CAP server restart - the "Loaded model from N file(s)" message didn't show this new file. Do you know why that was?__
 
 This is down to the default locations, known as "roots", from where the CAP server will automatically fetch and load CDS definitions. These are `db/index.cds` (or `db/*.cds`), `srv/index.cds` (or `srv/*.cds`), `app/index.cds` (or `app/*.cds`), plus `schema.cds` and `services.cds`. You can check what these locations are, they're available in the cds env:
 
@@ -167,7 +167,7 @@ See [Customizing Layouts](http://web.archive.org/web/20221207175033/https://cap.
 
 # Exercise 08 - Introduce the SAP Cloud SDK
 
-_When you "make a request to the `Customers` entity set again", what type of OData operation is it?_
+__When you "make a request to the `Customers` entity set again", what type of OData operation is it?__
 
 It's an OData query operation. With a query operation one requests zero, one or more entities in an entity set that is to be the response. The entity set (that used to be a `<feed>` top-level element in OData v2 when the default representation was `atom/xml` - see <https://services.odata.org/V2/OData/OData.svc/Products> for an example) is what distinguishes this from the response to an OData read operation, which is a request for a single entity (and which used to be an `<entry>` element, see <https://services.odata.org/V2/OData/OData.svc/Products(1)> for an example of that).
 
@@ -206,7 +206,7 @@ Here's a typical entity response (i.e. to an OData read operation, specifically 
 }
 ```
 
-_If you stop the mocked external service process (the one you started with `cds mock API_BUSINESS_PARTNER --port 5005`) and then make a call to the `Customers` entity set again, what happens?_
+__If you stop the mocked external service process (the one you started with `cds mock API_BUSINESS_PARTNER --port 5005`) and then make a call to the `Customers` entity set again, what happens?__
 
 We get yet another error, from which we can also learn something. It's not really unexpected, and tells us exactly what's happened:
 
@@ -219,7 +219,7 @@ We get yet another error, from which we can also learn something. It's not reall
 
 # Exercise 09 - Set up the real remote system configuration
 
-_In the second instance of the `curl` invocation, the `--compressed` option was used. There was a response header that tells us what the compression technique was - what was that response header and what was the encoding?_
+__In the second instance of the `curl` invocation, the `--compressed` option was used. There was a response header that tells us what the compression technique was - what was that response header and what was the encoding?__
 
 The representation in response to a request for the resource at <https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages> is transferred in a compressed form. In other words, the output will be binary data and unreadable. To be fair, along with the "Content-Type" header, the web server sending the response also includes a "Content-Encoding" header in the HTTP response indicating the compression technique used ([gzip](https://www.gnu.org/software/gzip/)):
 
@@ -236,7 +236,7 @@ Accept-Encoding: deflate, gzip, br
 
 And then it automatically will decompress whatever is returned, according to the compression technique declared in the "Content-Encoding" header of the response.
 
-_When [requesting business partner data from the sandbox](/exercises/09-set-up-remote-system-configuration/README.md#retry-the-request-using-the-api-key) we got an XML response. If we wanted a JSON response (to match what we got when trying it out in the sandbox on the SAP Business Accelerator Hub website), how might we request that? There are two ways - what are they?_
+__When [requesting business partner data from the sandbox](/exercises/09-set-up-remote-system-configuration/README.md#retry-the-request-using-the-api-key) we got an XML response. If we wanted a JSON response (to match what we got when trying it out in the sandbox on the SAP Business Accelerator Hub website), how might we request that? There are two ways - what are they?__
 
 One is to add the [$format](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part2-url-conventions.html#_Toc31361046) system query option to the query string in the request's URL, like this:
 
@@ -267,7 +267,7 @@ read -rp "API key? " APIKEY \
 
 # Exercise 10 - Run the service with real remote delegation
 
-_When we [started the CAP server](/exercises/10-run-with-real-remote-delegation/README.md#start-the-cap-server), why did we observe a difference between the remote system types "odata" and "odata-v2"?_
+__When we [started the CAP server](/exercises/10-run-with-real-remote-delegation/README.md#start-the-cap-server), why did we observe a difference between the remote system types "odata" and "odata-v2"?__
 
 This is because the real service, served by the SAP API Business Accelerator Hub's sandbox system, is an OData V2 service:
 
@@ -286,7 +286,7 @@ Remember the stanza added to `package.json` for this external service actually h
 
 But the mocked version of the service, provided by the CAP server (the separate process started with `cds mock API_BUSINESS_PARTNER`) is not V2, but V4 (represented here simply by "odata" rather than "odata-v2"). V4 is CAP's default for OData (and quite appropriately too, given that [OData v4 has been in existence for a decade already](https://github.com/qmacro/odata-specs/blob/master/overview.md)).
 
-_If you were to have omitted the `--profile sandbox` option when running `cds watch`, what would have happened?_
+__If you were to have omitted the `--profile sandbox` option when running `cds watch`, what would have happened?__
 
 We'd be back to the in-process mocking of the `API_BUSINESS_PARTNER` service. Why? Because without the `--profile sandbox`, the only information relating to this service is the `kind` and `model`, and not any `credentials` properties. In other words, no external bindings. And if there are no external bindings, and we run `cds watch`, which, as we have learned, is just syntactic sugar for `cds serve  all --with-mocks --in-memory?`, then any service without external bindings are automatically mocked for us. This is what `--with-mocks` does.
 
@@ -330,7 +330,7 @@ returns just:
 }
 ```
 
-_Why was there a `$select=BusinessPartner,BusinessPartnerFullName` in the query made to the remote system?_
+__Why was there a `$select=BusinessPartner,BusinessPartnerFullName` in the query made to the remote system?__
 
 Because these are the only two properties required, according to the projection made in [../exercises/07-add-cds-definitions/README.md#07-add-cds-definitions#create-a-projection-on-the-external-service):
 
@@ -345,9 +345,9 @@ It makes sense to reduce to a minimum the amount of data being requested and tra
 
 # Exercise 11 - Associate local and remote entities
 
-_The name of the new property that appeared in each `Incidents` entity was `customer_ID`. Where does that name (especially the `_ID` part) come from? This name appears as the name of the new `Property` element in the `Incidents` entity type definition in the metadata too, and there, there's a value of `10` for the `MaxLength` attribute. Where is that coming from?_
+__The name of the new property that appeared in each `Incidents` entity was `customer_ID`. Where does that name (especially the `_ID` part) come from? This name appears as the name of the new `Property` element in the `Incidents` entity type definition in the metadata too, and there, there's a value of `10` for the `MaxLength` attribute. Where is that coming from?__
 
 # Exercise 12 - Extend SAP Fiori elements UI with annotations
 
-_When you added the annotation to include the "Customer" field in the "General Information" field group, the value of the `Data` array looked like this (compressed for brevity): `Data: [ { Value: customer_ID, Label: 'Customer'}, ... ]`. What happens if you switch around the ellipsis (`...`) to come before the object describing the "Customer" field in the array, instead of after it?_
+__When you added the annotation to include the "Customer" field in the "General Information" field group, the value of the `Data` array looked like this (compressed for brevity): `Data: [ { Value: customer_ID, Label: 'Customer'}, ... ]`. What happens if you switch around the ellipsis (`...`) to come before the object describing the "Customer" field in the array, instead of after it?__
 
