@@ -125,6 +125,8 @@ Indeed, checking in `srv/external/API_BUSINESS_PARTNER.csn` shows us that this i
 }
 ```
 
+👉 Before we carry on thinking about this for a minute, terminate the current `cds run` process with Ctrl-C.
+
 This is because external service definitions, like CSN files that are generated during the import of an API definition (such as we have here), can be used as any other CDS definition, but they don't generate database tables and views unless they are mocked. 
 
 This is reflected in the use of the `@cds.persistence.skip` annotation, which tells the compiler that the entity shall not exist in the database at all (see the reference to CDS persistence annotations in the [Further reading](#further-reading) section at the end of this exercise).
@@ -160,7 +162,7 @@ Ultimately, we experienced this issue because we (deliberately) used `cds run`.
 
 We used `cds run` to illustrate the issue, or rather the distinction between local and remote services, and the serving thereof. What happens when you use `cds watch` instead of `cds run` here?
 
-👉 Without changing anything in `srv/incidents-service.cds`, terminate the `cds run` command (with Ctrl-C) and execute `cds watch`:
+👉 Without changing anything in `srv/incidents-service.cds`, execute `cds watch`:
 
 ```bash
 cds watch
