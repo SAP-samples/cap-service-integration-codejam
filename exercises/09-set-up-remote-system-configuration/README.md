@@ -256,7 +256,7 @@ cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.url=https://sandbox.api.
 cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.headers.APIKey=<YOUR-API-KEY>
 ```
 
-> The `DEBUG=remote` will cause extra debugging logs to be emitted when remote systems are accessed.
+> Adding `DEBUG=remote` here is a way of more permanently setting that value, compared to what we did in the previous exercise [after installing the @sap-cloud-sdk/http-client package](../08-introduce-sap-cloud-sdk#install-the-sap-cloud-sdkhttp-client-package).
 
 This uses the same properties format as above. Can you see how the dotted notation follows the structure of the JSON hierarchy?
 

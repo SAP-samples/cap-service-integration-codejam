@@ -204,11 +204,13 @@ npm add @sap-cloud-sdk/http-client
 
 > `add` is just a synonym for `install` here.
 
-👉 Once the package has been installed (and it will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time:
+👉 Once the package has been installed (and it will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time, but this time, specify the value `remote` for the `DEBUG` environment variable, so that the CAP server will emit extra information on remote service activities:
 
 ```bash
-cds watch
+DEBUG=remote cds watch
 ```
+
+> Setting an environment variable like this "in-line" with a command means that it will be set for that command only. After you terminate the `cds watch` command here, the value of `DEBUG` will be whatever it was before this invocation, possibly (and probably, in the context of this exercise) nothing. See the [Further reading](#further-reading) section below for more information on the use of `DEBUG`.
 
 👉 Re-request that `Customers` entity set at <http://localhost:4004/incidents/Customers>. You should now get the data, instead of the error, and it will look something like this:
 
@@ -242,7 +244,7 @@ The data itself doesn't look any different. But this time, while essentially the
 
 This is indeed the same request that was attempted before, that we saw in the error message above.
 
-👉 And in fact, if you check the log output from the serving of the main service (the one started with `cds watch`), you should see something like this:
+👉 And in fact, if you check the log output from the serving of the main service (the one started with `cds watch`), you should see something like this (with the detailed log line prefixed "[remote]" being emitted specifically because of `DEBUG=remote`):
 
 ```text
 [cds] - GET /incidents/Customers
@@ -275,6 +277,7 @@ Great work!
 * [cds.connect.to(name, options?)](https://cap.cloud.sap/docs/node.js/cds-connect#cdsconnectto--name-options--service)
 * [SAP Cloud SDK (JavaScript)](https://sap.github.io/cloud-sdk/docs/js/getting-started)
 * [@sap-cloud-sdk/http-client NPM package](https://www.npmjs.com/package/@sap-cloud-sdk/http-client)
+* [DEBUG env variable](https://cap.cloud.sap/docs/node.js/cds-log#debug-env-variable)
 
 ---
 
