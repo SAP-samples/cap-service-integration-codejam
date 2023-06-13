@@ -36,7 +36,7 @@ You should see a similar message to what we encountered in [exercise 04 where we
 Entity "IncidentsService.Customers" is annotated with "@cds.persistence.skip" and cannot be served generically.
 ```
 
-But wait, I hear you say! Didn't we solve that issue by using mocking, and aren't we mocking now?
+"But wait!", I hear you say. Didn't we solve that issue by using mocking, and aren't we mocking now?
 
 Yes.
 
