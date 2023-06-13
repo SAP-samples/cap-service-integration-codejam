@@ -369,6 +369,7 @@ At this point you have the service definition for the Business Partner (A2X) API
 * [Automatic Bindings by cds watch](https://cap.cloud.sap/docs/guides/extensibility/composition#bindings-via-cds-watch)
 * [Model Projections](https://cap.cloud.sap/docs/guides/using-services#model-projections)
 * [to_entries, from_entries, with_entries](https://stedolan.github.io/jq/manual/#to_entries,from_entries,with_entries) in jq
+* [Selecting the related endpoints from a GitHub API response using jq's with_entries](https://qmacro.org/blog/posts/2023/06/12/selecting-the-related-endpoints-from-a-github-api-response-using-jq's-with_entries/)
 
 ---
 
