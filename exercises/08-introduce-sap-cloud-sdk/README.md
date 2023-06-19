@@ -66,15 +66,18 @@ We can do this by creating a simple service implementation, in the `srv/incident
 This `srv/incidents-service.js` file is ready and waiting for our handlers, and currently looks like this:
 
 ```js
-module.exports = (async function() {
+const cds = require('@sap/cds');
+
+module.exports = cds.service.impl (async function() {
 
 })
 ```
 
+> Wrapping the entire function with `cds.service.impl` gives us code completion goodness. Which is always nice.
+
 👉 Inside the function (i.e. in between the top and bottom lines that are in there already), add the following:
 
 ```js
-    const cds = require('@sap/cds');
     const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
 
     this.on('READ', 'Customers', (req) => {
