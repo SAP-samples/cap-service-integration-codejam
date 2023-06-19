@@ -325,7 +325,7 @@ In other words, the CAP server currently started is providing both the locally d
 
 ## Remove the temporary CDS definitions
 
-Right now the service definition (in `srv/external-service.cds`) looks like this:
+Right now the service definition (in `srv/incidents-service.cds`) looks like this:
 
 ```cds
 using { acme.incmgt } from '../db/schema';
