@@ -39,9 +39,9 @@ service  |                                           v                |
          |     |  |  }                                                                          |
          |     |  |                                                                             |
          |     |  +-----------------------------------------------------------------------------+
-         |     |                                     |
+         |     |                                     ^
 service  |     |                                     |
- layer   |     |                                     v
+ layer   |     |                                     |
          |     |  +-[ incidents-service.cds : IncidentsService ]--------------------------------+
          |     |  |                                                                             |
          |     +---> service IncidentsService {                                                 |
