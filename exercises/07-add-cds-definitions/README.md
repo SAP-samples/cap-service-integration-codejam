@@ -119,9 +119,9 @@ external service  |                     |
                   |      |        <integration>         |  mashup.cds
                   |      |                              |
                   |      +------------------------------+
-                  |                     |
+                  |                     ^
  service layer    |                     |
-                  |                     v
+                  |                     |
                   |      +------------------------------+
                   |      |                              |
                   |      |       IncidentsService       |  incidents-service.cds
