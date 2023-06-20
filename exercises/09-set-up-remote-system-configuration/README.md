@@ -175,9 +175,9 @@ If we were to add this information within a "sandbox" profile, it would look lik
       "kind": "sql"
     },
     "API_BUSINESS_PARTNER": {
+      "kind": "odata-v2",
+      "model": "srv/external/API_BUSINESS_PARTNER",
       "[sandbox]": {
-        "kind": "odata-v2",
-        "model": "srv/external/API_BUSINESS_PARTNER",
         "credentials": {
           "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
           "headers": {
