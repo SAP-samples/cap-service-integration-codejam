@@ -114,7 +114,7 @@ aspect EnumsCodeList @cds.autoexpose @cds.odata.valuelist {
 }
 
 // Value Help for Incidents.urgency
-define entity acme.incmgt.Incidents_urgency : EnumsCodeList {}; // REVISIT: Should be Incidents.urgency but this creates confusion with Incidents:urgency
+entity acme.incmgt.Incidents_urgency : EnumsCodeList {}; // REVISIT: Should be Incidents.urgency but this creates confusion with Incidents:urgency
 extend entity Incidents with {
   urgency_: Association to acme.incmgt.Incidents_urgency on urgency_.value = urgency; // REVISIT: we should get rid of unstable element order messages
   extend urgency with @Common : { // REVISIT: we should also support keyword annotate here
@@ -130,7 +130,7 @@ extend entity Incidents with {
 }
 
 // Value Help for Incidents.status
-define entity acme.incmgt.Incidents_status : EnumsCodeList {}; // REVISIT: Should be Incidents.status but this creates confusion with Incidents:status
+entity acme.incmgt.Incidents_status : EnumsCodeList {}; // REVISIT: Should be Incidents.status but this creates confusion with Incidents:status
 extend entity Incidents with {
   status_: Association to acme.incmgt.Incidents_status on status_.value = status; // REVISIT: we should get rid of unstable element order messages
   extend status with @Common : { // REVISIT: we should also support keyword annotate here
