@@ -1,6 +1,6 @@
 const cds = require('@sap/cds')
 
-module.exports = (async function() {
+module.exports = cds.service.impl (async function() {
 
 })
 
