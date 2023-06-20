@@ -290,7 +290,7 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
 1. When you "make a request to the `Customers` entity set again", what type of OData operation is it?
 
-1. If you stop the mocked external service process (the one you started with `cds watch API_BUSINESS_PARTNER --port 5005`) and then make a call to the `Customers` entity set again, what happens?
+1. If you stop the mocked external service process (the one you started with `cds mock API_BUSINESS_PARTNER --port 5005`) and then make a call to the `Customers` entity set again, what happens?
 
 ---
 
