@@ -120,8 +120,10 @@ In addition, a few things should happen:
 
 * the `API_BUSINESS_PARTNER.edmx` file will disappear from the `incidents/` directory
 * a new directory `external/` is created within the `srv/` directory
-* in this directory a file called `API_BUSINESS_PARTNER.csn` appears, which is the CAP-internal schema notation format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
+* in this directory a file called `API_BUSINESS_PARTNER.csn` appears, which is the CAP-internal Core Schema Notation (CSN) format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
 * this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been moved to (although it's only kept for reference, it's actually no longer needed)
+
+> While the default format for imported definitions is CSN, you can also ask for it to be saved in CDS format, like this: `cds import --as cds API_BUSINESS_PARTNER.edmx`.
 
 Finally, a new stanza in the "CDS requires" section of the `package.json` file has been added.
 
