@@ -77,7 +77,9 @@ Each API has a machine-readable specification. More than one, in fact. To incorp
 
 > You need to be logged on to the SAP Business Accelerator Hub to download specifications.
 
-👉 Now copy the `API_BUSINESS_PARTNER.edmx` file to your workspace, specifically into the `incidents/` directory. You can drag files and drop them into the Explorer perspective in either type of workspace - an SAP Business Application Studio Dev Space or VS Code with container image. In the case of VS Code with a container image, you can also simply copy the file into the cloned repository directory on your locally machine ... and it will become automatically available in the context of the running container image.
+👉 Now copy the `API_BUSINESS_PARTNER.edmx` file to your workspace, taking care to copy it specifically into the `incidents/` directory within the workspace.
+
+> You can drag files and drop them into the Explorer perspective in either type of workspace - an SAP Business Application Studio Dev Space or VS Code with container image. In the case of VS Code with a container image, you can also simply copy the file into the cloned repository directory on your locally machine ... and it will become automatically available in the context of the running container image.
 
 👉 Once you have the file in your workspace, take a quick look at it.
 
