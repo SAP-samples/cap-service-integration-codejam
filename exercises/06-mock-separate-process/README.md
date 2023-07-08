@@ -141,7 +141,7 @@ live reload enabled for browsers
 [cds] - [ terminate with ^C ]
 ```
 
-Note however that in contrast to when we originally [introduced mocking in exercise 04](../04-understand-service-mocking/README.md#introduce-mocking), the output of this `cds mock` invocation does not include this line:
+Note however that in contrast to when we originally [introduced mocking in exercise 04](../04-understand-service-mocking/README.md#introduce-mocking), the output of this `cds watch` invocation does not include this line:
 
 ```text
 [cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
