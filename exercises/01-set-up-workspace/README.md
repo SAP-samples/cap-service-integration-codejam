@@ -30,7 +30,7 @@ Choosing the "Full Stack Cloud Application" brings in some predefined extensions
 
 At this point your Dev Space will restart.
 
-#### Set up a URL redirector
+#### Set up a URL redirector (optional)
 
 One of the many great benefits of the SAP Business Application Studio is that you can run it anywhere, all you need is a modern browser. Each Dev Space provides a complete working environment, and the infrastructure also provides you with the facilities to run services and bind to sockets, to listen and respond to incoming requests from your services that are local to the Dev Space but available on the Web.
 
@@ -108,16 +108,16 @@ cds v
 You should see that the CDS development kit is installed. Depending on your workspace, you'll see slightly different output, but it should generally look something like this:
 
 ```text
-@sap/cds: 6.4.1
-@sap/cds-compiler: 3.5.4
-@sap/cds-dk: 6.4.1
-@sap/cds-dk (global): 6.4.1
-@sap/cds-foss: 4.0.0
-@sap/cds-mtx: -- missing --
-@sap/cds-mtxs: 1.4.4
-@sap/eslint-plugin-cds: 2.6.0
-Node.js: v18.13.0
-home: /usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds-dk
+@sap/cds: 7.2.0
+@sap/cds-compiler: 4.2.2
+@sap/cds-dk: 7.0.2
+@sap/cds-dk (global): 7.0.2
+@sap/cds-fiori: 1.1.0
+@sap/cds-foss: 4.0.2
+@sap/cds-mtxs: 1.11.0
+@sap/eslint-plugin-cds: 2.6.3
+Node.js: v18.14.2
+home: /extbin/globals/pnpm/5/.pnpm/registry.npmjs.org+@sap+cds@7.2.0_express@4.18.2/node_modules/@sap/cds
 ```
 
 > The CDS development kit is installed as part of any "Full Stack Cloud Application" type of Dev Space in the SAP Business Application Studio, and for the alternative environment there's a RUN command in the [Dockerfile](../../.devcontainer/Dockerfile) that installs it into the dev container.
@@ -142,9 +142,9 @@ You can double check what's installed, with `npm list --depth=0`, which should s
 
 ```text
 @acme/incidents-mgmt@1.0.0 /home/user/projects/cap-service-integration-codejam/incidents
-├── @sap/cds@6.5.0
+├── @sap/cds@6.8.4
 ├── express@4.18.2
-└── sqlite3@5.1.4
+└── sqlite3@5.1.6
 ```
 
 ## Summary

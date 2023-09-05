@@ -6,7 +6,7 @@ At the end of this exercise, you'll have added CDS definitions to both the impor
 
 ## Create a projection on the external service
 
-The external service "lives", for want of a better word, in the `srv/external/` directory. That's where it belongs, and where it can remain largely independent of your main service. It's here where, for our first step towards cleaner integration, we can add some CDS definitions to "adapt" the service for our own needs. Doing it here also promotes the idea that such a model could come from a third party.
+Within the context of our project, the external service "lives" (for want of a better word) in the `srv/external/` directory. That's where it belongs, and where it can remain largely independent of your main service. It's here where, for our first step towards cleaner integration, we can add some CDS definitions to "adapt" the service for our own needs. Doing it here also promotes the idea that such a model could come from a third party.
 
 > Did you notice that CAP has subtly guided us to this point, to this way of thinking, already? It has done that by convention, by having the default location for `cds import` to be `srv/external/`. See "Import API Definition" in the [Further reading](#further-reading) section below for more details, as well as the output from `cds import --help`, which includes (reduced for brevity):
 >

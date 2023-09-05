@@ -19,27 +19,28 @@ This should produce log output that looks like this:
 ```text
 [cds] - loaded model from 5 file(s):
 
-  db/schema.cds
-  srv/incidents-service.cds
-  app/fiori.cds
   srv/external/API_BUSINESS_PARTNER.csn
-  ../../../usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds/common.cds
+  app/fiori.cds
+  srv/incidents-service.cds
+  db/schema.cds
+  node_modules/@sap/cds/common.cds
 
 [cds] - connect to db > sqlite { url: ':memory:' }
- > init from db/data/acme.incmgt-Appointments.csv
- > init from db/data/acme.incmgt-Incidents.conversation.csv
- > init from db/data/acme.incmgt-Incidents.csv
- > init from db/data/acme.incmgt-Incidents_status.csv
- > init from db/data/acme.incmgt-Incidents_urgency.csv
- > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
- > init from db/data/acme.incmgt-ServiceWorkers.csv
- > init from db/data/acme.incmgt-TeamCalendar.csv
-/> successfully deployed to sqlite in-memory db
+  > init from db/data/acme.incmgt-Appointments.csv 
+  > init from db/data/acme.incmgt-Incidents.conversation.csv 
+  > init from db/data/acme.incmgt-Incidents.csv 
+  > init from db/data/acme.incmgt-Incidents_status.csv 
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
+  > init from db/data/acme.incmgt-ServiceWorkers.csv 
+  > init from db/data/acme.incmgt-TeamCalendar.csv 
+/> successfully deployed to in-memory database. 
 
 [cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 1/30/2023, 12:39:05 PM, version: 6.4.1, in: 1.262s
+[cds] - launched at 9/5/2023, 10:34:14 AM, version: 6.8.4, in: 2.505s
 [cds] - [ terminate with ^C ]
 ```
 
@@ -127,7 +128,7 @@ Indeed, checking in `srv/external/API_BUSINESS_PARTNER.csn` shows us that this i
 
 👉 Before we carry on thinking about this for a minute, terminate the current `cds run` process with Ctrl-C.
 
-This is because external service definitions, like CSN files that are generated during the import of an API definition (such as we have here), can be used as any other CDS definition, but they don't generate database tables and views unless they are mocked. 
+This is because external service definitions, such as CSN files that are generated during the import of an API definition (like we have here), can be used as any other CDS definition, but they don't generate database tables and views unless they are mocked. 
 
 This is reflected in the use of the `@cds.persistence.skip` annotation, which tells the compiler that the entity shall not exist in the database at all (see the reference to CDS persistence annotations in the [Further reading](#further-reading) section at the end of this exercise).
 
@@ -171,39 +172,37 @@ cds watch
 Examine the log output, which should now look something like this:
 
 ```text
-
-cds serve all --with-mocks --in-memory?
-watching: cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml,env,css,gif,html,jpg,png,svg...
-live reload enabled for browsers
+cds serve all --with-mocks --in-memory? 
+live reload enabled for browsers 
 
         ___________________________
-
-
+ 
 [cds] - loaded model from 5 file(s):
 
-  db/schema.cds
-  srv/incidents-service.cds
   app/fiori.cds
+  srv/incidents-service.cds
   srv/external/API_BUSINESS_PARTNER.csn
-  ../../../usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds/common.cds
+  db/schema.cds
+  node_modules/@sap/cds/common.cds
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
- > init from db/data/acme.incmgt-Appointments.csv
- > init from db/data/acme.incmgt-Incidents.conversation.csv
- > init from db/data/acme.incmgt-Incidents.csv
- > init from db/data/acme.incmgt-Incidents_status.csv
- > init from db/data/acme.incmgt-Incidents_urgency.csv
- > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
- > init from db/data/acme.incmgt-ServiceWorkers.csv
- > init from db/data/acme.incmgt-TeamCalendar.csv
-/> successfully deployed to sqlite in-memory db
+  > init from db/data/acme.incmgt-Appointments.csv 
+  > init from db/data/acme.incmgt-Incidents.conversation.csv 
+  > init from db/data/acme.incmgt-Incidents.csv 
+  > init from db/data/acme.incmgt-Incidents_status.csv 
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
+  > init from db/data/acme.incmgt-ServiceWorkers.csv 
+  > init from db/data/acme.incmgt-TeamCalendar.csv 
+/> successfully deployed to in-memory database. 
 
 [cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
 [cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 1/30/2023, 8:05:11 AM, version: 6.4.1, in: 1.215s
+[cds] - launched at 9/5/2023, 10:38:31 AM, version: 6.8.4, in: 1.509s
 [cds] - [ terminate with ^C ]
 ```
 
@@ -242,7 +241,7 @@ It's that second sentence that is key for us here. Our imported `API_BUSINESS_PA
 
 > What is an "external binding"? Put simply, it is a set of related properties containing information on how and where to connect to a remote (i.e. "external") endpoint.
 
-This is reflected in another difference in the log output of our invocation of `cds watch`, where we see this additional line:
+This automatic mocking is thus reflected in another difference in the log output of our invocation of `cds watch`, where we see this additional line:
 
 ```text
 [cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
@@ -290,7 +289,7 @@ There was another line in the output from `cds watch` that we don't see in the `
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 ```
 
-> Note from the filename that this is in your home directory (`~`) and is a hidden file (the name begins with a period). It should be clear from this that this is only for non-productive use, in the context of `cds watch`.
+> Note from the filename that this is in your home directory (`~`) and is a hidden file (the name begins with a period). It should be clear from this that this is only for non-productive i.e. development use, in the context of `cds watch`.
 
 This file contains sections for services provided, and services required, and is written to or fetched from when `cds watch` is invoked (for more information, see the link to the Automatic Binding documentation in the [Further reading](#further-reading) below).
 

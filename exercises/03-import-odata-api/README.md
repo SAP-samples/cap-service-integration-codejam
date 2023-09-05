@@ -168,8 +168,6 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
     ![Service Center in SAP Business Application Studio](assets/service-center.png)
 
-     (The SAP API Business Hub has recently been renamed to SAP Business Accelerator Hub but the renaming process is one that is based on [Eventual Consistency](https://en.wikipedia.org/wiki/Eventual_consistency).)
-
 1. What does "A2X" stand for and represent?
 
 1. If you [tried out](https://api.sap.com/api/API_BUSINESS_PARTNER/tryout) the Business Partner (A2X) API in the browser, did you notice some of the parameters available for GET requests to the main resources (such as `/A_AddressEmailAddress` or `/A_BusinessPartner`) included ones beginning with `$`? What were they, did you recognize them?

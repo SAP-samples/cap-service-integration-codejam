@@ -36,7 +36,7 @@ You should see a similar message to what we encountered in [exercise 04 where we
 Entity "IncidentsService.Customers" is annotated with "@cds.persistence.skip" and cannot be served generically.
 ```
 
-"But wait!", I hear you say. Didn't we solve that issue by using mocking, and aren't we mocking now?
+"_But wait!_", I hear you say. "_Didn't we solve that issue by using mocking, and aren't we mocking now?_"
 
 Yes.
 
@@ -73,9 +73,9 @@ module.exports = cds.service.impl (async function() {
 })
 ```
 
-> Wrapping the entire function with `cds.service.impl` gives us code completion goodness. Which is always nice.
+> Wrapping the entire anonymous function with `cds.service.impl` gives us code completion goodness. Which is always nice.
 
-👉 Inside the function (i.e. in between the top and bottom lines that are in there already), add the following:
+👉 Inside the anonymous function (i.e. inside the `{ ... }`), add the following:
 
 ```js
     const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
@@ -250,19 +250,21 @@ This is indeed the same request that was attempted before, that we saw in the er
 👉 And in fact, if you check the log output from the serving of the main service (the one started with `cds watch`), you should see something like this (with the detailed log line prefixed "[remote]" being emitted specifically because of `DEBUG=remote`):
 
 ```text
-[cds] - GET /incidents/Customers
->> delegating to S4 service...
+[cds] - GET /incidents/Customers 
+>> delegating to remote service...
 [remote] - GET http://localhost:5005/api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000 {
   headers: {
     accept: 'application/json,text/plain',
     'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'x-correlation-id': 'bb9bbbd7-816f-4a60-9631-104ba231eeff'
+    'x-correlation-id': '9ccba1c6-57ef-41e4-b2f1-1c4570916120'
   },
   data: undefined
 }
 ```
 
 This is a sign of a successful delegation to a remote service!
+
+> You may also see warning output about a missing `zid` property in a JSON Web Token (JWT). This warning is from the SAP Cloud SDK and is only emitted because of the `DEBUG` setting. It's related to the attempted retrieval of a tenant ID in the connectivity flow, and we can safely ignore it here.
 
 ## Summary
 

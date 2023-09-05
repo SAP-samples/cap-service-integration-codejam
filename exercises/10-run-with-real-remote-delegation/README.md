@@ -16,13 +16,13 @@ cds watch --profile sandbox
 
 ```text
 [cds] - connect to API_BUSINESS_PARTNER > odata-v2 {
-  url: 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/',
+  url: 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER',
   headers: { APIKey: '...' }
 }
 [cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
 ```
 
-While it's nice to see that the CAP server is still serving the `IncidentsService` as we'd expect (in the second log line here), it's also heart warming to see the connection to the system that is serving the external service, shown in the first log line. What we're seeing in this line is similar to what we saw when we [tried out a remote call to the mocked service which was running in an external process, in exercise 08](../08-introduce-sap-cloud-sdk/README.md#try-it-out):
+While it's nice to see that the CAP server is still serving the `IncidentsService` as we'd expect (in the second log line here), it's also heart warming to see the connection to the system that is serving the external service, shown in the first log line. What we're seeing in this line is similar to what we saw when we [tried out a remote call to the mocked service which was running in an external process, in exercise 08](../08-introduce-sap-cloud-sdk/README.md#try-it-out), which was this:
 
 ```text
 [cds] - connect to API_BUSINESS_PARTNER > odata { 

@@ -107,37 +107,36 @@ cds watch
 The output should look familiar:
 
 ```text
-cds serve all --with-mocks --in-memory?
-watching: cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml,env,css,gif,html,jpg,png,svg...
-live reload enabled for browsers
+cds serve all --with-mocks --in-memory? 
+live reload enabled for browsers 
 
         ___________________________
-
-
+ 
 [cds] - loaded model from 5 file(s):
 
-  db/schema.cds
-  srv/incidents-service.cds
-  app/fiori.cds
   srv/external/API_BUSINESS_PARTNER.csn
-  ../../../usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds/common.cds
+  app/fiori.cds
+  srv/incidents-service.cds
+  db/schema.cds
+  node_modules/@sap/cds/common.cds
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
- > init from db/data/acme.incmgt-Appointments.csv
- > init from db/data/acme.incmgt-Incidents.conversation.csv
- > init from db/data/acme.incmgt-Incidents.csv
- > init from db/data/acme.incmgt-Incidents_status.csv
- > init from db/data/acme.incmgt-Incidents_urgency.csv
- > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
- > init from db/data/acme.incmgt-ServiceWorkers.csv
- > init from db/data/acme.incmgt-TeamCalendar.csv
-/> successfully deployed to sqlite in-memory db
+  > init from db/data/acme.incmgt-Appointments.csv 
+  > init from db/data/acme.incmgt-Incidents.conversation.csv 
+  > init from db/data/acme.incmgt-Incidents.csv 
+  > init from db/data/acme.incmgt-Incidents_status.csv 
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
+  > init from db/data/acme.incmgt-ServiceWorkers.csv 
+  > init from db/data/acme.incmgt-TeamCalendar.csv 
+/> successfully deployed to in-memory database. 
 
 [cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 1/30/2023, 3:47:13 PM, version: 6.4.1, in: 1.150s
+[cds] - launched at 9/5/2023, 11:21:59 AM, version: 6.8.4, in: 1.088s
 [cds] - [ terminate with ^C ]
 ```
 

@@ -74,36 +74,35 @@ cds watch
 👉 Observe how the service starts up, and examine the messages emitted. They should be similar to this:
 
 ```text
-cds serve all --with-mocks --in-memory?
-watching: cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml,env,css,gif,html,jpg,png,svg...
-live reload enabled for browsers
+cds serve all --with-mocks --in-memory? 
+live reload enabled for browsers 
 
         ___________________________
-
-
+ 
 [cds] - loaded model from 4 file(s):
 
-  db/schema.cds
-  srv/incidents-service.cds
   app/fiori.cds
-  ../../../usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds/common.cds
+  srv/incidents-service.cds
+  db/schema.cds
+  node_modules/@sap/cds/common.cds
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
- > init from db/data/acme.incmgt-Appointments.csv
- > init from db/data/acme.incmgt-Incidents.conversation.csv
- > init from db/data/acme.incmgt-Incidents.csv
- > init from db/data/acme.incmgt-Incidents_status.csv
- > init from db/data/acme.incmgt-Incidents_urgency.csv
- > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
- > init from db/data/acme.incmgt-ServiceWorkers.csv
- > init from db/data/acme.incmgt-TeamCalendar.csv
-/> successfully deployed to sqlite in-memory db
+  > init from db/data/acme.incmgt-Appointments.csv 
+  > init from db/data/acme.incmgt-Incidents.conversation.csv 
+  > init from db/data/acme.incmgt-Incidents.csv 
+  > init from db/data/acme.incmgt-Incidents_status.csv 
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
+  > init from db/data/acme.incmgt-ServiceWorkers.csv 
+  > init from db/data/acme.incmgt-TeamCalendar.csv 
+/> successfully deployed to in-memory database. 
 
 [cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 1/27/2023, 1:47:49 PM, version: 6.4.1, in: 1.355s
+[cds] - launched at 9/5/2023, 10:14:22 AM, version: 6.8.4, in: 2.820s
 [cds] - [ terminate with ^C ]
 ```
 
