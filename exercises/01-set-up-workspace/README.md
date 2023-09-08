@@ -99,7 +99,7 @@ Now you should be all set. You are ready to explore service integration with CAP
 
 _This and subsequent steps apply to both the primary and alternative environments._
 
-👉 Open a terminal, using "Terminal: Create New Terminal" in the Command Palette, and at the prompt, check the version:
+👉 Inside your dev container or your Dev Space, open a terminal, using "Terminal: Create New Terminal" in the Command Palette, and at the prompt, check the version:
 
 ```bash
 cds v
