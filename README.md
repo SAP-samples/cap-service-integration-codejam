@@ -10,8 +10,6 @@ This repository contains the material for the "Service Consumption with the SAP 
 
 This CodeJam introduces attendees to service integration with the SAP Cloud Application Programming Model (CAP). Specifically, the Node.js flavor of CAP is used.
 
-## About this CodeJam
-
 During this CodeJam, you'll become acquainted with how external services can be integrated and consumed from within a CAP project. In working through this CodeJam you'll also become comfortable with various facilities that CDS offers for declaring, relating and exposing entities, and familiar with how the SAP Cloud SDK covers connectivity and destinations, supporting such integration scenarios with CAP.
 
 ## Session prerequisites
