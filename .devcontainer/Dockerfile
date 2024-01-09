@@ -1,12 +1,12 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/javascript-node/.devcontainer/base.Dockerfile
+# syntax=docker/dockerfile:1
 
-# [Choice] Node.js version: 18, 16, 14
-ARG VARIANT="18-buster"
+ARG VARIANT="20"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
-# Install extra tools for CAP development & deployment.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends curl git jq 
+# Install some generally useful tools
+RUN apt-get update && apt-get -y install --no-install-recommends curl git
 
 # Install SAP CAP SDK globally
-RUN su node -c "npm install -g @sap/cds-dk"
+USER node
+RUN npm install -g @sap/cds-dk
+WORKDIR /home/node
