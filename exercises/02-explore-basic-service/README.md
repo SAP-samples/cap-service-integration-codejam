@@ -41,7 +41,6 @@ You may have to use this button to reveal the property sheet on the right:
 
 * on the right hand side various components and properties are listed, including imports, entities and so on
 * in the main graphical display there are entities, such as `Incidents` and `ServiceWorkers` (note the icon denoting entities)
-* the `Incidents` entity is further decorated with the `cuid` and `managed` aspects
 * there are relationships shown between the entities, such as the one-to-many relationship between `ServiceWorkers` and `Appointments`
 * the enumerations (enums) are used to provide possible values for certain properties (such as for `urgency` and `status`)
 * the main namespace is `acme.incmgt` but there are also namespaces from the imported items (via the CDS `using` statement at the beginning of `db/schema.cds`)
