@@ -153,6 +153,7 @@ At this point you've got an environment in which to work through the rest of the
 
 ## Further reading
 
+* [Developing CAP in containers - three ways](https://qmacro.org/blog/posts/2024/01/15/developing-cap-in-containers-three-ways/)
 * [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers)
 * [Cloning repositories](https://help.sap.com/docs/SAP%20Business%20Application%20Studio/9d1db9835307451daa8c930fbd9ab264/7a68bfa7111b44f6b1e78b51e803238c.html) in SAP Business Application Studio
 * [The @sap/cds-dk package on NPM](https://www.npmjs.com/package/@sap/cds-dk)
