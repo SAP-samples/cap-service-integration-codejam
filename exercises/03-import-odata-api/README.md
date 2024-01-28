@@ -109,20 +109,13 @@ cds import API_BUSINESS_PARTNER.edmx
 
 You should see some log output that looks like this:
 
-```text
+```log
 [cds] - imported API to srv/external/API_BUSINESS_PARTNER
 > use it in your CDS models through the like of:
 
 using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER'
 
 [cds] - updated ./package.json
-```
-
-```text
-[cds] - imported API to srv/external/API_BUSINESS_PARTNER
-> use it in your CDS models through the like of:
-
-using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER'
 ```
 
 In addition, a few things should happen:
