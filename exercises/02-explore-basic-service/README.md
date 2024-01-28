@@ -73,11 +73,12 @@ cds watch
 👉 Observe how the service starts up, and examine the messages emitted. They should be similar to this:
 
 ```text
-cds serve all --with-mocks --in-memory? 
-live reload enabled for browsers 
+
+cds serve all --with-mocks --in-memory?
+live reload enabled for browsers
 
         ___________________________
- 
+
 [cds] - loaded model from 4 file(s):
 
   app/fiori.cds
@@ -87,21 +88,23 @@ live reload enabled for browsers
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
-  > init from db/data/acme.incmgt-Appointments.csv 
-  > init from db/data/acme.incmgt-Incidents.conversation.csv 
-  > init from db/data/acme.incmgt-Incidents.csv 
-  > init from db/data/acme.incmgt-Incidents_status.csv 
-  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
-  > init from db/data/acme.incmgt-ServiceWorkers.csv 
-  > init from db/data/acme.incmgt-TeamCalendar.csv 
-/> successfully deployed to in-memory database. 
+  > init from db/data/acme.incmgt-TeamCalendar.csv
+  > init from db/data/acme.incmgt-ServiceWorkers.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.csv
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv
+  > init from db/data/acme.incmgt-Incidents_status.csv
+  > init from db/data/acme.incmgt-Incidents.csv
+  > init from db/data/acme.incmgt-Incidents.conversation.csv
+  > init from db/data/acme.incmgt-Appointments.csv
+/> successfully deployed to in-memory database.
 
-[cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
+[cds] - using auth strategy { kind: 'mocked', impl: 'node_modules/@sap/cds/lib/auth/basic-auth' }
+
+[cds] - serving IncidentsService { path: '/odata/v4/incidents', impl: 'srv/incidents-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 9/5/2023, 10:14:22 AM, version: 6.8.4, in: 2.820s
+[cds] - launched at 1/28/2024, 1:26:46 PM, version: 7.5.3, in: 925.666ms
 [cds] - [ terminate with ^C ]
 ```
 
@@ -120,7 +123,9 @@ Here's the equivalent message from a Dev Space in the SAP Business Application S
 While this is not unexpected, take a moment to consider what else is evident from the content of this generated web page, beyond the list of entities with links to the corresponding entity set resources and Fiori preview apps:
 
 * There are no "Web Applications" as this is a headless service (and we have very little in the Application layer, certainly not any HTML)
-* There are endpoints for just a single service, and that service is represented by the service prefix `/incidents`, which just happens also to be the path to the corresponding OData service document (at <http://localhost:4004/incidents>), just as `/incidents/$metadata` happens to be the path to the metadata document of the service (at <http://localhost:4004/incidents/$metadata>)
+* There are endpoints for just a single service, and that service is represented by the service path `/odata/v4/incidents`, which just happens also to be the path to the corresponding OData service document (at <http://localhost:4004/odata/v4/incidents>), just as `/odata/v4/incidents/$metadata` happens to be the path to the metadata document of the service (at <http://localhost:4004/odata/v4/incidents/$metadata>)
+
+> If you're wondering about the `/odata/v4` protocol prefix of the service path `/odata/v4/incidents`, this was [added in the June 2023 release](https://cap.cloud.sap/docs/releases/jun23#changed-default-service-path).
 
 ## Summary
 
@@ -162,15 +167,13 @@ At this point you've examined and started up the base CAP service that you'll be
 
 If you finish earlier than your fellow participants, you might like to ponder these questions. There isn't always a single correct answer and there are no prizes - they're just to give you something else to think about.
 
-1. While there are two imported namespaces shown when examining the `db/schema.cds` contents (`global` and `sap.common`), there are three shown when examining the `srv/incidents-service.cds` contents. What is the third, and where does that come from?
-
 1. In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?
 
 1. There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?
 
 1. `cds watch` is actually just a shortcut for another `cds` command. What is it?
 
-1. In the "Welcome to @sap/cds Server" landing page at <http://localhost:4004>, where do the details `Serving @acme/incidents-mgmt 1.0.0` come from?
+1. With the June 2023 release, default service paths gained a 'protocol prefix'. This means that the service path is prefixed with `/odata/v4`, to become `/odata/v4/incidents`. Prior to the June 2023 release, the service path would have been simply `/incidents`. If we preferred the service to be served at this simpler path, how could we specify that?
 
 ---
 

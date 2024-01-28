@@ -18,12 +18,6 @@ The `dk` stands for Development Kit and refers to the extra tools made available
 
 # Exercise 02 - Explore the basic service
 
-__While there are two imported namespaces shown when examining the `db/schema.cds` contents (`global` and `sap.common`), there are three shown when examining the `srv/incidents-service.cds` contents. What is the third, and where does that come from?__
-
-There is a third because basically we have moved up a layer in the CAP service, from the persistence layer to the service layer. So while at the persistence layer (in `db/schema.cds`) the namespace was `acme.incmgt` and, via the `using` statement we got `sap.common` and `global` by default as imported namespaces ... at this service layer, the file-local name (in `srv/incidents-service.cds`) is `IncidentsService` (the name of the service declared in the file) and we then have the three namespaces from the persistence layer as imported namespaces, brought in via the `using { acme.incmgt } from '../db/schema'` statement.
-
-![the namespaces at the service layer](assets/incidents-service-namespaces.png)
-
 __In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?__
 
 In `db/schema.cds` there's another entity `TeamCalendar`. That is the one that is not shown. It's simply because it is not exposed (like the others are, via entity projections), in the `IncidentsService` service in `srv/incidents-service.cds`.
@@ -63,9 +57,15 @@ SYNOPSIS
   cds serve all --with-mocks --in-memory?
 ```
 
-__In the "Welcome to @sap/cds Server" landing page at <http://localhost:4004>, where do the details `Serving @acme/incidents-mgmt 1.0.0` come from?__
+__With the June 2023 release, default service paths gained a 'protocol prefix'. This means that the service path is prefixed with `/odata/v4`, to become `/odata/v4/incidents`. Prior to the June 2023 release, the service path would have been simply `/incidents`. If we preferred the service to be served at this simpler path, how could we specify that?__
 
-The values here are from within the [package.json](../incidents/package.json) file, specifically the values of the `name` and `version` properties.
+This can be done using the `@path` annotation, like this:
+
+```cds
+@path: '/incidents'
+service IncidentsService { ... }
+```
+
 
 # Exercise 03 - Import an OData service definition
 
