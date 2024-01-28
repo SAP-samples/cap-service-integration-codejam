@@ -1,12 +1,12 @@
-# CAP incidents-mgt
+# CAP a
 _out
 *.db
 *.sqlite
-.env
+connection.properties
 default-*.json
 .cdsrc-private.json
 gen/
-node_modules
+node_modules/
 target/
 
 # Web IDE, App Studio
@@ -26,4 +26,9 @@ mta_archives/
 *.iml
 *.flattened-pom.xml
 
-*.tgz
+# IDEs
+# .vscode
+# .idea
+
+# @cap-js/cds-typer
+@cds-models
