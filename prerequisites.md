@@ -14,7 +14,7 @@ Once you've decided on your environment, follow the corresponding subsection bel
 
 ### Primary environment: An SAP Business Application Studio Dev Space
 
-If you opt for the primary environment, you'll be working in a Dev Space in the SAP Business Application Studio. Therefore you'll need a subscription to the SAP Business Application Studio in an account on the SAP Business Technology Platform (SAP BTP).
+If you opt for the primary environment, you'll be working in a Dev Space in the SAP Business Application Studio. Therefore you'll need a subscription to the SAP Business Application Studio in an account on the SAP Business Technology Platform (SAP BTP). You may find this tutorial helpful: [Get a Free Account on SAP BTP Trial](https://developers.sap.com/tutorials/hcp-create-trial-account.html).
 
 👉 Check you have a subscription to access the SAP Business Application Studio.
 
