@@ -149,11 +149,11 @@ extend service IncidentsService with {
 
 What has this `extend service` definition done? Let's have a look.
 
-👉 Head over to the service endpoints at <http://localhost:4004>, where you'll still find the service endpoint for the mocked external service, at `/api-business-partner`, and the service endpoint for your main service, at `/incidents`.
+👉 Head over to the service endpoints at <http://localhost:4004>, where you'll still find the service endpoint for the mocked external service, at `/odata/v4/api-business-partner`, and the service endpoint for your main service, at `/odata/v4/incidents`.
 
-👉 Note that the data is still being served for the `A_BusinessPartner` entity in the `/api-business-partner` service at <http://localhost:4004/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`).
+👉 Note that the data is still being served for the `A_BusinessPartner` entity in the `/odata/v4/api-business-partner` service at <http://localhost:4004/odata/v4/api-business-partner/A_BusinessPartner> (remember, we have three test records with `BusinessPartner` keys `Z100001`, `Z100002` and `Z100003`).
 
-👉 In addition, note that the data is also being served for an entity in the `/incidents` service endpoint that has now started appearing since you added this bit:
+👉 In addition, note that the data is also being served for an entity in the `/odata/v4/incidents` service endpoint that has now started appearing since you added this bit:
 
 ```cds
 extend service IncidentsService with {
@@ -161,7 +161,7 @@ extend service IncidentsService with {
 }
 ```
 
-That entity is `Customers` and is at <http://localhost:4004/incidents/Customers>.
+That entity is `Customers` and is at <http://localhost:4004/odata/v4/incidents/Customers>.
 
 👉 Access the entity now (essentially you're making an OData query on this new `Customers` entity set) and examine what is returned; it should look something like this:
 
