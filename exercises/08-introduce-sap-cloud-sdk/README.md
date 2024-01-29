@@ -16,7 +16,7 @@ To start on that journey, let's first move away from the in-process mocking that
 cds mock API_BUSINESS_PARTNER --port 5005
 ```
 
-If you now visit <http://localhost:5005> you'll see the service endpoint at `/api-business-partner` being served, i.e. the external service. You can still access the three CSV-supplied records in the `A_BusinessPartner` entity set (<http://localhost:5005/api-business-partner/A_BusinessPartner>).
+If you now visit <http://localhost:5005> you'll see the service endpoint at `/odata/v4/api-business-partner` being served, i.e. the external service. You can still access the three CSV-supplied records in the `A_BusinessPartner` entity set (<http://localhost:5005/odata/v4/api-business-partner/A_BusinessPartner>).
 
 ### Start serving your main service
 
@@ -99,7 +99,7 @@ We're currently mocking that service, and we can see the details that will be av
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:5005/api-business-partner"
+          "url": "http://localhost:5005/odata/v4/api-business-partner"
         }
       }
     }
@@ -107,7 +107,7 @@ We're currently mocking that service, and we can see the details that will be av
 }
 ```
 
-In other words, the connection object will essentially point to `http://localhost:5005/api-business-partner`.
+In other words, the connection object will essentially point to `http://localhost:5005/odata/v4/api-business-partner`.
 
 > The beauty of this approach is that connection information remains abstract and separate from the service implementation, which is especially important when moving across tiered landscapes and also to protect credentials and manage their lifecycle separately.
 
@@ -121,29 +121,61 @@ Continuing to look through the code in `srv/incidents-service.js`, this connecti
 cds watch
 ```
 
-👉 Observe the log output, and you should see something new:
+A rather severe message appears, yikes! Here's a slightly reduced version:
 
 ```text
-[cds] - connect to API_BUSINESS_PARTNER > odata { url: 'http://localhost:5005/api-business-partner' }
+❗️ ERROR on server start: ❗️
+
+ Error: Cannot find module '@sap-cloud-sdk/resilience'
+Require stack:
+- .../node_modules/@sap/cds/libx/_runtime/remote/utils/cloudSdkProvider.js
+- .../node_modules/@sap/cds/libx/_runtime/remote/utils/client.js
+- .../node_modules/@sap/cds/libx/_runtime/remote/Service.js
 ```
 
-This is a direct result of this part of the code you added:
+### Analyze and fix the 'resilience' error
+
+What's happening is that CAP's remote service codebase is invoked because of this new line:
 
 ```js
-await cds.connect.to('API_BUSINESS_PARTNER')
+const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
 ```
+
+which, due to its position in the generally exported module defined in `srv/incident-service.js`, is executed during the server startup (as the implementation for the service defined in `srv/incident-service.cds`) and libraries & functions required for remote service connectivity are loaded. The [@sap-cloud-sdk/resilience](https://www.npmjs.com/package/@sap-cloud-sdk/resilience) module is required, to provide a timeout mechanism for managing remote API calls that may not return, for example.
+
+👉 Fix this by adding this module to the project (making sure you're still in the `incidents/` directory):
+
+```shell
+npm add @sap-cloud-sdk/resilience
+```
+
+> `add` is just a synonym for `install` here.
+
+### Try it out again
+
+Then try to start the CAP server again:
+
+```shell
+cds watch
+```
+
+👉 Observe the log output, and not only does that error not occur any more, you should see something new:
+
+```text
+[cds] - connect to API_BUSINESS_PARTNER > odata { url: 'http://localhost:5005/odata/v4/api-business-partner' }
+```
+
+This indicates that the `cds.connect.to('API_BUSINESS_PARTNER')` call was now made successfully.
 
 Note that this is just an indication that the remote connection details have been marshalled and calls to the remote system can be made as and when required. No calls have actually been made yet, as you can observe from the fact that the log output from the mocked `API_BUSINESS_PARTNER` service (in the other terminal) shows no activity.
 
-👉 Make a request to the `Customers` entity set again via <http://localhost:4004/incidents/Customers>.
+👉 Make a request to the `Customers` entity set again via <http://localhost:4004/odata/v4/incidents/Customers>.
 
 Whoops!
 
 Another error.
 
-But a different one!
-
-### Analyze the error
+But a slightly different one!
 
 There's an XML based HTTP response payload with an error code (502) and a detailed message, the important part of which is this:
 
@@ -154,32 +186,26 @@ Error during request to remote service: Cannot find module '@sap-cloud-sdk/http-
 👉 Head over to the log output of the main CAP server process and take a look. You should see something like this (heavily reduced for brevity):
 
 ```text
+[odata] - GET /odata/v4/incidents/Customers
 >> delegating to remote service...
 [remote] - Error: Error during request to remote service:
 Cannot find module '@sap-cloud-sdk/http-client'
-requireStack: [
-  '/workspaces/cap-service-integration-codejam/incidents/node_modules/@sap/cds/libx/_runtime/remote/utils/client.js',
-  '/workspaces/cap-service-integration-codejam/incidents/node_modules/@sap/cds/libx/_runtime/remote/Service.js',
-  '/workspaces/cap-service-integration-codejam/incidents/node_modules/@sap/cds/lib/index.js',
-  '/workspaces/cap-service-integration-codejam/incidents/node_modules/@sap/cds/bin/cds.js',
-  '/usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/bin/cds.js',
-  '/usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/bin/watch.js'
-],
+Require stack:
+- .../node_modules/@sap/cds/libx/_runtime/remote/utils/cloudSdkProvider.js
+- .../node_modules/@sap/cds/libx/_runtime/remote/utils/client.js
+- .../node_modules/@sap/cds/libx/_runtime/remote/Service.js
 request: {
   method: 'GET',
-  url: '/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000',
-  headers: {
-    accept: 'application/json,text/plain',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'x-correlation-id': '3e57c08d-e7a1-41d9-92db-0d1c14fa3c0e'
-  }
+  url: '/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000'
 }
 ```
+
+### Analyze and fix the 'http-client' error
 
 Let's see what we can discern from this:
 
 * we can see the log message (`>> delegating to remote service...`) appears directly before the error
-* there's a requirement for for an NPM package `@sap-cloud-sdk/http-client` (which we haven't explicitly installed)
+* there's a requirement for for another SAP Cloud SDK module `@sap-cloud-sdk/http-client` (which we also haven't explicitly installed)
 * there's an HTTP GET request being attempted at the time of failure
 * this HTTP request is to the following relative URL (URL-decoded and with whitespace added for readability):
     ```text
@@ -189,25 +215,23 @@ Let's see what we can discern from this:
     &$top=1000
     ```
 
-If you were thinking that this was the direct result of the call to `S4bupa.run(req.query)`, which in turn was the direct result of the `READ` event for `Customers` being triggered, which in turn was a direct result of you making a request to `http://localhost:4004/incidents/Customers`, you'd be spot on.
+If you were thinking that this was the direct result of the call to `S4bupa.run(req.query)`, which in turn was the direct result of the `READ` event for `Customers` being triggered, which in turn was a direct result of you making a request to `http://localhost:4004/odata/v4/incidents/Customers`, you'd be spot on.
 
-CAP makes use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA On-premise and web proxies, and more. There's a link in the [Further reading](#further-reading) section below that will take you to the SAP Cloud SDK guide.
+CAP makes significant use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA On-premise and web proxies, and more. This is in addition to `@sap-cloud-sdk/resilience` that we've already seen. There's a link in the [Further reading](#further-reading) section below that will take you to the SAP Cloud SDK guide.
 
-### Install the @sap-cloud-sdk/http-client package
+So just like before, add this other SAP Cloud SDK module to the project.
 
-So let's install what's needed.
+👉 First, stop the main CAP server process again with Ctrl-C.
 
-👉 Stop the main CAP server process again with Ctrl-C.
-
-👉 Now, making sure you're still in the `incidents/` directory, add the package:
+👉 Now add this module too:
 
 ```bash
 npm add @sap-cloud-sdk/http-client
 ```
 
-> `add` is just a synonym for `install` here.
+> You can check the modules installed for your project now with `npm ls`, which should now include these two from the SAP Cloud SDK.
 
-👉 Once the package has been installed (and it will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time, but this time, specify the value `remote` for the `DEBUG` environment variable, so that the CAP server will emit extra information on remote service activities:
+👉 Once the modules have been installed (and they will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time, but this time, specify the value `remote` for the `DEBUG` environment variable, so that the CAP server will emit extra information on remote service activities:
 
 ```bash
 DEBUG=remote cds watch
@@ -215,7 +239,7 @@ DEBUG=remote cds watch
 
 > Setting an environment variable like this "in-line" with a command means that it will be set for that command only. After you terminate the `cds watch` command here, the value of `DEBUG` will be whatever it was before this invocation, possibly (and probably, in the context of this exercise) nothing. See the [Further reading](#further-reading) section below for more information on the use of `DEBUG`.
 
-👉 Re-request that `Customers` entity set at <http://localhost:4004/incidents/Customers>. You should now get the data, instead of the error, and it will look something like this:
+👉 Re-request that `Customers` entity set at <http://localhost:4004/odata/v4/incidents/Customers>. You should now get the data, instead of the error, and it will look something like this:
 
 ```json
 {
@@ -242,7 +266,7 @@ The data itself doesn't look any different. But this time, while essentially the
 👉 To confirm this, look at the log output from the mocked service (the one you started in the other terminal window with `cds mock API_BUSINESS_PARTNER --port 5005`). You should see the evidence of a request:
 
 ```text
-[cds] - GET /api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner asc&$top=1000
+[cds] - GET /odata/v4/api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner asc&$top=1000
 ```
 
 This is indeed the same request that was attempted before, that we saw in the error message above.
@@ -252,7 +276,7 @@ This is indeed the same request that was attempted before, that we saw in the er
 ```text
 [cds] - GET /incidents/Customers 
 >> delegating to remote service...
-[remote] - GET http://localhost:5005/api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000 {
+[remote] - GET http://localhost:5005/odata/v4/api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000 {
   headers: {
     accept: 'application/json,text/plain',
     'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
@@ -264,15 +288,13 @@ This is indeed the same request that was attempted before, that we saw in the er
 
 This is a sign of a successful delegation to a remote service!
 
-> You may also see warning output about a missing `zid` property in a JSON Web Token (JWT). This warning is from the SAP Cloud SDK and is only emitted because of the `DEBUG` setting. It's related to the attempted retrieval of a tenant ID in the connectivity flow, and we can safely ignore it here.
-
 ## Summary
 
 At this point: 
 
 * you're running your external service in a mocked but real, remote service, accessed via HTTP
 * you've added handler code for the appropriate event to delegate calls to that remote service as required
-* you've installed the HTTP client library from the SAP Cloud SDK to make this connectivity and remote calling possible
+* you've installed the modules from the SAP Cloud SDK to make this connectivity and remote calling possible
 
 Great work!
 
