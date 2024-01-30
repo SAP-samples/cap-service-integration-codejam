@@ -301,6 +301,7 @@ Great work!
 ## Further reading
 
 * [Providing Service Implementations](https://cap.cloud.sap/docs/get-started/in-a-nutshell#providing-service-implementations)
+* [Mock Remote Service as OData Service (Node.js)](https://cap.cloud.sap/docs/guides/using-services#mock-remote-service-as-odata-service-node-js)
 * [cds.connect.to(name, options?)](https://cap.cloud.sap/docs/node.js/cds-connect#cdsconnectto--name-options--service)
 * [SAP Cloud SDK (JavaScript)](https://sap.github.io/cloud-sdk/docs/js/getting-started)
 * [@sap-cloud-sdk/http-client NPM package](https://www.npmjs.com/package/@sap-cloud-sdk/http-client)
