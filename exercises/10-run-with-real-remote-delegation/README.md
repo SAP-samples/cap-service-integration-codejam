@@ -19,15 +19,15 @@ cds watch --profile sandbox
   url: 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER',
   headers: { APIKey: '...' }
 }
-[cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
+[cds] - using auth strategy { kind: 'mocked', impl: 'node_modules/@sap/cds/lib/auth/basic-auth' }
+
+[cds] - serving IncidentsService { path: '/odata/v4/incidents', impl: 'srv/incidents-service.js' }
 ```
 
-While it's nice to see that the CAP server is still serving the `IncidentsService` as we'd expect (in the second log line here), it's also heart warming to see the connection to the system that is serving the external service, shown in the first log line. What we're seeing in this line is similar to what we saw when we [tried out a remote call to the mocked service which was running in an external process, in exercise 08](../08-introduce-sap-cloud-sdk/README.md#try-it-out), which was this:
+While it's nice to see that the CAP server is still serving the `IncidentsService` as we'd expect (in the last log line shown here), it's also heart warming to see the connection to the system that is serving the external service, shown in the first log line. What we're seeing in this line is similar to what we saw when we [tried out a remote call to the mocked service which was running in an external process, in exercise 08](../08-introduce-sap-cloud-sdk/README.md#try-it-out-again), which was this:
 
 ```text
-[cds] - connect to API_BUSINESS_PARTNER > odata { 
-  url: 'http://localhost:5005/api-business-partner'
-}
+[cds] - connect to API_BUSINESS_PARTNER > odata { url: 'http://localhost:5005/odata/v4/api-business-partner' }
 ```
 
 This time it's different, in two ways:
@@ -37,7 +37,18 @@ This time it's different, in two ways:
 
 > Before you wonder, yes, the actual case of "APIKey" is not important. You could have `apikey` instead, for example - the sandbox server doesn't mind.
 
-Note also that even though the `cds` command we used was `watch`, which implies `--with-mocks`, there's no need for the server to mock `API_BUSINESS_PARTNER` because there are details provided for it. There's an external binding! That's also why we don't see any log lines that say something like `mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }`.
+Note also that even though the `cds` command we used was `watch`, which implies `--with-mocks`, there's no need for the server to mock `API_BUSINESS_PARTNER` because there are details provided for it. There's an external binding! As a reminder, here's the help text for `--with-mocks` that we saw in a previous exercise, this time with the relevant condition highlighted in upper case:
+
+```text
+Use this in combination with the variants serving multiple services.
+It starts in-process mock services for all required services configured
+in package.json#cds.requires, WHICH DON'T HAVE EXTERNAL BINDINGS
+in the current process environment.
+Note that by default, this feature is disabled in production and must be
+enabled with configuration 'features.mocked_bindings=true'.
+```
+
+That's also why we don't see any log lines that say something like `mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }`.
 
 👉 Also open up the contents of `~/.cds-services.json` by running `cat ~/.cds-services.json` on the command line in a separate terminal. This now of course only includes information on the provision of the `IncidentsService`:
 
@@ -48,7 +59,7 @@ Note also that even though the `cds` command we used was `watch`, which implies 
       "IncidentsService": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:4004/incidents"
+          "url": "http://localhost:4004/odata/v4/incidents"
         }
       }
     }
@@ -60,7 +71,7 @@ Note also that even though the `cds` command we used was `watch`, which implies 
 
 The moment of truth has arrived!
 
-👉 Head over to the list of service endpoints at <http://localhost:4004/>, and choose the `Customers` entity set via <http://localhost:4004/incidents/Customers>.
+👉 Head over to the list of service endpoints at <http://localhost:4004/>, and choose the `Customers` entity set via <http://localhost:4004/odata/v4/incidents/Customers>.
 
 The response should be similar to what you've seen before, but also different. Different data, like this (heavily reduced for brevity):
 
@@ -90,17 +101,18 @@ This data is coming directly from the remote system.
 👉 Check the log output (whitespace has been added to the URL for better readability):
 
 ```text
-[cds] - GET /incidents/Customers
+[odata] - GET /odata/v4/incidents/Customers
 >> delegating to remote service...
-[remote] - GET https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
-               ?$select=BusinessPartner,BusinessPartnerFullName
-               &$orderby=BusinessPartner%20asc&$top=1000 {
+[remote] - GET https://sandbox.api.sap.com
+            /s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
+            ?$select=BusinessPartner,BusinessPartnerFullName
+            &$orderby=BusinessPartner%20asc
+            &$top=1000 {
   headers: {
     accept: 'application/json,text/plain',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-    'x-correlation-id': '0b71b902-a02b-41a5-8322-037660e01520'
-  },
-  data: undefined
+    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8,de;q=0.7',
+    'x-correlation-id': 'b9b51f0c91ca849f313ba30db918fcc2'
+  }
 }
 ```
 
