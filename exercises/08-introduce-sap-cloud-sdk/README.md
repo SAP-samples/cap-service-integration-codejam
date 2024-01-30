@@ -229,7 +229,50 @@ So just like before, add this other SAP Cloud SDK module to the project.
 npm add @sap-cloud-sdk/http-client
 ```
 
-> You can check the modules installed for your project now with `npm ls`, which should now include these two from the SAP Cloud SDK.
+If you wish, you can check the modules installed for your project now with `npm ls`, which should now include these two from the SAP Cloud SDK.
+
+In addition, note that in real life, you can mitigate these issues beforehand of course, by installing `@sap-cloud-sdk/http-client` at the outset; this will cause `@sap-cloud-sdk/resilience` to be installed too, as a dependency of `@sap-cloud-sdk/http-client`. You can see the difference between the output of `npm ls` right now, i.e. after installing them in the sequence described in this exercise:
+
+```text
++-- @cap-js/sqlite@1.4.0
++-- @sap-cloud-sdk/http-client@3.11.0
++-- @sap-cloud-sdk/resilience@3.11.0
++-- @sap/cds@7.5.3
+`-- express@4.18.2
+```
+
+compared to what it would be like if you'd just installed `@sap-cloud-sdk/http-client` at the outset, in which case the output of `npm ls` would look like this:
+
+```text
++-- @cap-js/sqlite@1.4.0
++-- @sap-cloud-sdk/http-client@3.11.0
++-- @sap/cds@7.5.3
+`-- express@4.18.2
+```
+
+so you'd have to increase the list depth level from the default of 0 to 1, with `npm ls --depth=1`, to see this:
+
+```text
++-- @cap-js/sqlite@1.4.0
+| +-- @cap-js/db-service@1.5.1
+| +-- @sap/cds@7.5.3 deduped
+| `-- better-sqlite3@9.3.0
++-- @sap-cloud-sdk/http-client@3.11.0
+| +-- @sap-cloud-sdk/connectivity@3.11.0
+| +-- @sap-cloud-sdk/resilience@3.11.0
+| +-- @sap-cloud-sdk/util@3.11.0
+| `-- axios@1.6.7
++-- @sap/cds@7.5.3
+| +-- @cap-js/cds-types@0.2.0
+| +-- @sap/cds-compiler@4.5.0
+| +-- @sap/cds-fiori@1.2.2
+| `-- @sap/cds-foss@5.0.0
+`-- express@4.18.2
+  +-- accepts@1.3.8
+  +-- array-flatten@1.1.1
+  +-- body-parser@1.20.1
+  +-- ...
+```
 
 👉 Once the modules have been installed (and they will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time, but this time, specify the value `remote` for the `DEBUG` environment variable, so that the CAP server will emit extra information on remote service activities:
 
