@@ -38,7 +38,6 @@ In the response information you've just been shown, the request URL for the call
 https://sandbox.api.sap.com
   /s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
   ?$top=50
-  &$inlinecount=allpages
 ```
 
 You can see that a GET request with this URL is an OData query operation, in other words we're expecting an entity set response (and indeed you can see the start of that response, in JSON format, in the response body part of the screenshot above).
@@ -50,12 +49,13 @@ The sandbox system that is serving URLs like this is publicly available.
 ```bash
 curl \
   --verbose \
-  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages'
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50'
 ```
 
 You get a response, but perhaps not one that you're looking for:
 
 ```text
+...
 < HTTP/1.1 401 Unauthorized
 < Date: Wed, 01 Feb 2023 06:54:07 GMT
 < Content-Type: application/json
@@ -89,7 +89,7 @@ read -rp "API key? " APIKEY \
   --compressed \
   --location \
   --header "APIKey: $APIKEY" \
-  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages'
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50'
 ```
 
 > The `--compressed` option tells `curl` to request (and, more importantly, expect) compressed response payloads and the `--location` option tells `curl` to follow any redirect responses automatically.
@@ -140,9 +140,6 @@ So one place we could store the URL and API key is in our `package.json` file.
 ```json
 "cds": {
   "requires": {
-    "db": {
-      "kind": "sql"
-    },
     "API_BUSINESS_PARTNER": {
       "kind": "odata-v2",
       "model": "srv/external/API_BUSINESS_PARTNER"
@@ -159,7 +156,7 @@ What would it look like if we stored the URL and API key in here? Well, we alrea
 "API_BUSINESS_PARTNER": {
   "kind": "odata",
   "credentials": {
-    "url": "http://localhost:5005/api-business-partner"
+    "url": "http://localhost:5005/odata/v4/api-business-partner"
   }
 }
 ```
@@ -171,9 +168,6 @@ If we were to add this information within a "sandbox" profile, it would look lik
 ```json
 "cds": {
   "requires": {
-    "db": {
-      "kind": "sql"
-    },
     "API_BUSINESS_PARTNER": {
       "kind": "odata-v2",
       "model": "srv/external/API_BUSINESS_PARTNER",
@@ -231,6 +225,8 @@ This produces what we want to see at this point, which is something like this:
 }
 ```
 
+> Do you recognise the value `@sap/cds/libx/_runtime/remote/Service.js` in the `impl` property? Yes, it's the same file that was referenced when [we encountered the errors in the previous exercise](../08-introduce-sap-cloud-sdk#try-it-out), i.e. the file providing the implementation for connecting to and consuming remote services.
+
 👉 Rerun the command but use `ls` instead of `get`, to see the same information but in a different format:
 
 ```bash
@@ -256,7 +252,7 @@ cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.url=https://sandbox.api.
 cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.headers.APIKey=<YOUR-API-KEY>
 ```
 
-> Adding `DEBUG=remote` here is a way of more permanently setting that value, compared to what we did in the previous exercise [after installing the @sap-cloud-sdk/http-client package](../08-introduce-sap-cloud-sdk#install-the-sap-cloud-sdkhttp-client-package).
+> Adding `DEBUG=remote` here is a way of more permanently setting that value, compared to what we did in the previous exercise [after analyzing and fixing the 'http-client' error](../08-introduce-sap-cloud-sdk#analyze-and-fix-the-http-client-error).
 
 This uses the same properties format as above. Can you see how the dotted notation follows the structure of the JSON hierarchy?
 
