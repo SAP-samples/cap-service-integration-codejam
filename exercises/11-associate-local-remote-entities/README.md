@@ -96,7 +96,7 @@ extend incmgt.Incidents with {
 
 What effect does this new association have? Let's check.
 
-👉 Make sure your CAP server has restarted due to the change (your `cds watch --profile sandbox` process is still running, right?) and visit the `Incidents` entity set at <http://localhost:4004/incidents/Incidents>. Check the individual entities in the response. Here's one of them, for example:
+👉 Make sure your CAP server has restarted due to the change (your `cds watch --profile sandbox` process is still running, right?) and visit the `Incidents` entity set at <http://localhost:4004/odata/v4/incidents/Incidents>. Check the individual entities in the response. Here's one of them, for example:
 
 ```json
 {
@@ -121,7 +121,7 @@ There's a new property in this (and all other) entity objects returned in the en
 > Of course, this is a new property, for the association, and the data in the CSV files that are used to seed the service doesn't include any values that represent any such associations, so the value for this property in each existing entity is `null`.
 
 
-👉 Now head on over to the service metadata at <http://localhost:4004/incidents/$metadata> and find the definition of the `Incidents` entity type as it appears in this EDMX format. It should look something like this:
+👉 Now head on over to the service metadata at <http://localhost:4004/odata/v4/incidents/$metadata> and find the definition of the `Incidents` entity type as it appears in this EDMX format. It should look something like this:
 
 ```xml
 <EntityType Name="Incidents">
@@ -185,14 +185,14 @@ Let's do that now, by using the [REST Client](https://marketplace.visualstudio.c
 ###
 # @name CustomersQuery
 
-GET http://localhost:4004/incidents/Customers?$top=5
+GET http://localhost:4004/odata/v4/incidents/Customers?$top=5
 
 ###
 # @name IncidentsCreate
 
 @customer_ID = {{ CustomersQuery.response.body.value[0].ID }}
 
-POST http://localhost:4004/incidents/Incidents
+POST http://localhost:4004/odata/v4/incidents/Incidents
 Content-Type: application/json
 
 {
@@ -204,7 +204,7 @@ Content-Type: application/json
 ###
 @id = {{IncidentsCreate.response.body.$.ID}}
 
-POST http://localhost:4004/incidents/Incidents(ID={{id}},IsActiveEntity=false)/draftActivate
+POST http://localhost:4004/odata/v4/incidents/Incidents(ID={{id}},IsActiveEntity=false)/draftActivate
 Content-Type: application/json
 ```
 
@@ -223,10 +223,10 @@ This file contains three HTTP requests that are designed to be executed one at a
 
 At this point, you have a new incident relating to a customer. To finish off this exercise, let's just make sure we know what's happened.
 
-👉 Perform an OData query operation to find the incident you just created, by visiting this URL: <http://localhost:4004/incidents/Incidents?$filter=startswith(title,%27New%20Incident%27)%20and%20urgency%20eq%20%27low%27>, which, when URL-decoded and made more readable with whitespace, looks like this:
+👉 Perform an OData query operation to find the incident you just created, by visiting this URL: <http://localhost:4004/odata/v4/incidents/Incidents?$filter=startswith(title,%27New%20Incident%27)%20and%20urgency%20eq%20%27low%27>, which, when URL-decoded and made more readable with whitespace, looks like this:
 
 ```text
-http://localhost:4004/incidents/Incidents
+http://localhost:4004/odata/v4/incidents/Incidents
   ?$filter=startswith(title,'New Incident') and urgency eq 'low'
 ```
 

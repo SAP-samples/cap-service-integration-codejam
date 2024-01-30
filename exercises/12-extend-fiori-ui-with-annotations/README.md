@@ -8,9 +8,9 @@ We're taking advantage of `cds watch` and the automatic reloading of the definit
 
 So to save time, and prevent you from having to re-execute the HTTP requests in `newincident.http` each time you add an annotation, let's add a customer relation to one of the existing incidents in the corresponding CSV file.
 
-👉 With the CAP server still running (with `cds watch --profile sandbox`), identify the ID of a customer in the same way the first of the three requests in `newincident.http` did, by going to <http://localhost:4004/incidents/Customers?$top=5> and selecting the first one.
+👉 With the CAP server still running (with `cds watch --profile sandbox`), identify the ID of a customer in the same way the first of the three requests in `newincident.http` did, by going to <http://localhost:4004/odata/v4/incidents/Customers?$top=5> and selecting the first one.
 
-> What you're after is this, essentially: <http://localhost:4004/incidents/Customers?$top=1&$select=ID>.
+> What you're after is this, essentially: <http://localhost:4004/odata/v4/incidents/Customers?$top=1&$select=ID>.
 
 👉 Modify the `db/data/acme.incmgt-Incidents.csv` file to add `customer_ID` as a field to the start of the header line, and to insert a column so that the first record ("Broomstick doesn't fly") has the customer ID value you just obtained (and that the other records have at least an extra semi-colon, as shown here, where `11` is the customer ID):
 
@@ -100,7 +100,7 @@ Let's start with the second of the two `annotate` expressions here. It's fairly 
 
 The first is a little bit more special. The `@cds.odata.valuelist` annotation provides advanced, convenient support for Value Help as understood and supported by SAP Fiori. When added to an entity, like here, all managed associations targeting this entity will automatically receive Value Help lists. This single annotation causes the generation of various `@Common.ValueList` annotations.
 
-👉 To see this, once you've added these annotations and seen the CAP server restart, have a look at the metadata document for the `/incidents` service endpoint, i.e. at <http://localhost:4004/incidents/$metadata>, where you'll find this new section for the `IncidentService.Incidents/customer_ID` target:
+👉 To see this, once you've added these annotations and seen the CAP server restart, have a look at the metadata document for the `/odata/v4/incidents` service endpoint, i.e. at <http://localhost:4004/odata/v4/incidents/$metadata>, where you'll find this new section for the `IncidentService.Incidents/customer_ID` target:
 
 
 ```xml
