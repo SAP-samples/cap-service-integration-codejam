@@ -26,21 +26,23 @@ This should produce log output that looks like this:
   node_modules/@sap/cds/common.cds
 
 [cds] - connect to db > sqlite { url: ':memory:' }
-  > init from db/data/acme.incmgt-Appointments.csv 
-  > init from db/data/acme.incmgt-Incidents.conversation.csv 
-  > init from db/data/acme.incmgt-Incidents.csv 
-  > init from db/data/acme.incmgt-Incidents_status.csv 
-  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
-  > init from db/data/acme.incmgt-ServiceWorkers.csv 
-  > init from db/data/acme.incmgt-TeamCalendar.csv 
-/> successfully deployed to in-memory database. 
+  > init from db/data/acme.incmgt-TeamCalendar.csv
+  > init from db/data/acme.incmgt-ServiceWorkers.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.csv
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv
+  > init from db/data/acme.incmgt-Incidents_status.csv
+  > init from db/data/acme.incmgt-Incidents.csv
+  > init from db/data/acme.incmgt-Incidents.conversation.csv
+  > init from db/data/acme.incmgt-Appointments.csv
+/> successfully deployed to in-memory database.
 
-[cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
+[cds] - using auth strategy { kind: 'mocked', impl: 'node_modules/@sap/cds/lib/auth/basic-auth' }
+
+[cds] - serving IncidentsService { path: '/odata/v4/incidents', impl: 'srv/incidents-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 9/5/2023, 10:34:14 AM, version: 6.8.4, in: 2.505s
+[cds] - launched at 1/29/2024, 9:36:59 AM, version: 7.5.3, in: 2.254s
 [cds] - [ terminate with ^C ]
 ```
 
@@ -53,11 +55,11 @@ This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an ext
 ```text
 [cds] - loaded model from 5 file(s):
 
-  db/schema.cds
-  srv/incidents-service.cds
-  app/fiori.cds
   srv/external/API_BUSINESS_PARTNER.csn
-  ../../../usr/local/share/npm-global/lib/node_modules/@sap/cds-dk/node_modules/@sap/cds/common.cds
+  app/fiori.cds
+  srv/incidents-service.cds
+  db/schema.cds
+  node_modules/@sap/cds/common.cds
 ```
 
 👉 For now, stop the server again with Ctrl-C.
@@ -85,11 +87,11 @@ service IncidentsService {
 }
 ```
 
-While you do this (and assuming you're typing it in manually, like a good participant!) notice how the CDS language support makes it very easy to explore the resources with keyboard completion, as it knows how to read and present the definitions in the recently imported external service:
+While you do this (and assuming you're typing it in manually, like a good participant!) notice how the CDS language support in your editor makes it very easy to explore the resources with keyboard completion, as it knows how to read and present the definitions in the recently imported external service:
 
 ![completion of resources from the external service](assets/external-completion.png)
 
-👉 At the command line, restart the server by stopping the running one with Ctrl-C and then invoking `cds run` again:
+👉 At the command line, restart the server (you should have stopped it earlier in this exercise with Ctrl-C) by invoking `cds run` again:
 
 ```bash
 cds run
@@ -101,7 +103,7 @@ This should produce log output similar to what you saw just before - no discerni
 
 ![customers endpoint](assets/customers-endpoint.png)
 
-👉 Select that `Customers` endpoint link <http://localhost:4004/incidents/Customers> (not the Fiori preview one). What do you get?
+👉 Select that `Customers` endpoint link <http://localhost:4004/odata/v4/incidents/Customers> (not the Fiori preview one). What do you get?
 
 ```xml
 <error xmlns="http://docs.oasis-open.org/odata/ns/metadata">
@@ -169,14 +171,15 @@ We used `cds run` to illustrate the issue, or rather the distinction between loc
 cds watch
 ```
 
-Examine the log output, which should now look something like this:
+👉 Examine the log output, which should now look something like this:
 
 ```text
-cds serve all --with-mocks --in-memory? 
-live reload enabled for browsers 
+
+cds serve all --with-mocks --in-memory?
+live reload enabled for browsers
 
         ___________________________
- 
+
 [cds] - loaded model from 5 file(s):
 
   app/fiori.cds
@@ -187,23 +190,26 @@ live reload enabled for browsers
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
-  > init from db/data/acme.incmgt-Appointments.csv 
-  > init from db/data/acme.incmgt-Incidents.conversation.csv 
-  > init from db/data/acme.incmgt-Incidents.csv 
-  > init from db/data/acme.incmgt-Incidents_status.csv 
-  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
-  > init from db/data/acme.incmgt-ServiceWorkers.csv 
-  > init from db/data/acme.incmgt-TeamCalendar.csv 
-/> successfully deployed to in-memory database. 
+  > init from db/data/acme.incmgt-TeamCalendar.csv
+  > init from db/data/acme.incmgt-ServiceWorkers.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.csv
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv
+  > init from db/data/acme.incmgt-Incidents_status.csv
+  > init from db/data/acme.incmgt-Incidents.csv
+  > init from db/data/acme.incmgt-Incidents.conversation.csv
+  > init from db/data/acme.incmgt-Appointments.csv
+/> successfully deployed to in-memory database.
 
-[cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
-[cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
+[cds] - using auth strategy { kind: 'mocked', impl: 'node_modules/@sap/cds/lib/auth/basic-auth' }
+
+[cds] - serving IncidentsService { path: '/odata/v4/incidents', impl: 'srv/incidents-service.js' }
+[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 9/5/2023, 10:38:31 AM, version: 6.8.4, in: 1.509s
+[cds] - launched at 1/29/2024, 9:58:39 AM, version: 7.5.3, in: 1.486s
 [cds] - [ terminate with ^C ]
+
 ```
 
 It looks very similar to the output we've just seen from `cds run`, but there are a few essential additions.
@@ -214,7 +220,6 @@ It looks very similar to the output we've just seen from `cds run`, but there ar
 
 ```text
 cds serve all --with-mocks --in-memory?
-watching: cds,csn,csv,ts,mjs,cjs,js,json,properties,edmx,xml,env,css,gif,html,jpg,png,svg...
 live reload enabled for browsers
 ```
 
@@ -244,18 +249,18 @@ It's that second sentence that is key for us here. Our imported `API_BUSINESS_PA
 This automatic mocking is thus reflected in another difference in the log output of our invocation of `cds watch`, where we see this additional line:
 
 ```text
-[cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
 ```
 
-This shows us that the external service is being mocked, and being made available under a separate path in the service. That path is `/api-business-partner`.
+This shows us that the external service is being mocked, and being made available under a separate path in the service. That path is `/odata/v4/api-business-partner`.
 
 👉 Head on over to <http://localhost:4004> to see what is being served in the context of `cds watch` now. You should see something like this (just the first part is shown in this screenshot, there are more entities in the list):
 
 ![the API_BUSINESS_PARTNER service endpoint](assets/api-business-partner-service-endpoint.png)
 
-This is a separate, second service endpoint that's now being served, at `/api-business-partner`, in addition to the `/incidents` service endpoint, which is listed further down.
+This is a separate, second service endpoint that's now being served, at `/odata/v4/api-business-partner`, in addition to the `/odata/v4/incidents` service endpoint, which is listed further down.
 
-👉 Try this mocking out for yourself, by selecting the `A_BusinessPartner` entity from the `api-business-partner` service endpoint, i.e. <http://localhost:4004/api-business-partner/A_BusinessPartner>.
+👉 Try this mocking out for yourself, by selecting the `A_BusinessPartner` entity, i.e. <http://localhost:4004/odata/v4/api-business-partner/A_BusinessPartner>.
 
 You should be presented with something like this:
 
@@ -268,7 +273,7 @@ You should be presented with something like this:
 
 It's not much, but it's better than an error, it's an actual valid response (check out the [Questions](#questions) section below for a couple of things to ponder on this output).
 
-👉 While you're there, head to the `/incidents` service endpoint and select the `Customers` link. The output should be similar, i.e. no error relating to persistence being skipped:
+👉 While you're there, head to the `/odata/v4/incidents` service endpoint and select the `Customers` link. The output should be similar, i.e. no error relating to persistence being skipped:
 
 ```text
 {
@@ -277,7 +282,7 @@ It's not much, but it's better than an error, it's an actual valid response (che
 }
 ```
 
-> This (empty) data set, at <http://localhost:4004/incidents/Customers>, is actually the same source as <http://localhost:4004/api-business-partner/A_BusinessPartner>, except of course that the `@odata.context` tells us that semantically (from the data model perspective) the entity is different.
+> This (empty) data set, at <http://localhost:4004/odata/v4/incidents/Customers>, is actually the same source as <http://localhost:4004/odata/v4/api-business-partner/A_BusinessPartner>, except of course that the `@odata.context` tells us that semantically (from the data model perspective) the entity is different.
 
 ## Learn about the CDS services registry
 
@@ -302,13 +307,13 @@ This file contains sections for services provided, and services required, and is
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:4004/api-business-partner"
+          "url": "http://localhost:4004/odata/v4/api-business-partner"
         }
       },
       "IncidentsService": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:4004/incidents"
+          "url": "http://localhost:4004/odata/v4/incidents"
         }
       }
     }
@@ -354,7 +359,7 @@ service IncidentsService {
 
 👉 Assuming your `cds watch` process is still running at this point, note what happens when these changes are saved and the CAP server restarts. 
 
-Both service endpoints, i.e. `/api-business-partner` and `/incidents` are still available and being served (at <http://localhost:4004>), and the `/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file. However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again.
+Both service endpoints, i.e. `/odata/v4/api-business-partner` and `/odata/v4/incidents` are still available and being served (at <http://localhost:4004>), and the `/odata/v4/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file. However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again.
 
 👉 Take a moment to think about the approach we took here to bring in an external service. While it's possible, it's rather too direct, and definitely not the cleanest and most modular approach. This is why we've removed this experiment now.
 

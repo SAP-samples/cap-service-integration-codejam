@@ -55,7 +55,7 @@ You should now see an additional "init from" line in the log output showing that
  > init from srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.CSV
 ```
 
-👉 Head back to the browser, open <http://localhost:4004> and select the `A_BusinessPartner` endpoint at <http://localhost:4004/api-business-partner/A_BusinessPartner>. This represents the entity set from the original imported OData service, and is now returned not empty, as before, but with data.
+👉 Head back to the browser, open <http://localhost:4004> and select the `A_BusinessPartner` endpoint at <http://localhost:4004/odata/v4/api-business-partner/A_BusinessPartner>. This represents the entity set from the original imported OData service, and is now returned not empty, as before, but with data.
 
 👉 To confirm that there are indeed just three records (from the CSV file), add the OData system query option `$count=true` as a query string parameter to the URL you just used, and you should see output like this:
 
@@ -98,7 +98,7 @@ You should now see an additional "init from" line in the log output showing that
 }
 ```
 
-> Many of the properties in the `A_BusinessPartner` entity type have been omitted here for brevity (in fact you could just request the single (non-key) property for which we have values in the CSV file like this: <http://localhost:4004/api-business-partner/A_BusinessPartner?$count=true&$select=BusinessPartnerFullName>). But however you want to view the data right now, it is a good time to point out that any properties which haven't been supplied with data via CSV are still presented, with `null` as their values.
+> Many of the properties in the `A_BusinessPartner` entity type have been omitted here for brevity (in fact you could just request the single (non-key) property for which we have values in the CSV file like this: <http://localhost:4004/odata/v4/api-business-partner/A_BusinessPartner?$count=true&$select=BusinessPartnerFullName>). But however you want to view the data right now, it is a good time to point out that any properties which haven't been supplied with data via CSV are still presented, with `null` as their values.
 
 ## Summary
 

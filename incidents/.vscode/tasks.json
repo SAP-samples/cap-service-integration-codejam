@@ -16,9 +16,9 @@
     },
     {
       "type": "shell",
-      "label": "cds run",
+      "label": "cds serve",
       "command": "cds",
-      "args": ["run", "--with-mocks", "--in-memory?"],
+      "args": ["serve", "--with-mocks", "--in-memory?"],
       "problemMatcher": []
     }
   ]

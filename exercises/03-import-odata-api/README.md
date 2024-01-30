@@ -31,19 +31,19 @@ The [SAP Business Accelerator Hub](https://api.sap.com) is where service definit
 
 > It's specifically the "Business Partner" area within the wider Business Partner (A2X) API that we'll be digging deeper into in this CodeJam.
 
-👉 Within the "Business Partner" group, identify and expand the first endpoint in the list, which is the `GET /A_BusinessPartner` endpoint. Scroll down to the "Responses" section for this entry, which should look like this, showing a typical OData V2 JSON response (with the [tell-tale `d` property](https://www.odata.org/documentation/odata-version-2-0/json-format/#:~:text=The%20name%20of%20the%20name,but%20not%20valid%20JavaScript%20statements.)) as the "Example Value":
+👉 Within the "Business Partner" group, identify and expand the first endpoint in the list, which is the `GET /A_BusinessPartner` endpoint. Scroll down to the "Responses" section for this entry and make sure the "Example Value" is selected, which should look like this, showing a typical OData V2 JSON response (with the [tell-tale `d` property](https://www.odata.org/documentation/odata-version-2-0/json-format/#:~:text=The%20name%20of%20the%20name,but%20not%20valid%20JavaScript%20statements.)):
 
 ![The responses section for the GET /A_BusinessPartner endpoint](assets/get-a_businesspartner-endpoint-responses.png)
 
-👉 Switch from the "Example Value" to the "Schema" view for the response, and note that the schema is essentially a collection of entities of the type `A_BusinessPartnerType`. Remember this as it will be relevant very shortly:
+👉 Switch from the "Example Value" to the "Schema" for the response, and note that the schema is essentially a collection of entities of the type `A_BusinessPartnerType`. Remember this as it will be relevant very shortly:
 
 ![The response schema for the GET /A_BusinessPartner endpoint](assets/response-schema.png)
 
 ### Understand how we will use the business partner as customer
 
-We'll be using the generic "Business Partner" concept to be a further entity in our service, specifically the customer (who create incidents).
+We'll be using the generic "Business Partner" concept to be the basis for a further entity in our service, specifically the customer (who create incidents).
 
-👉 Look at this updated entity relationship diagram, and note where we will introduce the business partner as `Customers`:
+👉 Look at this updated entity relationship diagram, and note where we will introduce business partners as `Customers`:
 
 ```text
 ┌────────────────┐       ┌────────────────┐       ┌────────────────┐
@@ -109,11 +109,13 @@ cds import API_BUSINESS_PARTNER.edmx
 
 You should see some log output that looks like this:
 
-```text
+```log
 [cds] - imported API to srv/external/API_BUSINESS_PARTNER
 > use it in your CDS models through the like of:
 
 using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER'
+
+[cds] - updated ./package.json
 ```
 
 In addition, a few things should happen:
@@ -125,16 +127,13 @@ In addition, a few things should happen:
 
 > While the default format for imported definitions is CSN, you can also ask for it to be saved in CDS format, like this: `cds import --as cds API_BUSINESS_PARTNER.edmx`.
 
-Finally, a new stanza in the "CDS requires" section of the `package.json` file has been added.
+Finally, the requisite configuration is written to the "CDS" section of the `package.json` file (this section is created at this point if it doesn't already exist).
 
-👉 Open the `package.json` file and take a look, it should look like this (shown here alongside the existing `db` stanza, for context):
+👉 Open the `package.json` file and take a look, the "CDS" section should look like this:
 
 ```json
 "cds": {
   "requires": {
-    "db": {
-      "kind": "sql"
-    },
     "API_BUSINESS_PARTNER": {
       "kind": "odata-v2",
       "model": "srv/external/API_BUSINESS_PARTNER"
@@ -143,7 +142,7 @@ Finally, a new stanza in the "CDS requires" section of the `package.json` file h
 }
 ```
 
-This `API_BUSINESS_PARTNER` stanza is a simple definition of an external resource upon which our basic service now relies. The properties (`kind` and `model`) are fairly self-explanatory: the resource is an OData V2 service, and the model that describes it is in a file called `API_BUSINESS_PARTNER.csn` (the `csn` extension is default and implied here) in the `srv/external/` directory.
+This `API_BUSINESS_PARTNER` "requires" stanza is a simple definition of an external resource upon which our basic service now relies. The properties (`kind` and `model`) are fairly self-explanatory: the resource is an OData V2 service, and the model that describes it is in a file called `API_BUSINESS_PARTNER.csn` (the `csn` extension is default and implied here) in the `srv/external/` directory.
 
 This is not all that can appear in such a stanza, as you'll find out in later exercises.
 

@@ -4,15 +4,15 @@ At the end of this exercise, you'll have tried out the alternative to in-process
 
 ## Consider the current mocking setup
 
-In [exercise 04](../04-understand-service-mocking/) we ended up with our local `/incidents` service, plus a mocked instance of our external service at `/api-business-partner`, both being served from within the same process, i.e. from the same single CAP server, initiated with `cds watch`.
+In [exercise 04](../04-understand-service-mocking/) we ended up with our local `/odata/v4/incidents` service, plus a mocked instance of our external service at `/odata/v4/api-business-partner`, both being served from within the same process, i.e. from the same single CAP server, initiated with `cds watch`.
 
 The salient line in the log output in relation to the mocked external service is this:
 
 ```text
-[cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
 ```
 
-Requests to resources starting with the path `/api-business-partner` are resolved by the same CAP server that is also resolving requests to the `/incidents` service.
+Requests to resources starting with the path `/odata/v4/api-business-partner` are resolved by the same CAP server that is also resolving requests to the `/odata/v4/incidents` service.
 
 The advantage of having external services mocked like this is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services.
 
@@ -62,12 +62,12 @@ First, we see some log output that looks vaguely familiar:
 
 ```text
 
-[cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
 
 [cds] - server listening on { url: 'http://localhost:45149' }
 ```
 
-Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway.
+Note however that it's not the default port 4004 that's being used, it's a random one (45149). Think of this difference as the distinction between the local "main" service at the `/odata/v4/incidents` endpoint that we would want to have served on 4004, and this temporary external service that is just running on a random port as it's "secondary", and would have a different hostname and port (representing the SAP S/4HANA Cloud system) when we move into production anyway.
 
 You can use the `--port` option to specify a port explicitly, if you want, for example `cds mock API_BUSINESS_PARTNER --port 5005`. In fact, we're going to use that now, mostly to make this CodeJam content (and specifically the URLs) consistent and usable for everyone.
 
@@ -86,7 +86,7 @@ The second thing to notice is that the mocked service appears in the `~/.cds-ser
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:5005/api-business-partner"
+          "url": "http://localhost:5005/odata/v4/api-business-partner"
         }
       }
     }
@@ -107,11 +107,12 @@ cds watch
 The output should look familiar:
 
 ```text
-cds serve all --with-mocks --in-memory? 
-live reload enabled for browsers 
+
+cds serve all --with-mocks --in-memory?
+live reload enabled for browsers
 
         ___________________________
- 
+
 [cds] - loaded model from 5 file(s):
 
   srv/external/API_BUSINESS_PARTNER.csn
@@ -122,28 +123,31 @@ live reload enabled for browsers
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
-  > init from db/data/acme.incmgt-Appointments.csv 
-  > init from db/data/acme.incmgt-Incidents.conversation.csv 
-  > init from db/data/acme.incmgt-Incidents.csv 
-  > init from db/data/acme.incmgt-Incidents_status.csv 
-  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.csv 
-  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
-  > init from db/data/acme.incmgt-ServiceWorkers.csv 
-  > init from db/data/acme.incmgt-TeamCalendar.csv 
-/> successfully deployed to in-memory database. 
+  > init from db/data/acme.incmgt-TeamCalendar.csv
+  > init from db/data/acme.incmgt-ServiceWorkers.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
+  > init from db/data/acme.incmgt-Incidents_urgency.csv
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv
+  > init from db/data/acme.incmgt-Incidents_status.csv
+  > init from db/data/acme.incmgt-Incidents.csv
+  > init from db/data/acme.incmgt-Incidents.conversation.csv
+  > init from db/data/acme.incmgt-Appointments.csv
+/> successfully deployed to in-memory database.
 
-[cds] - serving IncidentsService { path: '/incidents', impl: 'srv/incidents-service.js' }
+[cds] - using auth strategy { kind: 'mocked', impl: 'node_modules/@sap/cds/lib/auth/basic-auth' }
+
+[cds] - serving IncidentsService { path: '/odata/v4/incidents', impl: 'srv/incidents-service.js' }
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 9/5/2023, 11:21:59 AM, version: 6.8.4, in: 1.088s
+[cds] - launched at 1/29/2024, 12:57:58 PM, version: 7.5.3, in: 1.383s
 [cds] - [ terminate with ^C ]
+
 ```
 
 Note however that in contrast to when we originally [introduced mocking in exercise 04](../04-understand-service-mocking/README.md#introduce-mocking), the output of this `cds watch` invocation does not include this line:
 
 ```text
-[cds] - mocking API_BUSINESS_PARTNER { path: '/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
 ```
 
 That's because `cds watch` looks in the `~/.cds-services.json` file for running services listed as being provided, and connects to them. In this particular instance, it found the entry for `API_BUSINESS_PARTNER` in there, meaning that there was no need to mock it itself.
@@ -157,13 +161,13 @@ That's because `cds watch` looks in the `~/.cds-services.json` file for running 
       "API_BUSINESS_PARTNER": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:5005/api-business-partner"
+          "url": "http://localhost:5005/odata/v4/api-business-partner"
         }
       },
       "IncidentsService": {
         "kind": "odata",
         "credentials": {
-          "url": "http://localhost:4004/incidents"
+          "url": "http://localhost:4004/odata/v4/incidents"
         }
       }
     }
@@ -181,13 +185,13 @@ For simplicity's sake, let's switch back to an in-process mocking setup for now.
 
 ## Summary
 
-At this point you have seen your main service up and running at one host/port combination, and the external `API_BUSINESS_PARTNER` service mocked and available at another host/port combination. If you had visited the `/A_BusinessPartner` entity set in that mocked service, you would have seen that the data you provided via CSV was still being served (and you would have seen the details of those requests in the log output in the terminal window where you started `cds mock API_BUSINESS_PARTNER`).
+At this point you have seen your main service up and running at one host/port combination, and the external `API_BUSINESS_PARTNER` service mocked and available at another host/port combination. If you had visited the `A_BusinessPartner` entity set in that mocked service, you would have seen that the data you provided via CSV was still being served (and you would have seen the details of those requests in the log output in the terminal window where you started `cds mock API_BUSINESS_PARTNER`).
 
 ## Further reading
 
 * [Mock Remote Service as OData Service (Node.js)](https://cap.cloud.sap/docs/guides/using-services#mock-remote-service-as-odata-service-nodejs)
 * [watch (command)](https://en.wikipedia.org/wiki/Watch_(command))
-* [Invoking jq](https://stedolan.github.io/jq/manual/#Invokingjq)
+* [Invoking jq](https://jqlang.github.io/jq/manual/#invoking-jq)
 
 ---
 
