@@ -14,9 +14,9 @@ The [SAP Business Accelerator Hub](https://api.sap.com) is where service definit
 
 ### Find it in the SAP Business Accelerator Hub
 
-👉 Go to the [SAP Business Accelerator Hub](https://api.sap.com) and find the SAP S/4HANA Cloud "Business Partner (A2X)" API; you can take whichever route you like, here's just a suggestion:
+👉 Go to the [SAP Business Accelerator Hub](https://api.sap.com) and find the SAP S/4HANA Cloud Public Edition "Business Partner (A2X)" API; you can take whichever route you like, here's just a suggestion:
 
-1. Use the "Explore" menu at the top of the page and select "SAP S/4HANA Cloud" under the "Products" category
+1. Use the "Explore" menu at the top of the page and select "SAP S/4HANA Cloud Public Edition" under the "Products" category
 1. Select the "APIs" category and narrow the content down by selecting the "ODATA V2" subcategory
     ![the OData V2 APIs for SAP S/4HANA Cloud](assets/odata-v2-apis.png)
 1. Either select the "View All Results" link and scroll down, or, using the "Find" field, search for "business partner", to find the Business Partner (A2X) API
