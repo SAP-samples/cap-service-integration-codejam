@@ -85,7 +85,7 @@ Each API has a machine-readable specification. More than one, in fact. To incorp
 
 The contents aren't particularly human-readable, not easily anyway, but in the wall of text and angle brackets you may notice some aspects that might be familiar to you. Yes, it's an OData metadata document for the API!
 
-👉 Use the context menu on the filename to select the "Open With..." menu item, and choose the "OData CSDL Modeler".
+👉 Use the context menu on the filename to select the "Open With..." menu item, and choose the "OData CSDL Modeler". If the "General" view is showing as default, select the setting and change it to "Diagram".
 
 You should be presented with a graphical display of the contents of the EDMX file, in a very similar way to how you saw graphical displays of the basic CAP project's `db/schema.cds` and `srv/incidents-service.cds` files in [exercise 02](../02-explore-basic-service/). This is the sort of thing that you should see:
 
