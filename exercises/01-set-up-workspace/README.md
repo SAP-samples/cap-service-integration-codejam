@@ -108,16 +108,17 @@ cds v
 You should see that the CDS development kit is installed. Depending on your workspace, you'll see slightly different output, but it should generally look something like this:
 
 ```text
-@sap/cds: 7.2.0
-@sap/cds-compiler: 4.2.2
-@sap/cds-dk: 7.0.2
-@sap/cds-dk (global): 7.0.2
-@sap/cds-fiori: 1.1.0
-@sap/cds-foss: 4.0.2
-@sap/cds-mtxs: 1.11.0
-@sap/eslint-plugin-cds: 2.6.3
+@cap-js/cds-types: 0.2.0
+@sap/cds: 7.6.1
+@sap/cds-compiler: 4.4.4
+@sap/cds-dk: 7.5.1
+@sap/cds-dk (global): 7.5.1
+@sap/cds-fiori: 1.2.2
+@sap/cds-foss: 5.0.0
+@sap/cds-mtxs: 1.15.0
+@sap/eslint-plugin-cds: 2.6.5
 Node.js: v18.14.2
-home: /extbin/globals/pnpm/5/.pnpm/registry.npmjs.org+@sap+cds@7.2.0_express@4.18.2/node_modules/@sap/cds
+home: /managed-content/globals/pnpm/5/.pnpm/@sap+cds@7.6.1_express@4.18.2/node_modules/@sap/cds
 ```
 
 > The CDS development kit is installed as part of any "Full Stack Cloud Application" type of Dev Space in the SAP Business Application Studio, and for the alternative environment there's a RUN command in the [Dockerfile](../../.devcontainer/Dockerfile) that installs it into the dev container.
