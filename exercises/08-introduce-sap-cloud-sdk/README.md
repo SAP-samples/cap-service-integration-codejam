@@ -26,9 +26,9 @@ If you now visit <http://localhost:5005> you'll see the service endpoint at `/od
 cds watch
 ```
 
-As before, you should observe that if you visit <http://localhost:4004> you'll see the service endpoint at `/incidents` being served, i.e. your main service.
+As before, you should observe that if you visit <http://localhost:4004> you'll see the service endpoint at `/odata/v4/incidents` being served, i.e. your main service.
 
-👉 Notice that as before there's a `Customers` entity set available in the service. Try to access it (at <http://localhost:4004/incidents/Customers>).
+👉 Notice that as before there's a `Customers` entity set available in the service. Try to access it (at <http://localhost:4004/odata/v4/incidents/Customers>).
 
 You should see a similar message to what we encountered in [exercise 04 where we took a naïve approach to incorporating the external service](../04-understand-service-mocking/README.md#take-a-naïve-approach-to-incorporating-the-external-service):
 
