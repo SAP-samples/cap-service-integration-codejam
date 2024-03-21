@@ -217,7 +217,7 @@ Let's see what we can discern from this:
 
 If you were thinking that this was the direct result of the call to `S4bupa.run(req.query)`, which in turn was the direct result of the `READ` event for `Customers` being triggered, which in turn was a direct result of you making a request to `http://localhost:4004/odata/v4/incidents/Customers`, you'd be spot on.
 
-CAP makes significant use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA On-premise and web proxies, and more. This is in addition to `@sap-cloud-sdk/resilience` that we've already seen. There's a link in the [Further reading](#further-reading) section below that will take you to the SAP Cloud SDK guide.
+CAP makes significant use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA on-prem systems, web proxies, and more. This is in addition to `@sap-cloud-sdk/resilience` that we've already seen. There's a link in the [Further reading](#further-reading) section below that will take you to the SAP Cloud SDK guide.
 
 So just like before, add this other SAP Cloud SDK module to the project.
 
