@@ -16,7 +16,7 @@ Requests to resources starting with the path `/odata/v4/api-business-partner` ar
 
 The advantage of having external services mocked like this is clear - it's the simplest and fastest way to get going when developing CAP services that consume other remote services.
 
-But the disadvantage is that this is not representative of how the real cross-service communication will happen. The mocked service doesn't behave as a real external service, and the communication happens in-process, rather than over HTTP using the OData protocol, for example.
+But the disadvantage is that this is not representative of how any real cross-service communication will happen. The mocked service doesn't behave as a real external service, and the communication happens in-process, rather than over HTTP using the OData protocol, for example.
 
 ## Run the mocked API_BUSINESS_PARTNER service in a separate process
 

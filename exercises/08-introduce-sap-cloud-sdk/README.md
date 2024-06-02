@@ -73,9 +73,9 @@ module.exports = cds.service.impl (async function() {
 })
 ```
 
-> Wrapping the entire anonymous function with `cds.service.impl` gives us code completion goodness. Which is always nice.
+> There's also the ES6 class based approach to creating the context for a service implementation, but to keep things simple, we'll take the `cds.service.impl` approach here. See the [Further reading](#further-reading) for a link to how to provide service implementations.
 
-👉 Inside the anonymous function (i.e. inside the `{ ... }`), add the following:
+👉 Inside the anonymous function (i.e. inside the `{ ... }` block), add the following:
 
 ```js
     const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
@@ -115,7 +115,7 @@ Continuing to look through the code in `srv/incidents-service.js`, this connecti
 
 ### Try it out
 
-👉 Now, while leaving the `cds mock API_BUSINESS_PARTNER` still running, restart the main CAP server process:
+👉 Now, while leaving the `cds mock API_BUSINESS_PARTNER --port 5005` still running, restart the main CAP server process:
 
 ```bash
 cds watch
@@ -343,7 +343,7 @@ Great work!
 
 ## Further reading
 
-* [Providing Service Implementations](https://cap.cloud.sap/docs/get-started/in-a-nutshell#providing-service-implementations)
+* [How to provide service implementations](https://cap.cloud.sap/docs/node.js/core-services#how-to-provide-custom-service-implementations)
 * [Mock Remote Service as OData Service (Node.js)](https://cap.cloud.sap/docs/guides/using-services#mock-remote-service-as-odata-service-node-js)
 * [cds.connect.to(name, options?)](https://cap.cloud.sap/docs/node.js/cds-connect#cdsconnectto--name-options--service)
 * [SAP Cloud SDK (JavaScript)](https://sap.github.io/cloud-sdk/docs/js/getting-started)
