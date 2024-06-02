@@ -50,7 +50,7 @@ This should produce log output that looks like this:
 
 ![basic service](assets/basic-service.png)
 
-This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an external service, one that this service will consume, rather than make available. The only clue that this external service is even acknowledged is in the list of files that are loaded, at the start of the log output, which now includes `srv/external/API_BUSINESS_PARTNER.csn`:
+This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an external service, one that this service will primarily consume, rather than make available. The only clue that this external service is even acknowledged is in the list of files that are loaded, at the start of the log output, which now includes `srv/external/API_BUSINESS_PARTNER.csn`:
 
 ```text
 [cds] - loaded model from 5 file(s):
@@ -143,9 +143,16 @@ This makes sense, as we're dealing here with an external, independent service.
 > | to_entries | first | .value
 > | with_entries(select(.key | startswith("@")))
 > ```
+> ```jq
+> .definitions
+> | to_entries
+> | map(select(.key|endswith(".A_BusinessPartner")))
+> | first.value
+> | with_entries(select(.key|startswith("@")))
+> ```
 > Here's an example of running this (in one line) against the file:
 > ```shell
-> jq '.definitions|with_entries(select(.key | endswith("A_BusinessPartner")))|to_entries[0].value|with_entries(select(.key | startswith("@")))' srv/external/API_BUSINESS_PARTNER.csn
+> jq '.definitions|to_entries|map(select(.key|endswith(".A_BusinessPartner")))|first.value|with_entries(select(.key|startswith("@")))' srv/external/API_BUSINESS_PARTNER.csn
 > ```
 > And here's what it should produce:
 > ```json
@@ -296,7 +303,7 @@ There was another line in the output from `cds watch` that we don't see in the `
 
 > Note from the filename that this is in your home directory (`~`) and is a hidden file (the name begins with a period). It should be clear from this that this is only for non-productive i.e. development use, in the context of `cds watch`.
 
-This file contains sections for services provided, and services required, and is written to or fetched from when `cds watch` is invoked (for more information, see the link to the Automatic Binding documentation in the [Further reading](#further-reading) below).
+This file contains sections for services provided, and services required, and is written to or read from when `cds watch` is invoked (for more information, see the link to the Automatic Binding documentation in the [Further reading](#further-reading) below).
 
 👉 Examine the contents of this file; at this point, you should see something like this:
 
@@ -359,9 +366,11 @@ service IncidentsService {
 
 👉 Assuming your `cds watch` process is still running at this point, note what happens when these changes are saved and the CAP server restarts. 
 
-Both service endpoints, i.e. `/odata/v4/api-business-partner` and `/odata/v4/incidents` are still available and being served (at <http://localhost:4004>), and the `/odata/v4/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file. However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again.
+Both service endpoints, i.e. `/odata/v4/api-business-partner` and `/odata/v4/incidents` are still available and being served (at <http://localhost:4004>), and the `/odata/v4/api-business-partner/A_BusinessPartner` resource still returns (an empty) entity set. You can see that this is due to the mocking, not to any of the modifications you'd made to this service layer CDS file.
 
-👉 Take a moment to think about the approach we took here to bring in an external service. While it's possible, it's rather too direct, and definitely not the cleanest and most modular approach. This is why we've removed this experiment now.
+However, you should also notice that the `Customers` resource in the `/incidents` service endpoint is now gone again.
+
+👉 Take a moment to think about the naïve approach we took here to bring in an external service. While it's possible, it's rather too direct, and definitely not the cleanest and most modular approach. This is why we've removed this experiment now.
 
 ## Summary
 
