@@ -12,7 +12,7 @@ As a classic CAP based service, the core components are to be found within the l
 
 |Organizational Layer|Directory|Content|
 |-|-|-|
-|Persistence|`db/`|The actual entity definitions complete with property details, relationships, supporting artifacts such as enumerations, and even some basic annotations, defined in [schema.cds](../../incidents/db/schema.cds) (there are CSV files providing some sample data for each entity at this layer too).|
+|Persistence|`db/`|The actual entity definitions complete with element details, relationships, supporting artifacts such as enumerations, and even some basic annotations, defined in [schema.cds](../../incidents/db/schema.cds) (there are CSV files providing some sample data for each entity at this layer too).|
 |Service|`srv/`|The single service, defined in [incidents-service.cds](../../incidents/srv/incidents-service.cds), exposing entities from the persistence layer below, in a lightweight and fairly "transparent" way.|
 |Application|`app/`|Very little, as this is a "headless" service, although some annotations are provided at this layer (in [fiori.cds](../../incidents/app/fiori.cds)) to augment the SAP Fiori elements frontend pages which CAP provides out of the box.|
 
@@ -42,7 +42,7 @@ You may have to use this button to reveal the property sheet on the right:
 * on the right hand side various components and properties are listed, including imports, entities and so on
 * in the main graphical display there are entities, such as `Incidents` and `ServiceWorkers` (note the icon denoting entities)
 * there are relationships shown between the entities, such as the one-to-many relationship between `ServiceWorkers` and `Appointments`
-* the enumerations (enums) are used to provide possible values for certain properties (such as for `urgency` and `status`)
+* the enumerations (enums) are used to provide possible values for certain elements (such as for `urgency` and `status`)
 * the main namespace is `acme.incmgt` but there are also namespaces from the imported items (via the CDS `using` statement at the beginning of `db/schema.cds`)
 
     ![The selectable main and imported namespaces](assets/namespaces.png)
@@ -58,7 +58,7 @@ Now it's time to move up a layer, from persistence to service.
 * this time the main namespace is `IncidentsService` and there are imported namespaces too
 * in contrast to the entities shown in the graphical display of `db/schema.cds` we now see projections (note the icon is different from the one that represented entities previously)
 * there isn't a one-to-one mapping of projections to all entities
-* but where there is a mapping, there's a one-to-one property correlation (i.e. all the properties at the persistence layer are available at this service layer)
+* but where there is a mapping, there's a one-to-one element correlation (i.e. all the elements at the persistence layer are available at this service layer)
 
 ### Run the service
 
