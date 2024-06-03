@@ -139,12 +139,6 @@ This makes sense, as we're dealing here with an external, independent service.
 > If you're curious about where exactly in the JSON-based `API_BUSINESS_PARTNER.csn` file this annotation is represented, and want to find out mechanically rather than look through it yourself, you could of course embrace jq and use a short expression to get right to it:
 > ```jq
 > .definitions
-> | with_entries(select(.key | endswith("A_BusinessPartner")))
-> | to_entries | first | .value
-> | with_entries(select(.key | startswith("@")))
-> ```
-> ```jq
-> .definitions
 > | to_entries
 > | map(select(.key|endswith(".A_BusinessPartner")))
 > | first.value
