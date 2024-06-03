@@ -6,7 +6,7 @@ At the end of this exercise, your main "incidents" service will be related to th
 
 All we have so far in terms of any relationship between the main service and the external service is the simple projection onto the `Customers` entity defined in the `index.cds` file (the "front door") in the section of the service layer that represents the external service, i.e. in `srv/external/`. This projection is defined in the `mashup.cds` file which sits delicately between remote entities in the external service and the entities in the local service.
 
-That might be a little tough to visualize, so let's spend some time looking at how all the parts come together, and how the flexibility and beauty of certain CDS language elements allow us to maintain clean, abstract and layered solutions, with components that we define directly, but also with components that we can import, transform and make use of.
+That might be a little tough to visualize, so let's spend some time looking at how all the parts come together, and how the flexibility and beauty of certain CDS model language constructs allow us to maintain clean, abstract and layered solutions, with components that we define directly, but also with components that we can import, transform and use.
 
 👉 Take a couple of moments to stare at this extended version of the diagram that we looked at in exercise 07 where we [considered the units of definition and their relationships](../07-add-cds-definitions/README.md#consider-the-units-of-definition-and-their-relationships). The projection mentioned above is marked with the arrow with the legend "PROJECTION":
 

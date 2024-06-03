@@ -244,7 +244,7 @@ requires.API_BUSINESS_PARTNER.model = srv/external/API_BUSINESS_PARTNER
 
 #### Add configuration in .env
 
-👉 Create a `.env` file in the `incidents/` directory (the project root) with the following contents, making sure you substitute your actual API key for `<YOUR-API-KEY>`:
+👉 Create a `.env` file in the `incidents/` directory (the CAP project root) with the following contents, making sure you substitute your actual API key for `<YOUR-API-KEY>`:
 
 ```text
 DEBUG=remote
