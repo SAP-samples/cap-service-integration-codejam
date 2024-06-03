@@ -120,7 +120,6 @@ using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER
 
 In addition, a few things should happen:
 
-* the `API_BUSINESS_PARTNER.edmx` file will disappear from the `incidents/` directory
 * a new directory `external/` is created within the `srv/` directory
 * in this directory a file called `API_BUSINESS_PARTNER.csn` appears, which is the CAP-internal Core Schema Notation (CSN) format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
 * this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been moved to (although it's only kept for reference, it's actually no longer needed)
