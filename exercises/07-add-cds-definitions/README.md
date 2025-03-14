@@ -12,27 +12,30 @@ Within the context of our project, the external service "lives" (for want of a b
 >
 > ```text
 > SYNOPSIS
-> 
+>
 >     cds import <source> [<options>]
-> 
+>
+>     Imports the given source and converts it to CSN.
+>     Currently following file formats are supported.
+>     - EDMX and XML for OData V2 and V4
+>     - JSON for OpenAPI and AsyncAPI
+>
 >     Without any options the source is copied to ./srv/external and the csn
 >     output written next to it. Finally it will add an entry for the imported
 >     service to package.json#cds.requires.
-> 
+>
+>
 > OPTIONS
-> 
+>
 >     --no-copy
 >         Skips copying to ./srv/external.
-> 
+>
 >     --no-save
 >         Skips updating ./package.json.
-> 
->     -o | --out <filename>
+>
+>     -o | --out <filename/dirname>
 >         Skips copying to ./srv/external and writes to the specified location.
-> 
->     ...
 > ```
-
 
 Within this `srv/external/` location, you're going to create a projection on the external service.
 
@@ -49,7 +52,7 @@ entity Customers as projection on API_BUSINESS_PARTNER.A_BusinessPartner {
 }
 ```
 
-Here you've defined a new entity `Customers` as a projection on the more generic `A_BusinessPartner` from the external service, and have exposed just two properties from it.
+Here you've defined a new entity `Customers` as a projection on the more generic `A_BusinessPartner` from the external service, and have exposed just two properties from it. Sort of similar to the [lens concept in functional programming](https://www.google.com/search?q=%22functional+programming%22+%22lens%22).
 
 👉 Ensure you have a single CAP server still running in mock mode, on port 4004 (i.e. make sure you have `cds watch` going).
 
