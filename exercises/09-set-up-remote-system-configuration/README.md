@@ -38,6 +38,7 @@ In the response information you've just been shown, the request URL for the call
 https://sandbox.api.sap.com
   /s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner
   ?$top=50
+  &$inlinecount=allpages
 ```
 
 You can see that a GET request with this URL is an OData query operation, in other words we're expecting an entity set response (and indeed you can see the start of that response, in JSON format, in the response body part of the screenshot above).
@@ -49,7 +50,7 @@ The sandbox system that is serving URLs like this is publicly available.
 ```bash
 curl \
   --verbose \
-  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50'
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages'
 ```
 
 You get a response, but perhaps not one that you're looking for:
@@ -89,10 +90,10 @@ read -rp "API key? " APIKEY \
   --compressed \
   --location \
   --header "APIKey: $APIKEY" \
-  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50'
+  --url 'https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/A_BusinessPartner?$top=50&$inlinecount=allpages'
 ```
 
-> The `--compressed` option tells `curl` to request (and, more importantly, expect) compressed response payloads and the `--location` option tells `curl` to follow any redirect responses automatically.
+> The `--compressed` option tells `curl` to request (and, more importantly, expect) compressed response payloads (whereupon it will uncompress them) and the `--location` option tells `curl` to follow any redirect responses automatically.
 
 Perhaps unexpectedly, you get a wall of XML in response, that starts out like this (heavily reduced for brevity):
 
@@ -127,7 +128,7 @@ This of course is the standard OData V2 XML based payload format, and incidental
 
 Now that we've identified the sandbox system as the remote system we're going to use, tried it out, and also have the requisite API key with which to authenticate requests, we can store that information in a way that can be used by the CAP server.
 
-This is information typically held via, and managed by, the Destination service on SAP Business Technology Platform. The SAP Cloud SDK that we introduced into the mix in the previous exercise can work with destination objects defined there, or in other abstract places, such as in CAP's environment configuration.
+This is information typically held via, and managed by, the Destination service on the SAP Business Technology Platform. The SAP Cloud SDK that we introduced into the mix in the previous exercise can work with destination objects defined there, or in other abstract places, such as in CAP's environment configuration.
 
 Given that this is not a productive setup, we can use CAP's configuration profile feature (see the link in the [Further reading](#further-reading) section below).
 
@@ -163,7 +164,7 @@ What would it look like if we stored the URL and API key in here? Well, we alrea
 
 In other words, they're stored in an object that is the value of a `credentials` property.
 
-If we were to add this information within a "sandbox" profile, it would look like this:
+If we were to add this information within a "sandbox" profile, it would look like this (but don't do this!):
 
 ```json
 "cds": {
@@ -198,7 +199,7 @@ On startup, the final configuration is determined from a combination of values f
 
 #### Examine the current configuration
 
-The `cds` command line tool sports an `env` command with which the effective configuration of the current environment can be examined.
+The `cds` command line tool sports an `env` command (related to but not directly associated with the `.env` file technique) with which the effective configuration of the current environment can be examined.
 
 👉 Examine the current environment configuration right now:
 
@@ -252,7 +253,7 @@ cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.url=https://sandbox.api.
 cds.requires.API_BUSINESS_PARTNER.[sandbox].credentials.headers.APIKey=<YOUR-API-KEY>
 ```
 
-> Adding `DEBUG=remote` here is a way of more permanently setting that value, compared to what we did in the previous exercise [after analyzing and fixing the 'http-client' error](../08-introduce-sap-cloud-sdk#analyze-and-fix-the-http-client-error).
+> Adding `DEBUG=remote` here is a way of more consistently setting that value, compared to what we did in the previous exercise [after analyzing and fixing the 'http-client' error](../08-introduce-sap-cloud-sdk#analyze-and-fix-the-http-client-error).
 
 This uses the same properties format as above. Can you see how the dotted notation follows the structure of the JSON hierarchy?
 

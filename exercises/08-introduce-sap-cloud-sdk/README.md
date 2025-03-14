@@ -204,7 +204,7 @@ request: {
 
 Let's see what we can discern from this:
 
-* we can see the log message (`>> delegating to remote service...`) appears directly before the error
+* we can see our log message (`>> delegating to remote service...`) appears directly before the error
 * there's a requirement for for another SAP Cloud SDK module `@sap-cloud-sdk/http-client` (which we also haven't explicitly installed)
 * there's an HTTP GET request being attempted at the time of failure
 * this HTTP request is to the following relative URL (URL-decoded and with whitespace added for readability):
@@ -231,7 +231,9 @@ npm add @sap-cloud-sdk/http-client
 
 If you wish, you can check the modules installed for your project now with `npm ls`, which should now include these two from the SAP Cloud SDK.
 
-In addition, note that in real life, you can mitigate these issues beforehand of course, by installing `@sap-cloud-sdk/http-client` at the outset; this will cause `@sap-cloud-sdk/resilience` to be installed too, as a dependency of `@sap-cloud-sdk/http-client`. You can see the difference between the output of `npm ls` right now, i.e. after installing them in the sequence described in this exercise:
+In addition, note that in real life, you can mitigate these issues beforehand of course, by installing `@sap-cloud-sdk/http-client` at the outset; this will cause `@sap-cloud-sdk/resilience` to be installed too, as a dependency of `@sap-cloud-sdk/http-client`. This exercise deliberately omitted this mitigation as it's a chance for us to learn more.
+
+You can see the difference between the output of `npm ls` right now, i.e. after installing them in the sequence described in this exercise:
 
 ```text
 +-- @cap-js/sqlite@1.4.0
