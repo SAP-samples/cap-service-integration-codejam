@@ -19,7 +19,7 @@ The [SAP Business Accelerator Hub](https://api.sap.com) is where service definit
 1. Use the "Explore" menu at the top of the page and select "SAP S/4HANA Cloud Public Edition" under the "Products" category
 1. Select the "APIs" category and narrow the content down by selecting the "ODATA V2" subcategory
     ![the OData V2 APIs for SAP S/4HANA Cloud](assets/odata-v2-apis.png)
-1. Either select the "View All Results" link and scroll down, or, using the "Find" field, search for "business partner", to find the Business Partner (A2X) API
+1. Either page through the search results, or, using the "Find" field, search for "business partner", to find the Business Partner (A2X) API
 
 👉 Once you've found it, select it and take a moment to look at the initial details; feel free to explore anything you wish.
 
@@ -41,7 +41,7 @@ The [SAP Business Accelerator Hub](https://api.sap.com) is where service definit
 
 ### Understand how we will use the business partner as customer
 
-We'll be using the generic "Business Partner" concept to be the basis for a further entity in our service, specifically the customer (who create incidents).
+We'll be using the generic "Business Partner" concept to be the basis for a further entity in our service, specifically to represent customers (who create incidents).
 
 👉 Look at this updated entity relationship diagram, and note where we will introduce business partners as `Customers`:
 
@@ -110,19 +110,19 @@ cds import API_BUSINESS_PARTNER.edmx
 You should see some log output that looks like this:
 
 ```log
+[cds] - updated ./package.json
+
 [cds] - imported API to srv/external/API_BUSINESS_PARTNER
 > use it in your CDS models through the like of:
 
 using { API_BUSINESS_PARTNER as external } from './external/API_BUSINESS_PARTNER'
-
-[cds] - updated ./package.json
 ```
 
 In addition, a few things should happen:
 
 * a new directory `external/` is created within the `srv/` directory
 * in this directory a file called `API_BUSINESS_PARTNER.csn` appears, which is the CAP-internal Core Schema Notation (CSN) format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
-* this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been moved to (although it's only kept for reference, it's actually no longer needed)
+* this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been copied to (although it's only kept for reference, it's actually no longer needed)
 
 > While the default format for imported definitions is CSN, you can also ask for it to be saved in CDS format, like this: `cds import --as cds API_BUSINESS_PARTNER.edmx`.
 
