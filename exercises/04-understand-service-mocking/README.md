@@ -66,7 +66,7 @@ This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an ext
 
 ## Take a naïve approach to incorporating the external service
 
-Let's try an experiment. Just for a moment, let's take a naïve approach to bringing in this external service into our own basic service, without thinking too much about it. How might that look?
+Let's try an experiment. Just for a moment, let's take a naïve approach to bringing this external service into our own basic service, without thinking too much about it. How might that look?
 
 👉 Extend the `srv/incidents-service.cds` file as follows:
 
@@ -130,7 +130,7 @@ Indeed, checking in `srv/external/API_BUSINESS_PARTNER.csn` shows us that this i
 
 👉 Before we carry on thinking about this for a minute, terminate the current `cds run` process with Ctrl-C.
 
-This is because external service definitions, such as CSN files that are generated during the import of an API definition (like we have here), can be used as any other CDS definition, but they don't generate database tables and views unless they are mocked. 
+This is because external service definitions, such as CSN files that are generated during the import of an API definition (like we have here), can be used as any other CDS definition, but they don't get translated into database tables and views unless they are mocked.
 
 This is reflected in the use of the `@cds.persistence.skip` annotation, which tells the compiler that the entity shall not exist in the database at all (see the reference to CDS persistence annotations in the [Further reading](#further-reading) section at the end of this exercise).
 
@@ -224,7 +224,7 @@ cds serve all --with-mocks --in-memory?
 live reload enabled for browsers
 ```
 
-Most of us may already know about the mind blowingly useful monitor-and-live-reload feature of `cds watch`, but might not have paid much attention until now to what `cds watch` is really executing for us (in addition to running the file monitor), which is this:
+Most of us may already know about the [mind-bogglingly useful](https://www.clivebanks.co.uk/THHGTTG/THHGTTGradio1.htm#:~:text=mind%2Dbogglingly%20useful) monitor-and-live-reload feature of `cds watch`, but might not have paid much attention until now to what `cds watch` is really executing for us (in addition to running the file monitor), which is this:
 
 ```bash
 cds serve all --with-mocks --in-memory?
