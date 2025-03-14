@@ -126,9 +126,9 @@ In addition, a few things should happen:
 
 > While the default format for imported definitions is CSN, you can also ask for it to be saved in CDS format, like this: `cds import --as cds API_BUSINESS_PARTNER.edmx`.
 
-Finally, the requisite configuration is written to the "CDS" section of the `package.json` file (this section is created at this point if it doesn't already exist).
+Finally, the requisite configuration is written to the "cds" section of the `package.json` file (this section is created at this point if it doesn't already exist).
 
-👉 Open the `package.json` file and take a look, the "CDS" section should look like this:
+👉 Open the `package.json` file and take a look, the "cds" section should look like this:
 
 ```json
 "cds": {
