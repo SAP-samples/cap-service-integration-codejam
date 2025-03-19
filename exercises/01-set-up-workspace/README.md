@@ -30,24 +30,6 @@ Choosing the "Full Stack Cloud Application" brings in some predefined extensions
 
 At this point your Dev Space will restart.
 
-#### Set up a URL redirector (optional)
-
-One of the many great benefits of the SAP Business Application Studio is that you can run it anywhere, all you need is a modern browser. Each Dev Space provides a complete working environment, and the infrastructure also provides you with the facilities to run services and bind to sockets, to listen and respond to incoming requests from your services that are local to the Dev Space but available on the Web.
-
-In practice, this means that when running a CAP server "locally" in this context, you'll access it not via `localhost` (as that's specific to your local machine where your browser is running) but via a URL provided and serviced by the SAP Business Application Studio infrastructure, and your requests will find their way to your CAP server in your Dev Space.
-
-The upshot of this is that whereas with a locally running VS Code environment, where `localhost` really means `localhost` even when using a dev container (this is because of [published ports in container networking](https://docs.docker.com/config/containers/container-networking/#published-ports)), with such a hosted SAP Business Application Studio context the URLs will be different for each of your Dev Spaces.
-
-In order to provide a comfortable CodeJam experience, and include links to various CAP server provided resources that you'll create along your journey, we can only use generic `localhost` URLs in the exercise content, because we cannot know in advance what the SAP Business Application Studio infrastructure will provide for you in terms of URL structure.
-
-So for the best experience during this CodeJam (i.e. this is not a normal development requirement), we recommend you consider using a browser extension and set up a temporary redirect from `http://localhost:4004` style URLs, to whatever URL structure you have in your Dev Space.
-
-Note that this is only a recommendation so that you can comfortably select URLs in this CodeJam content. You don't have to install such an extension -- you can just as easily select the `http://localhost:4004` style URLs shown in the terminal in your Dev Space instead if you wish.
-
-We've had good experience with the [Redirector](https://chrome.google.com/webstore/detail/redirector/ocgpenflpmgnfapjedencafcfakcekcd?hl=en) extension for Google Chrome and this is the one that we recommend you install, just for the duration of this CodeJam.
-
-👉 If you wish, please follow the instructions in [Set up a temporary localhost redirector](../../redirector.md).
-
 ### Alternative environment: VS Code and a container image
 
 _Follow the "Primary environment" section above if you want to use a Dev Space in the SAP Business Application Studio._
