@@ -46,16 +46,19 @@ Once VS Code has started, and opened the directory, it should notice the [dev co
 > If this doesn't happen, check that you have the Dev Containers extension in VS Code - see the [corresponding prerequisites section](../../prerequisites.md#alternative-environment-vs-code-with-a-dev-container) section for details. You might also need to explicitly request this action, by opening the Command Palette and selecting "Dev Containers: Reopen in container".
 ![The dialog prompting you to "Reopen in Container"](assets/reopen-in-container.png)
 
-At this stage, once VS Code has reopened, you need to do one more thing, so that both primary and alternative environments are aligned (and so that the instructions in this CodeJam content don't need to differ between them). When you use the "git clone" facility in a Dev Space, the repo is cloned into a directory called `projects/`, which itself lives in your home directory, in other words, it gets cloned to `/home/user/projects/<the-repo>`. In a VS Code dev container, the equivalent repo will be in `/workspaces/<the-repo>`. So let's align the repo location in your VS Code dev container environment to the Dev Space one.
+At this stage, once VS Code has reopened, you need to do one more thing, so that both primary and alternative environments are aligned (and so that the instructions in this CodeJam content don't need to differ between them).
 
-👉 Create a `projects/` directory in your dev container user's home directory, and then create a symbolic link to the repo in there:
+* When you use the "git clone" facility in a _Dev Space_, the repo is cloned into a directory called `projects/`, which itself lives in the home directory of your user (`/home/user/`); in other words, it gets cloned to `/home/user/projects/<the-repo>`.
+* In the _VS Code dev container_ the default username is `node` (not `user`) and the equivalent repo will be in `/workspaces/<the-repo>`. So let's align the repo location in your VS Code dev container environment to the Dev Space one.
+
+A `/home/node/projects/` directory has already been created for you in the container image.
+
+👉 Create a symbolic link in the `/home/node/projects/` directory to point to the repo:
 
 ```shell
-mkdir -p $HOME/projects/ \
-  && ln -s /workspaces/cap-service-integration-codejam/ $HOME/projects/
+ln -s /workspaces/cap-service-integration-codejam/ $HOME/projects/ \
+  && cd $HOME/projects/cap-service-integration-codejam/
 ```
-
-> If the `projects/` directory already exists, for some reason, then the `mkdir` command would normally fail and emit a message; this would also mean that the subsequent `ln` command would not run (as they're connected via `&&`). So we use the `-p` option to tell `mkdir` not to complain.
 
 You can make sure that everything is OK by checking that you can see the directories inside the repo, via this new `projects/` directory in your dev container user's home directory. Here's an example, with what you might expect to see:
 
