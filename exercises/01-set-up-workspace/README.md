@@ -34,6 +34,8 @@ At this point your Dev Space will restart.
 
 _Follow the "Primary environment" section above if you want to use a Dev Space in the SAP Business Application Studio._
 
+#### Establishing the container
+
 👉 At a command prompt on your local machine, clone this repository into a directory of your choice, and then open VS Code, pointing to that newly cloned repository's directory:
 
 ```bash
@@ -43,10 +45,14 @@ code cap-service-integration-codejam
 
 Once VS Code has started, and opened the directory, it should notice the [dev container configuration file](../../.devcontainer/devcontainer.json) (in the [.devcontainer/](../../.devcontainer/) directory) and ask you if you want to reopen everything in a container, as shown in the screenshot. Confirm that you want to, by selecting the default answer "Reopen in Container".
 
-> If this doesn't happen, check that you have the Dev Containers extension in VS Code - see the [corresponding prerequisites section](../../prerequisites.md#alternative-environment-vs-code-with-a-dev-container) section for details. You might also need to explicitly request this action, by opening the Command Palette and selecting "Dev Containers: Reopen in container".
+> If this doesn't happen, check that you have the Dev Containers extension in VS Code - see the [corresponding prerequisites section](../../prerequisites.md#alternative-environment-vs-code-with-a-dev-container) for details. You might also need to explicitly request this action, by opening the Command Palette and selecting "Dev Containers: Reopen in container".
 ![The dialog prompting you to "Reopen in Container"](assets/reopen-in-container.png)
 
 At this stage, once VS Code has reopened, you need to do one more thing, so that both primary and alternative environments are aligned (and so that the instructions in this CodeJam content don't need to differ between them).
+
+> If you're running Podman instead of Docker and are working with multiple architectures (e.g. arm64 and amd64) you may encounter an error in the container image build process, relating to a step that _failed to set xattr "security.selinux"_. If you do, the workaround described in [this issue comment](https://github.com/containers/podman/issues/24646#issuecomment-2492759118) may help.
+
+#### Container context setup
 
 * When you use the "git clone" facility in a _Dev Space_, the repo is cloned into a directory called `projects/`, which itself lives in the home directory of your user (`/home/user/`); in other words, it gets cloned to `/home/user/projects/<the-repo>`.
 * In the _VS Code dev container_ the default username is `node` (not `user`) and the equivalent repo will be in `/workspaces/<the-repo>`. So let's align the repo location in your VS Code dev container environment to the Dev Space one.

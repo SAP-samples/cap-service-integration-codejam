@@ -22,6 +22,8 @@ If you opt for the primary environment, you'll be working in a Dev Space in the 
 
 If you opt for the alternative environment, you'll need [Microsoft VS Code](https://code.visualstudio.com/) and [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
+> Docker Desktop is free to use for personal use. However, you may wish to use a different container runtime such as [Podman](https://podman.io/). If you do, you are on your own (as we assume you're confident enough to take this path) but please note the warning in Exercise 01, at the end of the [Establishing the container](exercises/01-set-up-workspace#establishing-the-container) if you're working with different architectures.
+
 You'll also need [git](https://git-scm.com/) to be able to clone this repository to your local filesystem to get started.
 
 👉 Ensure you have VS Code, Docker Desktop and git available on your machine and that you have administrative access.
