@@ -62,6 +62,8 @@ This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an ext
   node_modules/@sap/cds/common.cds
 ```
 
+> See the link in the [Further reading](#further-reading) section to the blog post on CAP model loading to find out exactly why and how `srv/external/API_BUSINESS_PARTNER.csn` is even included.
+
 👉 For now, stop the server again with Ctrl-C.
 
 ## Take a naïve approach to incorporating the external service
@@ -377,6 +379,7 @@ At this point you have the service definition for the Business Partner (A2X) API
 * [Model Projections](https://cap.cloud.sap/docs/guides/using-services#model-projections)
 * [to_entries, from_entries, with_entries](https://stedolan.github.io/jq/manual/#to_entries,from_entries,with_entries) in jq
 * [Selecting the related endpoints from a GitHub API response using jq's with_entries](https://qmacro.org/blog/posts/2023/06/12/selecting-the-related-endpoints-from-a-github-api-response-using-jq's-with_entries/)
+* [FP, function chains and CAP model loading](https://qmacro.org/blog/posts/2025/05/01/fp-function-chains-and-cap-model-loading/)
 
 ---
 
