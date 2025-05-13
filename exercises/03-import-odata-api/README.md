@@ -14,12 +14,12 @@ The [SAP Business Accelerator Hub](https://api.sap.com) is where service definit
 
 ### Find it in the SAP Business Accelerator Hub
 
-👉 Go to the [SAP Business Accelerator Hub](https://api.sap.com) and find the SAP S/4HANA Cloud Public Edition "Business Partner (A2X)" API; you can take whichever route you like, here's just a suggestion:
+👉 Go to the [SAP Business Accelerator Hub](https://api.sap.com) and find the [SAP S/4HANA Cloud Public Edition "Business Partner (A2X)" API](https://api.sap.com/api/API_BUSINESS_PARTNER/overview); you can take whichever route you like, here's just a suggestion:
 
-1. Use the "Explore" menu at the top of the page and select "SAP S/4HANA Cloud Public Edition" under the "Products" category
-1. Select the "APIs" category and narrow the content down by selecting the "ODATA V2" subcategory
+1. Opt to explore "SAP S/4HANA Cloud Public Edition" under the "Products" category
+1. Then select the "APIs" category and narrow the content down by selecting the "ODATA V2" subcategory
     ![the OData V2 APIs for SAP S/4HANA Cloud](assets/odata-v2-apis.png)
-1. Either page through the search results, or, using the "Find" field, search for "business partner", to find the Business Partner (A2X) API
+1. Finally, page through the search results, or, using the "Search" field, look for "business partner", to find the Business Partner (A2X) API
 
 👉 Once you've found it, select it and take a moment to look at the initial details; feel free to explore anything you wish.
 
@@ -91,6 +91,8 @@ You should be presented with a graphical display of the contents of the EDMX fil
 
 ![the OData CSDL Modeler depicting the contents of the EDMX file](assets/csdl-graphical-view.png)
 
+> If you don't see this, ensure that "Diagram" is specified in the mode selection on the right hand side of the display - it may have been defaulted to "General".
+
 While the graphical depiction of each of the CAP project components was quite simple, reflecting the simplicity of the basic CAP project, this graphical depiction is considerably more complex.
 
 👉 Within the OData CSDL Modeler, use the search facility or the list of entity types in the side bar on the right to find the `A_BusinessPartnerType` entity definition. This is the type that we saw earlier when looking at the schema view for the response to the `GET /A_BusinessPartner` HTTP method + endpoint combination.
@@ -122,7 +124,7 @@ In addition, a few things should happen:
 
 * a new directory `external/` is created within the `srv/` directory
 * in this directory a file called `API_BUSINESS_PARTNER.csn` appears, which is the CAP-internal Core Schema Notation (CSN) format version of the EDMX information in the `API_BUSINESS_PARTNER.edmx` file
-* this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been copied to (although it's only kept for reference, it's actually no longer needed)
+* this directory is also where the `API_BUSINESS_PARTNER.edmx` file has been moved to (although it's only kept for reference, it's actually no longer needed)
 
 > While the default format for imported definitions is CSN, you can also ask for it to be saved in CDS format, like this: `cds import --as cds API_BUSINESS_PARTNER.edmx`.
 
@@ -152,7 +154,7 @@ At this point you have the service definition for the Business Partner (A2X) API
 ## Further reading
 
 * [An overview of the SAP S/4HANA VDM](https://blog.sap-press.com/an-overview-of-the-sap-s4hana-vdm)
-* [CDS Schema Notation (CSN)](https://cap.cloud.sap/docs/cds/csn)
+* [Core Schema Notation (CSN)](https://cap.cloud.sap/docs/cds/csn)
 
 ---
 
