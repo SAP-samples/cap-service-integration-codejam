@@ -60,7 +60,14 @@ That's also why we don't see any log lines that say something like `mocking API_
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:4004/odata/v4/incidents"
-        }
+        },
+        "server": 870
+      }
+    },
+    "servers": {
+      "870": {
+        "root": "file:///workspaces/cap-service-integration-codejam/incidents",
+        "url": "http://localhost:4004"
       }
     }
   }

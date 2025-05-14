@@ -43,7 +43,8 @@ The contents of `~/.cds-services.json` should show that there are currently no s
 ```json
 {
   "cds": {
-    "provides": {}
+    "provides": {},
+    "servers": {}
   }
 }
 ```
@@ -87,12 +88,21 @@ The second thing to notice is that the mocked service appears in the `~/.cds-ser
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:5005/odata/v4/api-business-partner"
-        }
+        },
+        "server": 9660
+      }
+    },
+    "servers": {
+      "9660": {
+        "root": "file:///home/user/projects/cap-service-integration-codejam/incidents",
+        "url": "http://localhost:5005"
       }
     }
   }
 }
 ```
+
+> The `server` value will likely be different - it's a process ID.
 
 ## Start up the main service
 
@@ -162,13 +172,25 @@ That's because `cds watch` looks in the `~/.cds-services.json` file for running 
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:5005/odata/v4/api-business-partner"
-        }
+        },
+        "server": 9660
       },
       "IncidentsService": {
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:4004/odata/v4/incidents"
-        }
+        },
+        "server": 10198
+      }
+    },
+    "servers": {
+      "9660": {
+        "root": "file:///home/user/projects/cap-service-integration-codejam/incidents",
+        "url": "http://localhost:5005"
+      },
+      "10198": {
+        "root": "file:///home/user/projects/cap-service-integration-codejam/incidents",
+        "url": "http://localhost:4004"
       }
     }
   }

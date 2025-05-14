@@ -311,13 +311,21 @@ This file contains sections for services provided, and services required, and is
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:4004/odata/v4/api-business-partner"
-        }
+        },
+        "server": 9037
       },
       "IncidentsService": {
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:4004/odata/v4/incidents"
-        }
+        },
+        "server": 9037
+      }
+    },
+    "servers": {
+      "9037": {
+        "root": "file:///home/user/projects/cap-service-integration-codejam/incidents",
+        "url": "http://localhost:4004"
       }
     }
   }

@@ -90,7 +90,7 @@ Let's walk through this code at a high level.
 
 As a result of the `cds.connect.to('API_BUSINESS_PARTNER')` call, the `S4bupa` constant will contain a connection object that can be used for remote communication with the service specified (i.e. with `API_BUSINESS_PARTNER`), based on whatever information is in the corresponding `cds.requires` section of the configuration loaded at runtime.
 
-We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises. In fact, because the `cds mock API_BUSINESS_PARTNER` process is still running, that file contains, right now, information that looks like this:
+We're currently mocking that service, and we can see the details that will be available at runtime in the `~/.cds-services.json` file that we've looked at in previous exercises. In fact, because the `cds mock API_BUSINESS_PARTNER --port 5005` process is still running, that file contains, right now, information that looks like this:
 
 ```json
 {
@@ -100,7 +100,14 @@ We're currently mocking that service, and we can see the details that will be av
         "kind": "odata",
         "credentials": {
           "url": "http://localhost:5005/odata/v4/api-business-partner"
-        }
+        },
+        "server": 9660
+      }
+    },
+    "servers": {
+      "9660": {
+        "root": "file:///home/user/projects/cap-service-integration-codejam/incidents",
+        "url": "http://localhost:5005"
       }
     }
   }
