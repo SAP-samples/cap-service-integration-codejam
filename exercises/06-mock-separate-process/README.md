@@ -102,8 +102,6 @@ The second thing to notice is that the mocked service appears in the `~/.cds-ser
 }
 ```
 
-> The `server` value will likely be different - it's a process ID.
-
 ## Start up the main service
 
 Now we have a mocked version of the external service running in an independent process, we can start up the main service.

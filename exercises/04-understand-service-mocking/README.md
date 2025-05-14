@@ -301,7 +301,9 @@ There was another line in the output from `cds watch` that we don't see in the `
 
 This file contains sections for services provided, and services required, and is written to or read from when `cds watch` is invoked (for more information, see the link to the Automatic Binding documentation in the [Further reading](#further-reading) below).
 
-👉 Examine the contents of this file; at this point, you should see something like this:
+👉 Examine the contents of this file; at this point, you should see something like this (the `server` value will likely be different - it's a process ID):
+
+
 
 ```json
 {
