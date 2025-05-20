@@ -33,13 +33,11 @@ At this point you should have a new file ready to add CSV records too.
 👉 Do that now; add these records (including the CSV header record) to the file:
 
 ```csv
-BusinessPartner;BusinessPartnerFullName
-Z100001;Harry Potter
-Z100002;Sherlock Holmes
-Z100003;Sunny Sunshine
+BusinessPartner,BusinessPartnerFullName
+Z100001,Harry Potter
+Z100002,Sherlock Holmes
+Z100003,Sunny Sunshine
 ```
-
-> Yes, this is not strictly CSV (it's semi-colon separated), but it's fine for now. 
 
 ## Restart the server
 

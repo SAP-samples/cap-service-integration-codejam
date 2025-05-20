@@ -62,7 +62,7 @@ This shouldn't be too surprising, as `API_BUSINESS_PARTNER` is defined as an ext
   node_modules/@sap/cds/common.cds
 ```
 
-> See the link in the [Further reading](#further-reading) section to the blog post on CAP model loading to find out exactly why and how `srv/external/API_BUSINESS_PARTNER.csn` is even included.
+> See the link in the [Further reading](#further-reading) section to the blog post on FP, function chains and CAP model loading to find out exactly how and why `srv/external/API_BUSINESS_PARTNER.csn` is even included.
 
 👉 For now, stop the server again with Ctrl-C.
 
@@ -334,7 +334,7 @@ This file contains sections for services provided, and services required, and is
 }
 ```
 
-> You can use the menu option "Go -> Go to File..." (commonly known as the "File Selector"), often invoked with Ctrl-P or Cmd-P, and specify the name and location manually and directly, like this:
+> You can select the file from the log output line (use Ctrl-Click or Cmd-Click) or use the menu option "Go -> Go to File..." (commonly known as the "File Selector"), often invoked with Ctrl-P or Cmd-P, and specify the name and location manually and directly, like this:
 >
 > ![go to file ~/.cds-services.json](assets/go-to-file.png)
 

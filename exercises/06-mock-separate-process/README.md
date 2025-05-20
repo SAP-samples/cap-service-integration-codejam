@@ -49,7 +49,7 @@ The contents of `~/.cds-services.json` should show that there are currently no s
 }
 ```
 
-👉 Now, open up a second terminal (a "split" terminal is recommended, so you can see content in both at the same time), and in there, start the mocking of the external service like this:
+👉 Now, open up a second terminal (a "split" terminal is recommended, so you can see content in both at the same time), and in there, making sure you're in the `incidents/` directory, start the mocking of the external service like this:
 
 ```bash
 cds mock API_BUSINESS_PARTNER
@@ -106,7 +106,7 @@ The second thing to notice is that the mocked service appears in the `~/.cds-ser
 
 Now we have a mocked version of the external service running in an independent process, we can start up the main service.
 
-👉 Do that now. Open up a third (yes, third) terminal, and use `cds watch`:
+👉 Do that now. Open up a third (yes, third) terminal, and, ensuring you're in the `incidents/` directory here too, use `cds watch`:
 
 ```bash
 cds watch

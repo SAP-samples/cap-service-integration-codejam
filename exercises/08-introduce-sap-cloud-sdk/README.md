@@ -140,7 +140,7 @@ Require stack:
 - .../node_modules/@sap/cds/libx/_runtime/remote/Service.js
 ```
 
-### Analyze and fix the 'resilience' error
+### Looking at the root cause of the error
 
 What's happening is that CAP's remote service codebase is invoked because of this new line:
 
@@ -150,140 +150,41 @@ const S4bupa = await cds.connect.to('API_BUSINESS_PARTNER')
 
 which, due to its position in the generally exported module defined in `srv/incident-service.js`, is executed during the server startup (as the implementation for the service defined in `srv/incident-service.cds`) and libraries & functions required for remote service connectivity are loaded. The [@sap-cloud-sdk/resilience](https://www.npmjs.com/package/@sap-cloud-sdk/resilience) module is required, to provide a timeout mechanism for managing remote API calls that may not return, for example.
 
-👉 Fix this by adding this module to the project (making sure you're still in the `incidents/` directory):
+In fact, CAP uses the SAP Cloud SDK to perform the "heavy lifting" of activities in this remote connectivity area.
 
-```shell
-npm add @sap-cloud-sdk/resilience
-```
+Back when we [imported the API specification](../03-import-odata-api#import-the-api-specification), extra entries were added to the `dependencies` section of `package.json` in addition to a new `cds.requires` section for the `API_BUSINESS_PARTNER` remote service:
 
-> `add` is just a synonym for `install` here.
-
-### Try it out again
-
-Then try to start the CAP server again:
-
-```shell
-cds watch
-```
-
-👉 Observe the log output, and not only does that error not occur any more, you should see something new:
-
-```text
-[cds] - connect to API_BUSINESS_PARTNER > odata { url: 'http://localhost:5005/odata/v4/api-business-partner' }
-```
-
-This indicates that the `cds.connect.to('API_BUSINESS_PARTNER')` call was now made successfully.
-
-Note that this is just an indication that the remote connection details have been marshalled and calls to the remote system can be made as and when required. No calls have actually been made yet, as you can observe from the fact that the log output from the mocked `API_BUSINESS_PARTNER` service (in the other terminal) shows no activity.
-
-👉 Make a request to the `Customers` entity set again via <http://localhost:4004/odata/v4/incidents/Customers>.
-
-Whoops!
-
-Another error.
-
-But a slightly different one!
-
-There's an XML based HTTP response payload with an error code (502) and a detailed message, the important part of which is this:
-
-```text
-Error during request to remote service: Cannot find module '@sap-cloud-sdk/http-client'
-```
-
-👉 Head over to the log output of the main CAP server process and take a look. You should see something like this (heavily reduced for brevity):
-
-```text
-[odata] - GET /odata/v4/incidents/Customers
->> delegating to remote service...
-[remote] - Error: Error during request to remote service:
-Cannot find module '@sap-cloud-sdk/http-client'
-Require stack:
-- .../node_modules/@sap/cds/libx/_runtime/remote/utils/cloudSdkProvider.js
-- .../node_modules/@sap/cds/libx/_runtime/remote/utils/client.js
-- .../node_modules/@sap/cds/libx/_runtime/remote/Service.js
-request: {
-  method: 'GET',
-  url: '/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner%20asc&$top=1000'
+```json
+{
+  "dependencies": {
+    "@sap/cds": "^8",
+    "express": "^4",
+    "@sap-cloud-sdk/connectivity": "^3",
+    "@sap-cloud-sdk/http-client": "^3",
+    "@sap-cloud-sdk/resilience": "^3"
+  }
 }
 ```
 
-### Analyze and fix the 'http-client' error
+These extra entries are SAP Cloud SDK packages, and when we stop to think about it, it makes sense that these are automatically added when we're setting up a remote service requirement. One of those packages is indeed that which the error is mentioning, too: `@sap-cloud-sdk/resilience`.
 
-Let's see what we can discern from this:
-
-* we can see our log message (`>> delegating to remote service...`) appears directly before the error
-* there's a requirement for for another SAP Cloud SDK module `@sap-cloud-sdk/http-client` (which we also haven't explicitly installed)
-* there's an HTTP GET request being attempted at the time of failure
-* this HTTP request is to the following relative URL (URL-decoded and with whitespace added for readability):
-    ```text
-    /A_BusinessPartner
-    ?$select=BusinessPartner,BusinessPartnerFullName
-    &$orderby=BusinessPartner asc
-    &$top=1000
-    ```
-
-If you were thinking that this was the direct result of the call to `S4bupa.run(req.query)`, which in turn was the direct result of the `READ` event for `Customers` being triggered, which in turn was a direct result of you making a request to `http://localhost:4004/odata/v4/incidents/Customers`, you'd be spot on.
-
-CAP makes significant use of the SAP Cloud SDK. Specifically for remote connectivity, the `@sap-cloud-sdk/http-client` is employed, because it handles connectivity related issues such as destination lookup, connections to SAP S/4HANA on-prem systems, web proxies, and more. This is in addition to `@sap-cloud-sdk/resilience` that we've already seen. There's a link in the [Further reading](#further-reading) section below that will take you to the SAP Cloud SDK guide.
-
-So just like before, add this other SAP Cloud SDK module to the project.
-
-👉 First, stop the main CAP server process again with Ctrl-C.
-
-👉 Now add this module too:
-
-```bash
-npm add @sap-cloud-sdk/http-client
-```
-
-If you wish, you can check the modules installed for your project now with `npm ls`, which should now include these two from the SAP Cloud SDK.
-
-In addition, note that in real life, you can mitigate these issues beforehand of course, by installing `@sap-cloud-sdk/http-client` at the outset; this will cause `@sap-cloud-sdk/resilience` to be installed too, as a dependency of `@sap-cloud-sdk/http-client`. This exercise deliberately omitted this mitigation as it's a chance for us to learn more.
-
-You can see the difference between the output of `npm ls` right now, i.e. after installing them in the sequence described in this exercise:
+👉 Install the required packages with `npm add`, and then check what's installed with `npm list`, which should produce something that looks like this:
 
 ```text
-+-- @cap-js/sqlite@1.4.0
-+-- @sap-cloud-sdk/http-client@3.11.0
-+-- @sap-cloud-sdk/resilience@3.11.0
-+-- @sap/cds@7.5.3
-`-- express@4.18.2
+@acme/incidents-mgmt@1.0.0 /workspaces/cap-service-integration-codejam/incidents
+├── @cap-js/sqlite@1.11.0
+├── @sap-cloud-sdk/connectivity@3.26.4
+├── @sap-cloud-sdk/http-client@3.26.4
+├── @sap-cloud-sdk/resilience@3.26.4
+├── @sap/cds@8.9.4
+└── express@4.21.2
 ```
 
-compared to what it would be like if you'd just installed `@sap-cloud-sdk/http-client` at the outset, in which case the output of `npm ls` would look like this:
+Great!
 
-```text
-+-- @cap-js/sqlite@1.4.0
-+-- @sap-cloud-sdk/http-client@3.11.0
-+-- @sap/cds@7.5.3
-`-- express@4.18.2
-```
+### Get going again
 
-so you'd have to increase the list depth level from the default of 0 to 1, with `npm ls --depth=1`, to see this:
-
-```text
-+-- @cap-js/sqlite@1.4.0
-| +-- @cap-js/db-service@1.5.1
-| +-- @sap/cds@7.5.3 deduped
-| `-- better-sqlite3@9.3.0
-+-- @sap-cloud-sdk/http-client@3.11.0
-| +-- @sap-cloud-sdk/connectivity@3.11.0
-| +-- @sap-cloud-sdk/resilience@3.11.0
-| +-- @sap-cloud-sdk/util@3.11.0
-| `-- axios@1.6.7
-+-- @sap/cds@7.5.3
-| +-- @cap-js/cds-types@0.2.0
-| +-- @sap/cds-compiler@4.5.0
-| +-- @sap/cds-fiori@1.2.2
-| `-- @sap/cds-foss@5.0.0
-`-- express@4.18.2
-  +-- accepts@1.3.8
-  +-- array-flatten@1.1.1
-  +-- body-parser@1.20.1
-  +-- ...
-```
-
-👉 Once the modules have been installed (and they will have been added to the list of `dependencies` in the project's `package.json` file), start the main CAP server up one more time, but this time, specify the value `remote` for the `DEBUG` environment variable, so that the CAP server will emit extra information on remote service activities:
+👉 Once the modules have been installed, start the main CAP server up one more time, but this time, specify the value `remote` for the `DEBUG` environment variable, so that the CAP server will emit extra information on remote service activities:
 
 ```bash
 DEBUG=remote cds watch

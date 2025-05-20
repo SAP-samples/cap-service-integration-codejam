@@ -198,7 +198,7 @@ At this point you now have a cleaner integration between the external service an
 
 ## Further reading
 
-* [Import API Definition](https://cap.cloud.sap/docs/guides/using-services#import-api)
+* [Using index.cds Entry Points](https://cap.cloud.sap/docs/guides/extensibility/composition#index-cds)
 
 ---
 

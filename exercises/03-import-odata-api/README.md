@@ -141,9 +141,13 @@ Finally, the requisite configuration is written to the "cds" section of the `pac
 }
 ```
 
+> Often you'll come across a reference like this: `package.json#cds` - this is a tidy way of referring to a section of the JSON in the `package.json` file, specifically the `cds` section in this example.
+
 This `API_BUSINESS_PARTNER` "requires" stanza is a simple definition of an external resource upon which our basic service now relies. The properties (`kind` and `model`) are fairly self-explanatory: the resource is an OData V2 service, and the model that describes it is in a file called `API_BUSINESS_PARTNER.csn` (the `csn` extension is default and implied here) in the `srv/external/` directory.
 
 This is not all that can appear in such a stanza, as you'll find out in later exercises.
+
+> There are also additions that have been made to `package.json#dependencies` which we'll look at in a later exercise.
 
 ## Summary
 
