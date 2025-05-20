@@ -140,7 +140,7 @@ Require stack:
 - .../node_modules/@sap/cds/libx/_runtime/remote/Service.js
 ```
 
-### Looking at the root cause of the error
+### Bring in SAP Cloud SDK packages
 
 What's happening is that CAP's remote service codebase is invoked because of this new line:
 
