@@ -91,8 +91,6 @@ You should be presented with a graphical display of the contents of the EDMX fil
 
 ![the OData CSDL Modeler depicting the contents of the EDMX file](assets/csdl-graphical-view.png)
 
-> If you don't see this, ensure that "Diagram" is specified in the mode selection on the right hand side of the display - it may have been defaulted to "General".
-
 While the graphical depiction of each of the CAP project components was quite simple, reflecting the simplicity of the basic CAP project, this graphical depiction is considerably more complex.
 
 👉 Within the OData CSDL Modeler, use the search facility or the list of entity types in the side bar on the right to find the `A_BusinessPartnerType` entity definition. This is the type that we saw earlier when looking at the schema view for the response to the `GET /A_BusinessPartner` HTTP method + endpoint combination.
