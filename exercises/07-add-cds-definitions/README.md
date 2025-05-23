@@ -199,6 +199,7 @@ At this point you now have a cleaner integration between the external service an
 ## Further reading
 
 * [Using index.cds Entry Points](https://cap.cloud.sap/docs/guides/extensibility/composition#index-cds)
+* [Flattening the hierarchy with mixins](https://qmacro.org/blog/posts/2024/11/08/flattening-the-hierarchy-with-mixins/)
 
 ---
 
