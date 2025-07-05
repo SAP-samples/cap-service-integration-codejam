@@ -39,6 +39,10 @@ The instructor will set you off on the first exercise, and that's the only one y
 1. [Associate local and remote entities](exercises/11-associate-local-remote-entities/)
 1. [Extend the SAP Fiori elements UI with annotations](exercises/12-extend-fiori-ui-with-annotations)
 
+## Survey
+
+This CodeJam is being presented during Code Connect week where there's [a re>≡CAP 2025 survey for CAP developers](https://url.sap/6rouc7) - please take a moment to complete it if you can. Thank you! 
+
 ## Feedback
 
 If you can spare a couple of minutes at the end of the session, please help us improve for next time by providing some feedback.
