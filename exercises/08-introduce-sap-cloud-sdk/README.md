@@ -219,7 +219,10 @@ The data itself doesn't look any different. But this time, while essentially the
 👉 To confirm this, look at the log output from the mocked service (the one you started in the other terminal window with `cds mock API_BUSINESS_PARTNER --port 5005`). You should see the evidence of a request:
 
 ```text
-[cds] - GET /odata/v4/api-business-partner/A_BusinessPartner?$select=BusinessPartner,BusinessPartnerFullName&$orderby=BusinessPartner asc&$top=1000
+[odata] - GET /odata/v4/api-business-partner/A_BusinessPartner {
+  '$select': 'BusinessPartner,BusinessPartnerFullName',
+  '$top': '1000'
+}
 ```
 
 This is indeed the same request that was attempted before, that we saw in the error message above.

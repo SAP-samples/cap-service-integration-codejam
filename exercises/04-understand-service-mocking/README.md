@@ -177,12 +177,11 @@ cds watch
 👉 Examine the log output, which should now look something like this:
 
 ```text
-
-cds serve all --with-mocks --in-memory?
-live reload enabled for browsers
+cds serve all --with-mocks --in-memory? 
+( live reload enabled for browsers ) 
 
         ___________________________
-
+ 
 [cds] - loaded model from 5 file(s):
 
   app/fiori.cds
@@ -193,26 +192,31 @@ live reload enabled for browsers
 
 [cds] - connect using bindings from: { registry: '~/.cds-services.json' }
 [cds] - connect to db > sqlite { url: ':memory:' }
-  > init from db/data/acme.incmgt-TeamCalendar.csv
-  > init from db/data/acme.incmgt-ServiceWorkers.csv
-  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv
-  > init from db/data/acme.incmgt-Incidents_urgency.csv
-  > init from db/data/acme.incmgt-Incidents_status.texts.csv
-  > init from db/data/acme.incmgt-Incidents_status.csv
-  > init from db/data/acme.incmgt-Incidents.csv
-  > init from db/data/acme.incmgt-Incidents.conversation.csv
-  > init from db/data/acme.incmgt-Appointments.csv
-/> successfully deployed to in-memory database.
+  > init from db/data/acme.incmgt-TeamCalendar.csv 
+  > init from db/data/acme.incmgt-ServiceWorkers.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.texts.csv 
+  > init from db/data/acme.incmgt-Incidents_urgency.csv 
+  > init from db/data/acme.incmgt-Incidents_status.texts.csv 
+  > init from db/data/acme.incmgt-Incidents_status.csv 
+  > init from db/data/acme.incmgt-Incidents.csv 
+  > init from db/data/acme.incmgt-Incidents.conversation.csv 
+  > init from db/data/acme.incmgt-Appointments.csv 
+/> successfully deployed to in-memory database. 
 
-[cds] - using auth strategy { kind: 'mocked', impl: 'node_modules/@sap/cds/lib/auth/basic-auth' }
+[cds] - using auth strategy {
+  kind: 'mocked',
+  impl: 'node_modules/@sap/cds/lib/srv/middlewares/auth/basic-auth'
+} 
 
-[cds] - serving IncidentsService { path: '/odata/v4/incidents', impl: 'srv/incidents-service.js' }
-[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
+[cds] - serving IncidentsService { impl: 'srv/incidents-service.js', path: '/odata/v4/incidents' }
+[cds] - mocking API_BUSINESS_PARTNER {
+  impl: 'node_modules/@sap/cds/libx/_runtime/common/Service.js',
+  path: '/odata/v4/api-business-partner'
+}
 
 [cds] - server listening on { url: 'http://localhost:4004' }
-[cds] - launched at 1/29/2024, 9:58:39 AM, version: 7.5.3, in: 1.486s
+[cds] - server launched in: 4.671s
 [cds] - [ terminate with ^C ]
-
 ```
 
 It looks very similar to the output we've just seen from `cds run`, but there are a few essential additions.

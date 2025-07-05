@@ -9,7 +9,10 @@ In [exercise 04](../04-understand-service-mocking/) we ended up with our local `
 The salient line in the log output in relation to the mocked external service is this:
 
 ```text
-[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER {
+  impl: 'node_modules/@sap/cds/libx/_runtime/common/Service.js',
+  path: '/odata/v4/api-business-partner'
+}
 ```
 
 Requests to resources starting with the path `/odata/v4/api-business-partner` are resolved by the same CAP server that is also resolving requests to the `/odata/v4/incidents` service.
@@ -62,8 +65,10 @@ Two things happen that are of interest to us here.
 First, we see some log output that looks vaguely familiar:
 
 ```text
-
-[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER {
+  impl: 'node_modules/@sap/cds/libx/_runtime/common/Service.js',
+  path: '/odata/v4/api-business-partner'
+}
 
 [cds] - server listening on { url: 'http://localhost:45149' }
 ```
@@ -152,10 +157,13 @@ live reload enabled for browsers
 
 ```
 
-Note however that in contrast to when we originally [introduced mocking in exercise 04](../04-understand-service-mocking/README.md#introduce-mocking), the output of this `cds watch` invocation does not include this line:
+But in contrast to when we originally [introduced mocking in exercise 04](../04-understand-service-mocking/README.md#introduce-mocking), the output of this `cds watch` invocation does not include this line:
 
 ```text
-[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER {
+  impl: 'node_modules/@sap/cds/libx/_runtime/common/Service.js',
+  path: '/odata/v4/api-business-partner'
+}
 ```
 
 That's because `cds watch` looks in the `~/.cds-services.json` file for running services listed as being provided, and connects to them. In this particular instance, it found the entry for `API_BUSINESS_PARTNER` in there, meaning that there was no need to mock it itself.
