@@ -256,7 +256,10 @@ It's that second sentence that is key for us here. Our imported `API_BUSINESS_PA
 This automatic mocking is thus reflected in another difference in the log output of our invocation of `cds watch`, where we see this additional line:
 
 ```text
-[cds] - mocking API_BUSINESS_PARTNER { path: '/odata/v4/api-business-partner' }
+[cds] - mocking API_BUSINESS_PARTNER {
+  impl: 'node_modules/@sap/cds/libx/_runtime/common/Service.js',
+    path: '/odata/v4/api-business-partner'
+    }
 ```
 
 This shows us that the external service is being mocked, and being made available under a separate path in the service. That path is `/odata/v4/api-business-partner`.
