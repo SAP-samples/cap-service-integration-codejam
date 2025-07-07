@@ -169,9 +169,9 @@ If you finish earlier than your fellow participants, you might like to ponder th
 
 1. In looking at the graphical display of the `srv/incidents-service.cds` contents, one of the entities (from the `db/schema.cds` layer) wasn't shown. Which one, and why?
 
-1. There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?
-
 1. `cds watch` is actually just a shortcut for another `cds` command. What is it?
+
+1. There's a lot to unpack from the initial output of `cds watch`. What does the output tell you?
 
 1. With the June 2023 release, default service paths gained a 'protocol prefix'. This means that the service path is prefixed with `/odata/v4`, to become `/odata/v4/incidents`. Prior to the June 2023 release, the service path would have been simply `/incidents`. If we preferred the service to be served at this simpler path, how could we specify that?
 
